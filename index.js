@@ -38,6 +38,8 @@ client.on("message", (message) => {
 		config.currentCount = 1;
 	} else {
 		config.currentCount += 1;
+
+		// Update the highest score for the server, to keep track of when to pin.
 		config.highestCount =
 			messageNumber > config.highestCount ? messageNumber : config.highestCount;
 	}
