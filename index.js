@@ -42,11 +42,11 @@ client.on("message", (message) => {
 	// }
 
 	// Check that the start of the message equals the expected count value.
-	if (messageNumber !== config.currentCount) {
+	if (messageNumber !== config.nextCount) {
 		message.channel.send("You did not enter the expected number!");
-		config.currentCount = 1;
+		config.nextCount = 1;
 	} else {
-		config.currentCount += 1;
+		config.nextCount += 1;
 
 		// Update the highest score for the server, to keep track of when to pin.
 		config.highestCount =
