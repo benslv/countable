@@ -45,6 +45,14 @@ client.on("message", (message) => {
 	if (messageNumber !== config.nextCount) {
 		message.channel.send("You did not enter the expected number!");
 		config.nextCount = 1;
+		message.channel.messages
+			.fetch(config.highestMessageId)
+			.then((message) => {
+				// console.log(message);
+				console.log(message.pinned);
+				if (!message.pinned) message.pin();
+			})
+			.catch((err) => console.error(err));
 	} else {
 		config.nextCount += 1;
 
