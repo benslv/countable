@@ -57,8 +57,9 @@ client.on("message", (message) => {
 			config.highestMessageId = message.id;
 		}
 	}
-	console.log(config);
-	fs.writeFile("config.json", JSON.stringify(config), (err) => console.error(err));
+	fs.writeFile("config.json", JSON.stringify(config), () =>
+		console.log("Successfully saved data!"),
+	);
 });
 
 client.login(config.clientToken);
