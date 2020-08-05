@@ -47,9 +47,7 @@ client.on("message", (message) => {
 		message.channel.messages
 			.fetch(config.highestMessageId)
 			.then((message) => {
-				// console.log(message);
-				console.log(message.pinned);
-				if (!message.pinned) message.pin();
+				if (!message.pinned) message.pin().catch((err) => console.error(err));
 			})
 			.catch((err) => console.error(err));
 	} else {
