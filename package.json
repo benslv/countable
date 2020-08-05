@@ -6,6 +6,7 @@
 	"author": "Ben Silverman <bensilverman10@gmail.com>",
 	"license": "MIT",
 	"dependencies": {
-		"discord.js": "^12.2.0"
+		"discord.js": "^12.2.0",
+		"fs": "^0.0.1-security"
 	}
 }
