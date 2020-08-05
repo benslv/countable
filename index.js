@@ -41,9 +41,10 @@ client.on("message", (message) => {
 
 	// Check that the start of the message equals the expected count value.
 	if (messageNumber !== config.nextCount) {
-		message.channel.send("You did not enter the expected number!");
+		message.channel.send(":boom: **Wrong number!**");
 		config.nextCount = 1;
 
+		// Fetch the message-to-be-pinned by its ID, and then pin it.
 		message.channel.messages
 			.fetch(config.highestMessageId)
 			.then((message) => {
