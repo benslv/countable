@@ -38,7 +38,11 @@ client.on("message", (message) => {
 		config.currentCount = 1;
 	} else {
 		config.currentCount += 1;
+		config.highestCount =
+			messageNumber > config.highestCount ? messageNumber : config.highestCount;
 	}
+	console.log(config);
+	fs.writeFile("config.json", JSON.stringify(config), (err) => console.error(err));
 });
 
 client.login(config.clientToken);
