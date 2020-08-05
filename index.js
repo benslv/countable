@@ -18,8 +18,6 @@ client.on("message", (message) => {
 	messageSplit = message.content.split(" ");
 	messageNumber = messageSplit[0];
 
-	console.log(messageNumber);
-
 	// Regex testing for a string being a number.
 	const isNumber = (n) => /^\d+$/.test(n);
 
@@ -45,6 +43,7 @@ client.on("message", (message) => {
 	if (messageNumber !== config.nextCount) {
 		message.channel.send("You did not enter the expected number!");
 		config.nextCount = 1;
+
 		message.channel.messages
 			.fetch(config.highestMessageId)
 			.then((message) => {
@@ -57,11 +56,10 @@ client.on("message", (message) => {
 		config.nextCount += 1;
 
 		// Update the highest score for the server, to keep track of when to pin.
-		config.highestCount =
-			messageNumber > config.highestCount ? messageNumber : config.highestCount;
-
 		if (messageNumber > config.highestCount) {
 			config.highestCount = messageNumber;
+
+			// Store the id of the new highest message.
 			config.highestMessageId = message.id;
 		}
 	}
