@@ -51,6 +51,11 @@ client.on("message", (message) => {
 		// Update the highest score for the server, to keep track of when to pin.
 		config.highestCount =
 			messageNumber > config.highestCount ? messageNumber : config.highestCount;
+
+		if (messageNumber > config.highestCount) {
+			config.highestCount = messageNumber;
+			config.highestMessageId = message.id;
+		}
 	}
 	console.log(config);
 	fs.writeFile("config.json", JSON.stringify(config), (err) => console.error(err));
