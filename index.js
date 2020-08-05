@@ -32,6 +32,15 @@ client.on("message", (message) => {
 	// Convert user input to a base-10 integer.
 	messageNumber = parseInt(messageNumber, 10);
 
+	// Compare the author id of the current message to that of the previous message sent.
+	// if (message.author.id === config.prevUserId) {
+	// 	message.delete().catch((err) => console.error(err));
+	// 	return;
+	// } else {
+	// 	// Store the id of the user to prevent consecutive entries by the same user.
+	// 	config.prevUserId = message.author.id;
+	// }
+
 	// Check that the start of the message equals the expected count value.
 	if (messageNumber !== config.currentCount) {
 		message.channel.send("You did not enter the expected number!");
