@@ -43,6 +43,17 @@ client.on("message", (message) => {
 		// Retrieve the contents of the command (this will return nothing if the command doesn't exist).
 		const command = client.commands.get(commandName);
 
+		// If the command has been listed as taking arguments, ensure the user has provided them.
+		if (command.args && !args.length) {
+			let reply = `You didn't provide any arguments, ${message.author}!`;
+
+			if (command.usage) {
+				reply += `\n**Usage:** \`${config.prefix}${command.name} ${command.usage}\``;
+			}
+
+			return message.channel.send(reply);
+		}
+
 		// Attempt to execute the body of the command.
 		try {
 			command.execute(message, args);
