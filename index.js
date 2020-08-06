@@ -48,6 +48,11 @@ client.on("message", (message) => {
 			return message.reply("I can't execute that command inside DMs, sorry!");
 		}
 
+		// Check whether the command can only be executed by the guild owner.
+		if (command.ownerOnly && message.author.id !== message.guild.ownerID) {
+			return message.reply("You don't have permission to run that command. :eyes:");
+		}
+
 		// If the command has been listed as taking arguments, ensure the user has provided them.
 		if (command.args && !args.length) {
 			let reply = `You didn't provide any arguments, ${message.author}!`;
