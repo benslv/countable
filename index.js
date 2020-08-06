@@ -59,9 +59,7 @@ client.on("message", (message) => {
 			command.execute(message, args);
 		} catch (err) {
 			console.error(err);
-			message.reply(
-				"Sorry, I don't recognise that command. Make sure you typed it correctly!",
-			);
+			return message.reply("There was an error trying to execute that command. Hmm...");
 		}
 	}
 
