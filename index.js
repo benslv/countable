@@ -5,6 +5,19 @@ const client = new Discord.Client();
 
 const config = require("./config.json");
 
+// Create a new collection to store the bot's commands.
+client.commands = new Discord.Collection();
+
+// Filter out any files that aren't `.js` files.
+const commandFiles = fs.readdirSync("./commands").filter((file) => file.endsWith(".js"));
+
+// Iterate through the list of available commands and add them all to the commands Collection.
+for (const file of commandFiles) {
+	const command = require(`./commands/${file}`);
+
+	client.commands.set(command.name, command);
+}
+
 client.on("ready", () => {
 	console.log(`Logged in as ${client.user.tag}!`);
 });
@@ -12,7 +25,31 @@ client.on("ready", () => {
 client.on("message", (message) => {
 	// Will not respond to the message if it's from a bot or isn't in the correct channel.
 	if (message.author.bot) return;
-	if (message.channel.id !== config.countingChannel) return;
+
+	// Behaviour for messages sent in non-counting channels.
+	if (message.channel.id !== config.countingChannel) {
+		if (!message.content.startsWith(config.prefix)) return;
+
+		// Split message into arguments (delimited by spaces in the message).
+		const args = message.content.slice(config.prefix.length).trim().split(/ +/);
+
+		// Pop the first item from args to use as the command name.
+		const commandName = args.shift().toLowerCase();
+
+		// Check that the given command actually exists.
+		if (!client.commands.has(commandName)) return;
+
+		const command = client.commands.get(commandName);
+
+		try {
+			command.execute(message, args);
+		} catch (err) {
+			console.error(err);
+			message.reply(
+				"Sorry, I don't recognise that command. Make sure you typed it correctly!",
+			);
+		}
+	}
 
 	// Split the message up into parts.
 	messageSplit = message.content.split(" ");
