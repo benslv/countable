@@ -43,6 +43,11 @@ client.on("message", (message) => {
 		// Retrieve the contents of the command (this will return nothing if the command doesn't exist).
 		const command = client.commands.get(commandName);
 
+		// Check whether the command can be executed in DMs.
+		if (command.guildOnly && message.channel.type !== "text") {
+			return message.reply("I can't execute that command inside DMs, sorry!");
+		}
+
 		// If the command has been listed as taking arguments, ensure the user has provided them.
 		if (command.args && !args.length) {
 			let reply = `You didn't provide any arguments, ${message.author}!`;
