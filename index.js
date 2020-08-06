@@ -28,6 +28,7 @@ client.on("message", (message) => {
 
 	// Behaviour for messages sent in non-counting channels.
 	if (message.channel.id !== config.countingChannel) {
+		// Only reply to messages starting with the specified prefix.
 		if (!message.content.startsWith(config.prefix)) return;
 
 		// Split message into arguments (delimited by spaces in the message).
@@ -101,6 +102,9 @@ client.on("message", (message) => {
 			config.highestMessageId = message.id;
 		}
 	}
+
+	// Save the current contents of config back to the JSON file after every count.
+	// This is probably quite bad form to do, so I might need to work out an improvement?
 	fs.writeFile("config.json", JSON.stringify(config), () =>
 		console.log("Successfully saved data!"),
 	);
