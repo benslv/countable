@@ -61,6 +61,9 @@ client.on("message", (message) => {
 			console.error(err);
 			return message.reply("There was an error trying to execute that command. Hmm...");
 		}
+
+		// Return here so the "counting logic" isn't applied to the command after it's been processed.
+		return;
 	}
 
 	// Split the message up into parts.
