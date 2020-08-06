@@ -39,8 +39,10 @@ client.on("message", (message) => {
 		// Check that the given command actually exists.
 		if (!client.commands.has(commandName)) return;
 
+		// Retrieve the contents of the command (this will return nothing if the command doesn't exist).
 		const command = client.commands.get(commandName);
 
+		// Attempt to execute the body of the command.
 		try {
 			command.execute(message, args);
 		} catch (err) {
