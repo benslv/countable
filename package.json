@@ -6,7 +6,9 @@
 	"author": "Ben Silverman <bensilverman10@gmail.com>",
 	"license": "MIT",
 	"dependencies": {
+		"better-sqlite-pool": "^0.3.0",
 		"discord.js": "^12.2.0",
+		"enmap": "^5.6.1",
 		"fs": "^0.0.1-security"
 	}
 }
