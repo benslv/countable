@@ -1,9 +1,27 @@
-const fs = require("fs");
+// Config containing bot token and prefix.
+const config = require("./config.json");
 
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
-const config = require("./config.json");
+const fs = require("fs");
+
+const Enmap = require("enmap");
+
+client.settings = new Enmap({
+	name: "settings",
+	fetchAll: false,
+	autoFetch: false,
+	cloneLevel: "deep",
+});
+
+const defaultSettings = {
+	countingChannelID: "",
+	nextCount: 1,
+	highestCount: 0,
+	highestMessageID: "",
+	prevUserID: "",
+};
 
 // Create a new collection to store the bot's commands.
 client.commands = new Discord.Collection();
@@ -23,8 +41,10 @@ client.on("ready", () => {
 });
 
 client.on("message", (message) => {
-	// Will not respond to the message if it's from a bot or isn't in the correct channel.
-	if (message.author.bot) return;
+	// Will not respond to the message if it's from a bot or isn't a guild message.
+	if (!message.guild || message.author.bot) return;
+
+	const guildConf = client.settings.ensure(message.guild.id, defaultSettings);
 
 	// Behaviour for messages sent in non-counting channels.
 	if (message.channel.id !== config.countingChannel) {
