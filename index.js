@@ -40,6 +40,7 @@ for (const file of commandFiles) {
 
 client.on("ready", () => {
 	console.log(`Logged in as ${client.user.tag}!`);
+	console.log(client.settings);
 });
 
 client.on("message", (message) => {
@@ -122,13 +123,13 @@ client.on("message", (message) => {
 		return;
 	} else {
 		// Store the id of the user to prevent consecutive entries by the same user.
-		client.settings.set("prevUserID", message.author.id);
+		client.settings.set(message.guild.id, message.author.id, "prevUserID");
 	}
 
 	// Check that the start of the message equals the expected count value.
 	if (messageNumber !== guildSettings.nextCount) {
 		message.channel.send(":boom: **Wrong number!**");
-		client.settings.inc(nextCount);
+		client.settings.set(message.guild.id, 1, "nextCount");
 
 		// Fetch the message-to-be-pinned by its ID, and then pin it.
 		message.channel.messages
@@ -138,22 +139,16 @@ client.on("message", (message) => {
 			})
 			.catch((err) => console.error(err));
 	} else {
-		client.settings.inc("nextCount");
+		client.settings.inc(message.guild.id, "nextCount");
 
 		// Update the highest score for the server, to keep track of when to pin.
 		if (messageNumber > guildSettings.highestCount) {
-			client.settings.inc("highestCount");
+			client.settings.inc(message.guild.id, "highestCount");
 
 			// Store the id of the new highest message.
-			client.settings.set("highestMessageID", message.id);
+			client.settings.set(message.guild.id, message.id, "highestMessageID");
 		}
 	}
-
-	// Save the current contents of config back to the JSON file after every count.
-	// This is probably quite bad form to do, so I might need to work out an improvement?
-	// fs.writeFile("config.json", JSON.stringify(config), () =>
-	// 	console.log("Successfully saved data!"),
-	// );
 });
 
 client.login(CLIENT_TOKEN);
