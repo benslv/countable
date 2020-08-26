@@ -1,5 +1,6 @@
 // Config containing bot token and prefix.
 const config = require("./config.json");
+const { CLIENT_ID, CLIENT_TOKEN } = config;
 
 const Discord = require("discord.js");
 const client = new Discord.Client();
@@ -11,11 +12,12 @@ const Enmap = require("enmap");
 client.settings = new Enmap({
 	name: "settings",
 	fetchAll: false,
-	autoFetch: false,
+	autoFetch: true,
 	cloneLevel: "deep",
 });
 
 const defaultSettings = {
+	prefix: "`",
 	countingChannelID: "",
 	nextCount: 1,
 	highestCount: 0,
@@ -44,15 +46,17 @@ client.on("message", (message) => {
 	// Will not respond to the message if it's from a bot or isn't a guild message.
 	if (!message.guild || message.author.bot) return;
 
-	const guildConf = client.settings.ensure(message.guild.id, defaultSettings);
+	// Attempt to retrieve the settings for the current server, otherwise loading a copy of the
+	// default settings.
+	guildSettings = client.settings.ensure(message.guild.id, defaultSettings);
 
 	// Behaviour for messages sent in non-counting channels.
-	if (message.channel.id !== config.countingChannel) {
+	if (message.channel.id !== guildSettings.countingChannelID) {
 		// Only reply to messages starting with the specified prefix.
-		if (!message.content.startsWith(config.prefix)) return;
+		if (!message.content.startsWith(guildSettings.prefix)) return;
 
 		// Split message into arguments (delimited by spaces in the message).
-		const args = message.content.slice(config.prefix.length).trim().split(/ +/);
+		const args = message.content.slice(guildSettings.prefix.length).trim().split(/ +/);
 
 		// Pop the first item from args to use as the command name.
 		const commandName = args.shift().toLowerCase();
@@ -78,7 +82,7 @@ client.on("message", (message) => {
 			let reply = `You didn't provide any arguments, ${message.author}!`;
 
 			if (command.usage) {
-				reply += `\n**Usage:** \`${config.prefix}${command.name} ${command.usage}\``;
+				reply += `\n**Usage:** \`${guildSettings.prefix}${command.name} ${command.usage}\``;
 			}
 
 			return message.channel.send(reply);
@@ -113,43 +117,43 @@ client.on("message", (message) => {
 	messageNumber = parseInt(messageNumber, 10);
 
 	// Compare the author id of the current message to that of the previous message sent.
-	if (message.author.id === config.prevUserId) {
+	if (message.author.id === guildSettings.prevUserID) {
 		message.delete().catch((err) => console.error(err));
 		return;
 	} else {
 		// Store the id of the user to prevent consecutive entries by the same user.
-		config.prevUserId = message.author.id;
+		client.settings.set("prevUserID", message.author.id);
 	}
 
 	// Check that the start of the message equals the expected count value.
-	if (messageNumber !== config.nextCount) {
+	if (messageNumber !== guildSettings.nextCount) {
 		message.channel.send(":boom: **Wrong number!**");
-		config.nextCount = 1;
+		client.settings.inc(nextCount);
 
 		// Fetch the message-to-be-pinned by its ID, and then pin it.
 		message.channel.messages
-			.fetch(config.highestMessageId)
+			.fetch(guildSettings.highestMessageId)
 			.then((message) => {
 				if (!message.pinned) message.pin().catch((err) => console.error(err));
 			})
 			.catch((err) => console.error(err));
 	} else {
-		config.nextCount += 1;
+		client.settings.inc("nextCount");
 
 		// Update the highest score for the server, to keep track of when to pin.
-		if (messageNumber > config.highestCount) {
-			config.highestCount = messageNumber;
+		if (messageNumber > guildSettings.highestCount) {
+			client.settings.inc("highestCount");
 
 			// Store the id of the new highest message.
-			config.highestMessageId = message.id;
+			client.settings.set("highestMessageID", message.id);
 		}
 	}
 
 	// Save the current contents of config back to the JSON file after every count.
 	// This is probably quite bad form to do, so I might need to work out an improvement?
-	fs.writeFile("config.json", JSON.stringify(config), () =>
-		console.log("Successfully saved data!"),
-	);
+	// fs.writeFile("config.json", JSON.stringify(config), () =>
+	// 	console.log("Successfully saved data!"),
+	// );
 });
 
-client.login(config.clientToken);
+client.login(CLIENT_TOKEN);
