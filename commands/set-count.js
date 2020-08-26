@@ -6,11 +6,21 @@ module.exports = {
 	ownerOnly: true,
 	usage: "<number>",
 	execute(message, args) {
-		const guildConf = message.client.settings.get(message.guild.id);
-		console.log(guildConf);
-		guildConf.countingChannelID = args[0];
+		// Regex testing for a string being a number.
+		const isNumber = (n) => /^\d+$/.test(n);
 
-		console.log(guildConf);
-		message.channel.send("The counting channel has been updated!");
+		// Delete the message if it doesn't start with a number.
+		if (!isNumber(args[0])) {
+			return message.channel.send("I'm sorry, that's not a valid number.");
+		}
+
+		message.client.settings.set(message.guild.id, parseInt(args[0], 10), "nextCount");
+
+		message.channel.send(
+			`The count has been updated to ${message.client.settings.get(
+				message.guild.id,
+				"nextCount",
+			)}`,
+		);
 	},
 };

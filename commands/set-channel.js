@@ -9,9 +9,10 @@ module.exports = {
 		const guildChannels = message.guild.channels.cache;
 
 		if (guildChannels.has(args[0])) {
-			message.client.settings.set("countingChannelID", args[0]);
+			message.client.settings.set(message.guild.id, args[0], "countingChannelID");
 			message.channel.send(
 				`The counting channel has been updated and set to ${message.client.settings.get(
+					message.guild.id,
 					"countingChannelID",
 				)}`,
 			);
