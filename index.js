@@ -132,7 +132,7 @@ client.on("message", (message) => {
 
 		// Fetch the message-to-be-pinned by its ID, and then pin it.
 		message.channel.messages
-			.fetch(guildSettings.highestMessageId)
+			.fetch(guildSettings.highestMessageID)
 			.then((message) => {
 				if (!message.pinned) message.pin().catch((err) => console.error(err));
 			})
