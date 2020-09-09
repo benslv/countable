@@ -13,24 +13,28 @@ module.exports = {
 		if (!isNumber(args[0])) {
 			return message.channel.send("I'm sorry, that's not a valid number.");
 		}
-
+		
+		// Get the channel, and the 50 most recent messages
 		const countingChannel = await client.channels.fetch(guildSettings.countingChannelID);
-
 		const messages = countingChannel.messages.fetch({limit: 50});
 		
+		// Find the last message with the given count
 		const desiredState = messages.find((msg) => msg.content.startsWith(args[0]));
 
+		// If such a message wasn't found, return an error message
 		if (desiredState === undefined) {
 			return message.channel.send(
 				`Failed to find message with number ${args[0]}`
 			);
 		}
 
+		// Delete all messages since the desired message
 		let cur = messages[0];
 		while (cur !== desiredState) {
 			cur.delete(1000);
 		}
 
+		// Set nextCount and respond to the command
 		message.client.settings.set(message.guild.id, parseInt(args[0], 10)+1, "nextCount");
 
 		message.channel.send(
