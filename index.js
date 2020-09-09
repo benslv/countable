@@ -29,7 +29,9 @@ const defaultSettings = {
 client.commands = new Discord.Collection();
 
 // Filter out any files that aren't `.js` files.
-const commandFiles = fs.readdirSync("./commands").filter((file) => file.endsWith(".js"));
+const commandFiles = fs
+  .readdirSync("./commands")
+  .filter(file => file.endsWith(".js"));
 
 // Iterate through the list of available commands and add them all to the commands Collection.
 for (const file of commandFiles) {
@@ -42,7 +44,7 @@ client.on("ready", () => {
 	console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on("message", (message) => {
+client.on("message", message => {
 	// Will not respond to the message if it's from a bot or isn't a guild message.
 	if (!message.guild || message.author.bot) return;
 
@@ -56,7 +58,10 @@ client.on("message", (message) => {
 		if (!message.content.startsWith(guildSettings.prefix)) return;
 
 		// Split message into arguments (delimited by spaces in the message).
-		const args = message.content.slice(guildSettings.prefix.length).trim().split(/ +/);
+    const args = message.content
+      .slice(guildSettings.prefix.length)
+      .trim()
+      .split(/ +/);
 
 		// Pop the first item from args to use as the command name.
 		const commandName = args.shift().toLowerCase();
@@ -74,7 +79,9 @@ client.on("message", (message) => {
 
 		// Check whether the command can only be executed by the guild owner.
 		if (command.ownerOnly && message.author.id !== message.guild.ownerID) {
-			return message.reply("You don't have permission to run that command. :eyes:");
+      return message.reply(
+        "You don't have permission to run that command. :eyes:",
+      );
 		}
 
 		// If the command has been listed as taking arguments, ensure the user has provided them.
@@ -93,7 +100,9 @@ client.on("message", (message) => {
 			command.execute(message, args);
 		} catch (err) {
 			console.error(err);
-			return message.reply("There was an error trying to execute that command. Hmm...");
+      return message.reply(
+        "There was an error trying to execute that command. Hmm...",
+      );
 		}
 
 		// Return here so the "counting logic" isn't applied to the command after it's been processed.
@@ -105,7 +114,7 @@ client.on("message", (message) => {
 	messageNumber = messageSplit[0];
 
 	// Regex testing for a string being a number.
-	const isNumber = (n) => /^\d+$/.test(n);
+  const isNumber = n => /^\d+$/.test(n);
 
 	// Delete the message if it doesn't start with a number.
 	if (!isNumber(messageNumber)) {
@@ -118,7 +127,7 @@ client.on("message", (message) => {
 
 	// Compare the author id of the current message to that of the previous message sent.
 	if (message.author.id === guildSettings.prevUserID) {
-		message.delete().catch((err) => console.error(err));
+    message.delete().catch(err => console.error(err));
 		return;
 	} else {
 		// Store the id of the user to prevent consecutive entries by the same user.
@@ -133,10 +142,10 @@ client.on("message", (message) => {
 		// Fetch the message-to-be-pinned by its ID, and then pin it.
 		message.channel.messages
 			.fetch(guildSettings.highestMessageID)
-			.then((message) => {
-				if (!message.pinned) message.pin().catch((err) => console.error(err));
+      .then(message => {
+        if (!message.pinned) message.pin().catch(err => console.error(err));
 			})
-			.catch((err) => console.error(err));
+      .catch(err => console.error(err));
 	} else {
 		client.settings.inc(message.guild.id, "nextCount");
 
