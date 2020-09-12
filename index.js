@@ -164,6 +164,7 @@ client.on("messageDelete", (message) => {
 	if (message.channel.id !== guildSettings.countingChannelID) return;
 
 	if (message.createdTimestamp === guildSettings.latestMessageTimestamp) {
+		// Grab the number component from the deleted message, and repost it.
 		const messageNum = message.content.split(" ")[0];
 		return message.channel.send(`**${messageNum}**, from ${message.author.toString()}. `);
 	}
