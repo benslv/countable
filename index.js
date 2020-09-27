@@ -170,6 +170,12 @@ client.on("message", message => {
       // Store the id of the new highest message.
       client.settings.set(message.guild.id, message.id, "highestMessageID");
     }
+
+    // If a user sends a number without any message following it...
+    if (messageSplit.length <= 1) {
+      // React to it with the :npc: emote (custom emote in the "bruh" server).
+      message.react("757984604912353421").catch(err => console.error(err));
+    }
   }
 });
 
