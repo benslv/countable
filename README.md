@@ -1,7 +1,7 @@
 # Countable
 🤖 Countable is small, robust(-ish) Discord bot to support and manage a counting channel in your server!
 
-[![DeepScan grade](https://deepscan.io/api/teams/11357/projects/14263/branches/260846/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=11357&pid=14263&bid=260846)
+[![DeepScan grade](https://deepscan.io/api/teams/11357/projects/14263/branches/260846/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=11357&pid=14263&bid=260846) [![Dependencies](https://img.shields.io/david/silverben10/countable)](https://david-dm.org/silverben10/countable) [![https://github.com/silverben10/countable/issues](https://img.shields.io/github/issues/silverben10/countable)](https://github.com/silverben10/countable/issues)
 
 ***
 
