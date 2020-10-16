@@ -5,7 +5,7 @@
 
 ***
 
-## How to use
+## Get started
 ### Self-hosted
 I'd recommend hosting an instance of this bot yourself, because the server I've got mine running on isn't really designed for a huge number of guilds.
 
@@ -35,8 +35,8 @@ yarn install
 4. **Create a `config.json` file** in the root of the project directory. Place the *Client ID* and *Client Token* from the bot application into it like so:
 ```json
 {
-	"CLIENT_ID": "ID goes here",
-	"CLIENT_TOKEN": "token goes here"
+  "CLIENT_ID": "ID goes here",
+  "CLIENT_TOKEN": "token goes here"
 }
 ```
 
@@ -44,7 +44,7 @@ yarn install
 ```zsh
 node index.js
 ```
-Come to think of it, it probably won't work because you haven't added the bot to any servers yet. Follow [**this guide**](https://discordjs.guide/preparations/adding-your-bot-to-servers.html) on how to get that done!
+> Come to think of it, that probably won't work because you haven't added the bot to any servers yet. Follow [**this guide**](https://discordjs.guide/preparations/adding-your-bot-to-servers.html) on how to get that done!
 
 6. **Get the bot running permanently**  
 Cool, nearly there! The last thing you'll probably want to do is get the bot running using some kind of process manager so it's not sitting there in a terminal window taking up precious screen real estate. I'd recommend using PM2 (literally only because that's what *I* first found and decided to use).  
@@ -54,3 +54,23 @@ Courtesy of discordjs.guide *again*, [**here's a good set of instructions**](htt
 If you *really* don't want to or can't self-host this bot yourself, it's worth giving me a ping on Discord and seeing if you can invite my instance to your server.
 
 💬 You can get in touch with me here: `poisonwasp#5284`
+
+## How to use
+The one *essential* thing you need to do before this bot will work is setup a channel to be used as the counting channel.
+
+Once you've created it, use the following command to set it up:
+
+```
+`set-channel <channel ID>
+```
+
+This will set the bot watching the channel of your choice, so have fun counting!
+
+### Commands
+| Name           | Description                                                                                                                                       | Arguments      | Example                             |
+| :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------ | :------------- | :---------------------------------- |
+| `ping`         | Ping the bot, mainly to test it's working.                                                                                                        | -              | `ping`                              |
+| `set-channel`  | Specify which channel should be used for counting.                                                                                                | `channel ID`   | `set-channel 123456789101112131415` |
+| `set-count`    | Update the value of the *next expected* count.                                                                                                    | `number`       | `set-count 42`                      |
+| `set-reaction` | Set the emoji that should be used as a reaction when someone posts a count without an accompanying message.                                       | `emoji ID`     | `set-emoji 123456789101112131415`   |
+| `reload`       | Reload a command after updating its source code. You shouldn't need to use this unless you are self-hosting and have modified the bot in any way. | `command name` | `reload set-count`                  |
