@@ -25,6 +25,7 @@ const defaultSettings = {
   prevUserID: "",
   latestMessageTimestamp: "",
   emojiReactionID: "757984604912353421",
+  noMessageReaction: true,
 };
 
 // Create a new collection to store the bot's commands.
