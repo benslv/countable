@@ -186,7 +186,7 @@ client.on("message", message => {
 client.on("messageDelete", message => {
   // Attempt to retrieve the settings for the current server, otherwise loading a copy of the
   // default settings.
-  guildSettings = client.settings.ensure(message.guild.id, defaultSettings);
+  const guildSettings = client.settings.ensure(message.guild.id, defaultSettings);
 
   // Only do anything if the deleted message was in the counting channel.
   if (message.channel.id !== guildSettings.countingChannelID) return;

@@ -5,7 +5,7 @@ module.exports = {
   guildOnly: false,
   ownerOnly: false,
   description: "Replies to the user to confirm the bot is running correctly!",
-  execute(message, args) {
+  execute(message) {
     message.channel.send(":ping_pong: **Pong!**");
   },
 };

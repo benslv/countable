@@ -27,7 +27,7 @@ module.exports = {
     } catch (err) {
       console.error(err);
       message.channel.send(
-        `There was an error while reloading the command \`${command.name}\`:\n\`${error.message}\``,
+        `There was an error while reloading the command \`${command.name}\`:\n\`${err.message}\``,
       );
     }
   },

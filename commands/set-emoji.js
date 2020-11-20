@@ -1,7 +1,7 @@
 module.exports = {
   name: "set-emoji",
   description:
-    "Sets the reaction used by the bot when a user sends a count with not message.",
+    "Sets the reaction used by the bot when a user sends a count with no message.",
   args: true,
   guildOnly: true,
   ownerOnly: true,
@@ -9,6 +9,8 @@ module.exports = {
   execute(message, args) {
     // Retrieve all of the emojis the bot has access to.
     const guildEmojis = message.client.emojis.cache;
+
+    console.log(args[0]);
 
     if (guildEmojis.has(args[0])) {
       const emoji = guildEmojis.get(args[0]);
