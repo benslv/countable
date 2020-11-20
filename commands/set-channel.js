@@ -9,20 +9,23 @@ module.exports = {
   execute(message, args) {
     const guildChannels = message.guild.channels.cache;
 
-    console.log(args[0]);
+    // Match the ID of the channel, whether it's passed in as the raw ID or as a channel mention.
+    const [id] = args[0].match(/(\d+)/g);
+    console.log(id);
 
-    if (guildChannels.has(args[0])) {
-      message.client.settings.set(
-        message.guild.id,
-        args[0],
-        "countingChannelID",
-      );
-      message.channel.send(
-        `The counting channel has been updated and set to ${message.client.settings.get(
-          message.guild.id,
-          "countingChannelID",
-        )}`,
-      );
+    // Check that the channel ID exists in the guild.
+    if (guildChannels.has(id)) {
+      // If so, store the new ID in settings.
+      message.client.settings.set(message.guild.id, id, "countingChannelID");
+
+      message.client.channels
+        .fetch(id)
+        .then(channel =>
+          message.channel.send(
+            `The counting channel has been set to ${channel.toString()}`,
+          ),
+        )
+        .catch(err => console.error(err));
     } else {
       message.channel.send(
         "I couldn't find that channel in this server. Make sure the ID is correct...",
