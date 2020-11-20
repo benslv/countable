@@ -25,7 +25,7 @@ const defaultSettings = {
   prevUserID: "",
   latestMessageTimestamp: "",
   emojiReactionID: "757984604912353421",
-  noMessageReaction: true,
+  noMessageReaction: "true",
 };
 
 // Create a new collection to store the bot's commands.
@@ -176,8 +176,8 @@ client.on("message", message => {
   }
 
   // If a user sends a number without any message following it...
-  if (messageSplit.length <= 1) {
-    // React to it with the :npc: emote (custom emote in the "bruh" server).
+  if (messageSplit.length <= 1 && guildSettings.noMessageReaction === "true") {
+    // React to it with the :npc: emote (custom emote in the 8-Ball server).
     message
       .react(guildSettings.emojiReactionID)
       .catch(err => console.error(err));
