@@ -25,7 +25,8 @@ const defaultSettings = {
   prevUserID: "",
   latestMessageTimestamp: "",
   emojiReactionID: "757984604912353421",
-  noMessageReaction: "true",
+  noMessageReaction: true,
+  numbersOnly: false,
 };
 
 // Create a new collection to store the bot's commands.
@@ -139,8 +140,12 @@ client.on("message", message => {
   // Store the id of the user to prevent consecutive entries by the same user.
   client.settings.set(message.guild.id, message.author.id, "prevUserID");
 
-  // Check that the start of the message equals the expected count value.
-  if (messageNumber !== guildSettings.nextCount) {
+  // Check that the start of the message equals the expected count value,
+  // or that a message was not included with the count if it was correct and numbersOnly is true.
+  if (
+    messageNumber !== guildSettings.nextCount ||
+    (messageSplit.length > 1 && guildSettings.numbersOnly)
+  ) {
     message.channel.send(
       `:boom: **Wrong number, ${message.author.toString()}!**`,
     );
@@ -176,7 +181,7 @@ client.on("message", message => {
   }
 
   // If a user sends a number without any message following it...
-  if (messageSplit.length <= 1 && guildSettings.noMessageReaction === "true") {
+  if (messageSplit.length <= 1 && guildSettings.noMessageReaction) {
     // React to it with the :npc: emote (custom emote in the 8-Ball server).
     message
       .react(guildSettings.emojiReactionID)
