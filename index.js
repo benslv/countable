@@ -143,8 +143,8 @@ client.on("message", message => {
   // Check that the start of the message equals the expected count value,
   // or that a message was not included with the count if it was correct and numbersOnly is true.
   if (
-    messageNumber !== guildSettings.nextCount ||
-    (messageSplit.length > 1 && guildSettings.numbersOnly)
+    (messageSplit.length > 1 && guildSettings.numbersOnly) ||
+    messageNumber !== guildSettings.nextCount
   ) {
     message.channel.send(
       `:boom: **Wrong number, ${message.author.toString()}!**`,
