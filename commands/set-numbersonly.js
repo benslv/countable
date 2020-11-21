@@ -13,7 +13,7 @@ module.exports = {
       message.client.settings.set(message.guild.id, JSON.parse(arg), "numbersOnly");
       message.channel.send(
         `Counts now **${
-          arg === "true" ? "are" : "aren't"
+          arg === "true" ? "aren't" : "are"
         }** allowed a message after them.`,
       );
     } else {
