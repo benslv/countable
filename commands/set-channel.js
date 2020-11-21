@@ -10,7 +10,7 @@ module.exports = {
     const guildChannels = message.guild.channels.cache;
 
     // Match the ID of the channel, whether it's passed in as the raw ID or as a channel mention.
-    const [id] = args[0].match(/(\d+)/g);
+    const [id] = args[0].match(/(\d{18})/g);
 
     // Check that the channel ID exists in the guild.
     if (guildChannels.has(id)) {
