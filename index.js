@@ -1,6 +1,6 @@
 // Config containing bot token and prefix.
 const config = require("./config.json");
-const { CLIENT_ID, CLIENT_TOKEN } = config;
+const { CLIENT_TOKEN } = config;
 
 const Discord = require("discord.js");
 const client = new Discord.Client();
