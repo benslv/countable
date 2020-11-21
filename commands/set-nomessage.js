@@ -10,7 +10,11 @@ module.exports = {
     const arg = args[0].toLowerCase();
 
     if (arg === "true" || arg === "false") {
-      message.client.settings.set(message.guild.id, arg, "noMessageReaction");
+      message.client.settings.set(
+        message.guild.id,
+        JSON.parse(arg), // converts the string representation into a boolean value.
+        "noMessageReaction",
+      );
       message.channel.send(
         `Messages now **${
           arg === "true" ? "will" : "won't"
