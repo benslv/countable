@@ -190,6 +190,19 @@ client.on("message", message => {
       .react(guildSettings.emojiReactionID)
       .catch(err => console.error(err));
   }
+
+  // If the most recently counted number reached a new title milestone, change the counting
+  // channel title.
+  if (
+    Object.prototype.hasOwnProperty.call(
+      guildSettings.milestones,
+      messageNumber,
+    )
+  ) {
+    client.channels.cache
+      .get(guildSettings.countingChannelID)
+      .setName(guildSettings.milestones[messageNumber]);
+  }
 });
 
 client.on("messageDelete", message => {
