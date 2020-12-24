@@ -43,7 +43,7 @@ module.exports = {
           "emojiReactionID",
         );
         message.channel.send(
-          `The emoji reaction has been updated and set to ${emoji}`,
+          `The emoji reaction has been updated and set to ${emoji}.`,
         );
       } else {
         message.channel.send(

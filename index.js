@@ -47,6 +47,8 @@ for (const file of commandFiles) {
   client.commands.set(command.name, command);
 }
 
+console.log("Initialised command collection.");
+
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
@@ -136,8 +138,7 @@ client.on("message", message => {
 
   // Compare the author id of the current message to that of the previous message sent.
   if (message.author.id === guildSettings.prevUserID) {
-    message.delete().catch(err => console.error(err));
-    return;
+    return message.delete().catch(err => console.error(err));
   }
 
   // Store the id of the user to prevent consecutive entries by the same user.
@@ -202,7 +203,13 @@ client.on("message", message => {
     client.channels.cache
       .get(guildSettings.countingChannelID)
       .setName(guildSettings.milestones[messageNumber]);
+
+    console.log(
+      `Set name of counting channel to ${guildSettings.milestones[messageNumber]}.`,
+    );
   }
+
+  return;
 });
 
 client.on("messageDelete", message => {

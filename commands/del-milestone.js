@@ -15,8 +15,13 @@ module.exports = {
 
     delete milestones[count];
 
-    message.client.settings.set(message.guild.id, milestones, "milestones");
+    console.log(
+      `Delete title milestone from count ${count}.\n${message.client.settings.get(
+        message.guild.id,
+        "milestones",
+      )}`,
+    );
 
-    message.channel.send("Milestone deleted!");
+    message.channel.send(`Milestone was deleted from count \`${count}\`!`);
   },
 };

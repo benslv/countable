@@ -12,8 +12,13 @@ module.exports = {
 
     message.client.settings.set(message.guild.id, name, `milestones.${count}`);
 
-    console.log(message.client.settings);
+    console.log(
+      `Added title milestone of ${name} at count ${count}.\n`,
+      message.client.settings.get(message.guild.id, "milestones"),
+    );
 
-    message.channel.send("Milestone added!");
+    message.channel.send(
+      `Milestone of **#${name}** was added at count \`${count}\`!`,
+    );
   },
 };

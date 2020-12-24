@@ -19,10 +19,12 @@ module.exports = {
 
       message.client.channels
         .fetch(id)
-        .then(channel =>
-          message.channel.send(
-            `The counting channel has been set to ${channel.toString()}`,
-          ),
+        .then(
+          channel =>
+            message.channel.send(
+              `The counting channel has been set to ${channel.toString()}`,
+            ),
+          console.log(`Counting channel ID set to ${id}.`),
         )
         .catch(err => console.error(err));
     } else {

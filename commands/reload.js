@@ -24,11 +24,12 @@ module.exports = {
       const newCommand = require(`./${command.name}.js`);
       message.client.commands.set(newCommand.name, newCommand);
       message.channel.send(`The command \`${command.name}\` was reloaded!`);
+      console.log(`Successfully reloaded command: ${commandName}.`);
     } catch (err) {
-      console.error(err);
       message.channel.send(
         `There was an error while reloading the command \`${command.name}\`:\n\`${err.message}\``,
       );
+      console.error(err);
     }
   },
 };

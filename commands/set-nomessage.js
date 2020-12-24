@@ -20,6 +20,7 @@ module.exports = {
           arg === "true" ? "will" : "won't"
         }** be reacted to when left empty.`,
       );
+      console.log(`Set "no message reaction" to ${arg}.`);
     } else {
       message.channel.send(
         "That's not a valid argument. Please enter `true` or `false`.",

@@ -16,6 +16,7 @@ module.exports = {
           arg === "true" ? "aren't" : "are"
         }** allowed a message after them.`,
       );
+      console.log(`Set numbers only to ${arg}.`);
     } else {
       message.channel.send(
         "That's not a valid argument. Please enter `true` or `false`.",
