@@ -9,6 +9,14 @@
     "lint": "eslint .",
     "format": "prettier . --write"
   },
+  "lint-staged": {
+    "*.js": "eslint"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && pretty-quick --staged"
+    }
+  },
   "license": "MIT",
   "dependencies": {
     "better-sqlite-pool": "^0.3.0",
