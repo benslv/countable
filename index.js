@@ -184,8 +184,10 @@ client.on("message", message => {
     client.settings.set(message.guild.id, message.id, "highestMessageID");
   }
 
-  // If a user sends a number without any message following it...
-  if (messageSplit.length <= 1 && guildSettings.noMessageReaction) {
+  // If a user sends a number without any message following it, and without an attachment...
+  if (messageSplit.length <= 1 && guildSettings.noMessageReaction &&
+    message.attachments.size == 0
+  ) {
     // React to it with the :npc: emote (custom emote in the 8-Ball server).
     message
       .react(guildSettings.emojiReactionID)
