@@ -1,4 +1,4 @@
-# Countable
+<h1 align="center">Countable</h1>
 
 🤖 Countable is small, robust(-ish) Discord bot to support and manage a counting channel in your server!
 
@@ -86,5 +86,5 @@ This will set the bot watching the channel of your choice, so have fun counting!
 | `ping`         | Ping the bot, mainly to test it's working.                                                                                                        | -              | `ping`                              |
 | `set-channel`  | Specify which channel should be used for counting.                                                                                                | `channel ID`   | `set-channel 123456789101112131415` |
 | `set-count`    | Update the value of the _next expected_ count.                                                                                                    | `number`       | `set-count 42`                      |
-| `set-reaction` | Set the emoji that should be used as a reaction when someone posts a count without an accompanying message.                                       | `emoji ID`     | `set-emoji 123456789101112131415`   |
+| `set-emoji` | Set the emoji that should be used as a reaction when someone posts a count without an accompanying message.                                       | `emoji ID`     | `set-emoji 123456789101112131415`   |
 | `reload`       | Reload a command after updating its source code. You shouldn't need to use this unless you are self-hosting and have modified the bot in any way. | `command name` | `reload set-count`                  |
