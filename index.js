@@ -122,7 +122,7 @@ client.on("message", message => {
   }
 
   // Split the message up into parts.
-  const messageSplit = message.content.split(" ");
+  const messageSplit = message.content.split(/[ :\n]+/);
   let messageNumber = messageSplit[0];
 
   // Regex testing for a string being a number (more specifically, consisting only of digits).
