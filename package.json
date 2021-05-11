@@ -20,17 +20,17 @@
   "license": "MIT",
   "dependencies": {
     "better-sqlite-pool": "^0.3.0",
-    "discord.js": "^12.2.0",
-    "emoji-regex": "^9.2.0",
-    "enmap": "^5.6.1",
-    "eslint-config-prettier": "^7.2.0",
-    "eslint-plugin-prettier": "^3.3.1"
+    "discord.js": "^12.5.3",
+    "emoji-regex": "^9.2.2",
+    "enmap": "^5.8.5",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0"
   },
   "devDependencies": {
-    "eslint": "^7.13.0",
-    "husky": "^4.3.8",
-    "lint-staged": "^10.5.3",
-    "prettier": "^2.2.0",
+    "eslint": "^7.26.0",
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.0",
     "pretty-quick": "^3.1.0"
   }
 }
