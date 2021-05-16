@@ -185,7 +185,9 @@ client.on("message", message => {
   }
 
   // If a user sends a number without any message following it, and without an attachment...
-  if (messageSplit.length <= 1 && guildSettings.noMessageReaction &&
+  if (
+    messageSplit.length <= 1 &&
+    guildSettings.noMessageReaction &&
     message.attachments.size == 0
   ) {
     // React to it with the :npc: emote (custom emote in the 8-Ball server).
