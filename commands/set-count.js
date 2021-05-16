@@ -1,3 +1,5 @@
+const utils = require("../utils");
+
 module.exports = {
   name: "set-count",
   description: "Sets the value of nextCount the number provided by the user.",
@@ -8,11 +10,8 @@ module.exports = {
   execute(message, args) {
     const count = args[0];
 
-    // Regex testing for a string being a number.
-    const isNumber = n => /^\d+$/.test(n);
-
     // Delete the message if it doesn't start with a number.
-    if (!isNumber(count)) {
+    if (!utils.isNumber(count)) {
       message.channel.send("I'm sorry, that's not a valid number.");
     }
 

@@ -11,6 +11,8 @@ const fs = require("fs");
 
 const Enmap = require("enmap");
 
+const utils = require("./utils");
+
 client.settings = new Enmap({
   name: "settings",
   fetchAll: false,
@@ -125,11 +127,8 @@ client.on("message", message => {
   const messageSplit = message.content.split(/[ :\n]+/);
   let messageNumber = messageSplit[0];
 
-  // Regex testing for a string being a number (more specifically, consisting only of digits).
-  const isNumber = n => /^\d+$/.test(n);
-
   // Delete the message if it doesn't start with a number.
-  if (!isNumber(messageNumber)) {
+  if (!utils.isNumber(messageNumber)) {
     return message.delete();
   }
 
