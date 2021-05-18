@@ -47,6 +47,5 @@ module.exports = (message, guildSettings) => {
     );
   }
 
-  // Return here so the "counting logic" isn't applied to the command after it's been processed.
   return;
 };

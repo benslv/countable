@@ -68,13 +68,10 @@ client.on("message", message => {
   );
 
   // Behaviour for messages sent in non-counting channels.
-  if (
-    message.channel.id !== guildSettings.countingChannelID &&
-    message.content.startsWith(guildSettings.prefix)
-  ) {
-    commandHandler(message, guildSettings);
-  } else {
-    countingHandler(message, guildSettings);
+  if (message.channel.id === guildSettings.countingChannelID) {
+    return countingHandler(message, guildSettings);
+  } else if (message.content.startsWith(guildSettings.prefix)) {
+    return commandHandler(message, guildSettings);
   }
 });
 
