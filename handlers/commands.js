@@ -39,13 +39,11 @@ module.exports = (message, guildSettings) => {
 
   // Attempt to execute the body of the command.
   try {
-    command.execute(message, args);
+    return command.execute(message, args);
   } catch (err) {
     console.error(err);
     return message.reply(
       "There was an error trying to execute that command. Hmm...",
     );
   }
-
-  return;
 };
