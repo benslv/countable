@@ -13,6 +13,8 @@ const Enmap = require("enmap");
 
 const utils = require("./utils");
 
+const commandHandler = require("./handlers/commands");
+
 client.settings = new Enmap({
   name: "settings",
   fetchAll: false,
@@ -67,152 +69,103 @@ client.on("message", message => {
   );
 
   // Behaviour for messages sent in non-counting channels.
-  if (message.channel.id !== guildSettings.countingChannelID) {
-    // Only reply to messages starting with the specified prefix.
-    if (!message.content.startsWith(guildSettings.prefix)) return;
+  if (
+    message.channel.id !== guildSettings.countingChannelID &&
+    message.content.startsWith(guildSettings.prefix)
+  ) {
+    commandHandler(message, guildSettings);
+  } else {
+    // Split the message up into parts.
+    const messageSplit = message.content.split(/[ :\n]+/);
+    let messageNumber = messageSplit[0];
 
-    // Split message into arguments (delimited by spaces in the message).
-    const args = message.content
-      .slice(guildSettings.prefix.length)
-      .trim()
-      .split(/ +/);
-
-    // Pop the first item from args to use as the command name.
-    const commandName = args.shift().toLowerCase();
-
-    // Check that the given command actually exists.
-    if (!client.commands.has(commandName)) return;
-
-    // Retrieve the contents of the command (this will return nothing if the command doesn't exist).
-    const command = client.commands.get(commandName);
-
-    // Check whether the command can be executed in DMs.
-    if (command.guildOnly && message.channel.type !== "text") {
-      return message.reply("I can't execute that command inside DMs, sorry!");
+    // Delete the message if it doesn't start with a number.
+    if (!utils.isNumber(messageNumber)) {
+      return message.delete();
     }
 
-    // Check whether the command can only be executed by the guild owner.
-    if (command.ownerOnly && message.author.id !== message.guild.ownerID) {
-      return message.reply(
-        "You don't have permission to run that command. :eyes:",
+    // Convert user input to a base-10 integer.
+    messageNumber = parseInt(messageNumber, 10);
+
+    // Compare the author id of the current message to that of the previous message sent.
+    if (message.author.id === guildSettings.prevUserID) {
+      return message.delete().catch(err => console.error(err));
+    }
+
+    // Store the id of the user to prevent consecutive entries by the same user.
+    client.settings.set(message.guild.id, message.author.id, "prevUserID");
+
+    // Check that the start of the message equals the expected count value,
+    // or that a message was not included with the count if it was correct and numbersOnly is true.
+    if (
+      (messageSplit.length > 1 && guildSettings.numbersOnly) ||
+      messageNumber !== guildSettings.nextCount
+    ) {
+      message.channel.send(
+        `:boom: **Wrong number, ${message.author.toString()}!**`,
+      );
+      client.settings.set(message.guild.id, 1, "nextCount");
+
+      // Fetch the message-to-be-pinned by its ID, and then pin it.
+      message.channel.messages
+        .fetch(guildSettings.highestMessageID)
+        .then(message => {
+          if (!message.pinned) message.pin().catch(err => console.error(err));
+        })
+        .catch(err => console.error(err));
+
+      return;
+    }
+
+    // Save the timestamp of the latest valid message.
+    client.settings.set(
+      message.guild.id,
+      message.createdTimestamp,
+      "latestMessageTimestamp",
+    );
+
+    // Increment the expected count.
+    client.settings.inc(message.guild.id, "nextCount");
+
+    // Update the highest score for the server, to keep track of when to pin.
+    if (messageNumber > guildSettings.highestCount) {
+      client.settings.inc(message.guild.id, "highestCount");
+
+      // Store the id of the new highest message.
+      client.settings.set(message.guild.id, message.id, "highestMessageID");
+    }
+
+    // If a user sends a number without any message following it, and without an attachment...
+    if (
+      messageSplit.length <= 1 &&
+      guildSettings.noMessageReaction &&
+      message.attachments.size == 0
+    ) {
+      // React to it with the :npc: emote (custom emote in the 8-Ball server).
+      message
+        .react(guildSettings.emojiReactionID)
+        .catch(err => console.error(err));
+    }
+
+    // If the most recently counted number reached a new title milestone, change the counting
+    // channel title.
+    if (
+      Object.prototype.hasOwnProperty.call(
+        guildSettings.milestones,
+        messageNumber,
+      )
+    ) {
+      client.channels.cache
+        .get(guildSettings.countingChannelID)
+        .setName(guildSettings.milestones[messageNumber]);
+
+      console.log(
+        `Set name of counting channel to ${guildSettings.milestones[messageNumber]}.`,
       );
     }
 
-    // If the command has been listed as taking arguments, ensure the user has provided them.
-    if (command.args && !args.length) {
-      let reply = `You didn't provide any arguments, ${message.author}!`;
-
-      if (command.usage) {
-        reply += `\n**Usage:** \`${guildSettings.prefix}${command.name} ${command.usage}\``;
-      }
-
-      return message.channel.send(reply);
-    }
-
-    // Attempt to execute the body of the command.
-    try {
-      command.execute(message, args);
-    } catch (err) {
-      console.error(err);
-      return message.reply(
-        "There was an error trying to execute that command. Hmm...",
-      );
-    }
-
-    // Return here so the "counting logic" isn't applied to the command after it's been processed.
     return;
   }
-
-  // Split the message up into parts.
-  const messageSplit = message.content.split(/[ :\n]+/);
-  let messageNumber = messageSplit[0];
-
-  // Delete the message if it doesn't start with a number.
-  if (!utils.isNumber(messageNumber)) {
-    return message.delete();
-  }
-
-  // Convert user input to a base-10 integer.
-  messageNumber = parseInt(messageNumber, 10);
-
-  // Compare the author id of the current message to that of the previous message sent.
-  if (message.author.id === guildSettings.prevUserID) {
-    return message.delete().catch(err => console.error(err));
-  }
-
-  // Store the id of the user to prevent consecutive entries by the same user.
-  client.settings.set(message.guild.id, message.author.id, "prevUserID");
-
-  // Check that the start of the message equals the expected count value,
-  // or that a message was not included with the count if it was correct and numbersOnly is true.
-  if (
-    (messageSplit.length > 1 && guildSettings.numbersOnly) ||
-    messageNumber !== guildSettings.nextCount
-  ) {
-    message.channel.send(
-      `:boom: **Wrong number, ${message.author.toString()}!**`,
-    );
-    client.settings.set(message.guild.id, 1, "nextCount");
-
-    // Fetch the message-to-be-pinned by its ID, and then pin it.
-    message.channel.messages
-      .fetch(guildSettings.highestMessageID)
-      .then(message => {
-        if (!message.pinned) message.pin().catch(err => console.error(err));
-      })
-      .catch(err => console.error(err));
-
-    return;
-  }
-
-  // Save the timestamp of the latest valid message.
-  client.settings.set(
-    message.guild.id,
-    message.createdTimestamp,
-    "latestMessageTimestamp",
-  );
-
-  // Increment the expected count.
-  client.settings.inc(message.guild.id, "nextCount");
-
-  // Update the highest score for the server, to keep track of when to pin.
-  if (messageNumber > guildSettings.highestCount) {
-    client.settings.inc(message.guild.id, "highestCount");
-
-    // Store the id of the new highest message.
-    client.settings.set(message.guild.id, message.id, "highestMessageID");
-  }
-
-  // If a user sends a number without any message following it, and without an attachment...
-  if (
-    messageSplit.length <= 1 &&
-    guildSettings.noMessageReaction &&
-    message.attachments.size == 0
-  ) {
-    // React to it with the :npc: emote (custom emote in the 8-Ball server).
-    message
-      .react(guildSettings.emojiReactionID)
-      .catch(err => console.error(err));
-  }
-
-  // If the most recently counted number reached a new title milestone, change the counting
-  // channel title.
-  if (
-    Object.prototype.hasOwnProperty.call(
-      guildSettings.milestones,
-      messageNumber,
-    )
-  ) {
-    client.channels.cache
-      .get(guildSettings.countingChannelID)
-      .setName(guildSettings.milestones[messageNumber]);
-
-    console.log(
-      `Set name of counting channel to ${guildSettings.milestones[messageNumber]}.`,
-    );
-  }
-
-  return;
 });
 
 client.on("messageDelete", message => {
