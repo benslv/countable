@@ -1,3 +1,4 @@
+const db = require("../db");
 const utils = require("../utils");
 
 module.exports = {
@@ -7,7 +8,7 @@ module.exports = {
   guildOnly: true,
   ownerOnly: true,
   usage: "<action> <value/s>",
-  execute(message, args) {
+  execute({ message, args }) {
     const action = args[0];
     const values = args.slice(1);
 
@@ -38,10 +39,7 @@ module.exports = {
 };
 
 function listMilestones({ message }) {
-  const milestones = message.client.settings.get(
-    message.guild.id,
-    "milestones",
-  );
+  const milestones = db.get(message.guild.id, "milestones");
 
   const milestoneFields = [];
 
@@ -56,10 +54,7 @@ function listMilestones({ message }) {
     fields: milestoneFields,
   };
 
-  console.log(
-    "Listing milestones:\n",
-    message.client.settings.get(message.guild.id, "milestones"),
-  );
+  console.log("Listing milestones:\n", db.get(message.guild.id, "milestones"));
 
   return { embed };
 }
@@ -73,11 +68,11 @@ function addMilestone({ message, count, name }) {
     return "Please provide a name for the milestone.";
   }
 
-  message.client.settings.set(message.guild.id, name, `milestones.${count}`);
+  db.set(message.guild.id, name, `milestones.${count}`);
 
   console.log(
     `Added title milestone of ${name} at count ${count}.\n`,
-    message.client.settings.get(message.guild.id, "milestones"),
+    db.get(message.guild.id, "milestones"),
   );
 
   return `Milestone of **#${name}** was added at count \`${count}\`!`;
@@ -88,16 +83,13 @@ function removeMilestone({ message, count }) {
     return "Milestones can only be removed from positive integers :grimacing:";
   }
 
-  const milestones = message.client.settings.get(
-    message.guild.id,
-    "milestones",
-  );
+  const milestones = db.get(message.guild.id, "milestones");
 
   delete milestones[count];
 
   console.log(
     `Delete title milestone from count ${count}.\n`,
-    message.client.settings.get(message.guild.id, "milestones"),
+    db.get(message.guild.id, "milestones"),
   );
 
   return `Any milestones have been deleted from count \`${count}\`!`;

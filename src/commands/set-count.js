@@ -1,31 +1,24 @@
 const utils = require("../utils");
+const db = require("../db");
 
 module.exports = {
   name: "set-count",
-  description: "Sets the value of nextCount the number provided by the user.",
+  description: "Sets the value of the next expected count.",
   args: true,
   guildOnly: true,
   ownerOnly: true,
   usage: "<number>",
-  execute(message, args) {
+  execute({ message, args }) {
     const count = args[0];
 
-    // Delete the message if it doesn't start with a number.
     if (!utils.isNumber(count)) {
-      message.channel.send("I'm sorry, that's not a valid number.");
+      return message.channel.send("I'm sorry, that's not a valid number.");
     }
 
-    message.client.settings.set(
-      message.guild.id,
-      parseInt(count, 10),
-      "nextCount",
-    );
+    db.set(message.guild.id, parseInt(count, 10), "nextCount");
 
     message.channel.send(
-      `The next expected count has been updated to \`${message.client.settings.get(
-        message.guild.id,
-        "nextCount",
-      )}\`.`,
+      `The next expected count has been updated to \`${count}\``,
     );
 
     console.log(`Updated next expected count to ${count}.`);

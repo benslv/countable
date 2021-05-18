@@ -1,3 +1,5 @@
+const db = require("../db");
+
 module.exports = {
   name: "set-nomessage",
   description:
@@ -6,11 +8,11 @@ module.exports = {
   guildOnly: true,
   ownerOnly: true,
   usage: "<true|false>",
-  execute(message, args) {
+  execute({ message, args }) {
     const arg = args[0].toLowerCase();
 
     if (arg === "true" || arg === "false") {
-      message.client.settings.set(
+      db.set(
         message.guild.id,
         JSON.parse(arg), // converts the string representation into a boolean value.
         "noMessageReaction",

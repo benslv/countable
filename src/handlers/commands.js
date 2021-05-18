@@ -1,9 +1,6 @@
-module.exports = (message, guildSettings) => {
+module.exports = (message, gdb) => {
   // Split message into arguments (delimited by spaces in the message).
-  const args = message.content
-    .slice(guildSettings.prefix.length)
-    .trim()
-    .split(/ +/);
+  const args = message.content.slice(gdb.prefix.length).trim().split(/ +/);
 
   // Pop the first item from args to use as the command name.
   const commandName = args.shift().toLowerCase();
@@ -31,7 +28,7 @@ module.exports = (message, guildSettings) => {
     let reply = `You didn't provide any arguments, ${message.author}!`;
 
     if (command.usage) {
-      reply += `\n**Usage:** \`${guildSettings.prefix}${command.name} ${command.usage}\``;
+      reply += `\n**Usage:** \`${gdb.prefix}${command.name} ${command.usage}\``;
     }
 
     return message.channel.send(reply);
@@ -39,7 +36,7 @@ module.exports = (message, guildSettings) => {
 
   // Attempt to execute the body of the command.
   try {
-    return command.execute(message, args);
+    return command.execute({ message, args, gdb });
   } catch (err) {
     console.error(err);
     return message.reply(
