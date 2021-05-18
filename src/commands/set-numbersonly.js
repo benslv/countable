@@ -10,7 +10,11 @@ module.exports = {
     const arg = args[0].toLowerCase();
 
     if (arg === "true" || arg === "false") {
-      message.client.settings.set(message.guild.id, JSON.parse(arg), "numbersOnly");
+      message.client.settings.set(
+        message.guild.id,
+        JSON.parse(arg),
+        "numbersOnly",
+      );
       message.channel.send(
         `Counts now **${
           arg === "true" ? "aren't" : "are"

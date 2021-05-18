@@ -40,7 +40,7 @@ client.commands = new Discord.Collection();
 
 // Filter out any files that aren't `.js` files.
 const commandFiles = fs
-  .readdirSync("./commands")
+  .readdirSync("src/commands/")
   .filter(file => file.endsWith(".js"));
 
 // Iterate through the list of available commands and add them all to the commands Collection.

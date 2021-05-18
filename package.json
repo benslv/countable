@@ -5,9 +5,9 @@
   "main": "index.js",
   "author": "Ben Silverman <bensilverman10@gmail.com>",
   "scripts": {
-    "start": "node index.js",
-    "lint": "eslint .",
-    "format": "prettier . --write"
+    "start": "node src/index.js",
+    "lint": "eslint src/**/*.js",
+    "format": "prettier ./src/**/*.js --write"
   },
   "lint-staged": {
     "*.js": "eslint"
