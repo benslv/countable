@@ -63,7 +63,7 @@ client.on("messageDelete", message => {
   const gdb = guild(message.guild.id);
 
   // Only do anything if the deleted message was in the counting channel.
-  if (message.channel.id !== gdb.countingChannelID) return;
+  if (message.channel.id !== gdb.channel) return;
 
   if (message.createdTimestamp === gdb.latestMessage) {
     // Grab the number component from the deleted message, and repost it.
