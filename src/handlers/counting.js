@@ -45,7 +45,7 @@ module.exports = ({ message, gdb }) => {
   }
 
   // Save the timestamp of the latest valid message.
-  gdb.set("latestMessageTimestamp", message.createdTimestamp);
+  gdb.set("latestMessage", message.createdTimestamp);
 
   // Increment the expected count.
   // gdb.inc(message.guild.id, "nextCount");
