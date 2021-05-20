@@ -68,9 +68,7 @@ client.on("messageDelete", message => {
   if (message.createdTimestamp === gdb.latestMessage) {
     // Grab the number component from the deleted message, and repost it.
     return message.channel.send(
-      `**${
-        gdb.get(message.guild.id, "nextCount") - 1
-      }**, from ${message.author.toString()}. `,
+      `**${gdb.get("nextCount") - 1}**, from ${message.author.toString()}. `,
     );
   }
 });
