@@ -9,7 +9,7 @@ const { CLIENT_TOKEN } = config;
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
-const db = require("./db");
+const guild = require("./database/guild");
 
 const commandHandler = require("./handlers/commands");
 const countingHandler = require("./handlers/counting");
@@ -48,19 +48,19 @@ client.on("message", message => {
   if (!message.guild || message.author.bot) return;
 
   // Retrieve the settings for the current guild.
-  const gdb = db.guild(message.guild.id);
+  const gdb = guild(message.guild.id);
 
   // Behaviour for messages sent in non-counting channels.
   if (message.channel.id === gdb.channel) {
-    return countingHandler(message, gdb);
+    return countingHandler({ message, gdb });
   } else if (message.content.startsWith(gdb.prefix)) {
-    return commandHandler(message, gdb);
+    return commandHandler({ message, gdb });
   }
 });
 
 client.on("messageDelete", message => {
   // Retrieve the settings for the current guild.
-  const gdb = db.guild(message.guild.id);
+  const gdb = guild(message.guild.id);
 
   // Only do anything if the deleted message was in the counting channel.
   if (message.channel.id !== gdb.countingChannelID) return;
@@ -69,7 +69,7 @@ client.on("messageDelete", message => {
     // Grab the number component from the deleted message, and repost it.
     return message.channel.send(
       `**${
-        db.get(message.guild.id, "nextCount") - 1
+        gdb.get(message.guild.id, "nextCount") - 1
       }**, from ${message.author.toString()}. `,
     );
   }

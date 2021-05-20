@@ -1,5 +1,3 @@
-const db = require("../db");
-
 module.exports = {
   name: "set-numbersonly",
   description:
@@ -8,11 +6,11 @@ module.exports = {
   guildOnly: true,
   ownerOnly: true,
   usage: "<true|false>",
-  execute({ message, args }) {
+  execute({ message, args, gdb }) {
     const arg = args[0].toLowerCase();
 
     if (arg === "true" || arg === "false") {
-      db.set(message.guild.id, JSON.parse(arg), "numbersOnly");
+      gdb.set("numbersOnly", JSON.parse(arg));
       message.channel.send(
         `Counts now **${
           arg === "true" ? "aren't" : "are"

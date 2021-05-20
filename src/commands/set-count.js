@@ -1,5 +1,4 @@
 const utils = require("../utils");
-const db = require("../db");
 
 module.exports = {
   name: "set-count",
@@ -8,14 +7,14 @@ module.exports = {
   guildOnly: true,
   ownerOnly: true,
   usage: "<number>",
-  execute({ message, args }) {
+  execute({ message, args, gdb }) {
     const count = args[0];
 
     if (!utils.isNumber(count)) {
       return message.channel.send("I'm sorry, that's not a valid number.");
     }
 
-    db.set(message.guild.id, parseInt(count, 10), "nextCount");
+    gdb.set("nextCount", parseInt(count, 10));
 
     message.channel.send(
       `The next expected count has been updated to \`${count}\``,

@@ -1,7 +1,6 @@
-const db = require("../db");
 const utils = require("../utils");
 
-module.exports = (message, gdb) => {
+module.exports = ({ message, gdb }) => {
   // Split the message up into parts.
   const messageSplit = message.content.split(/[ :\n]+/);
   let messageNumber = messageSplit[0];
@@ -20,7 +19,7 @@ module.exports = (message, gdb) => {
   }
 
   // Store the id of the user to prevent consecutive entries by the same user.
-  db.set(message.guild.id, message.author.id, "prevUserID");
+  gdb.set("prevUserID", message.author.id);
 
   // Check that the start of the message equals the expected count value,
   // or that a message was not included with the count if it was correct and numbersOnly is true.
@@ -32,7 +31,7 @@ module.exports = (message, gdb) => {
       `:boom: **Wrong number, ${message.author.toString()}!**`,
     );
 
-    db.set(message.guild.id, 1, "nextCount");
+    gdb.set("nextCount", 1);
 
     // Fetch the message-to-be-pinned by its ID, and then pin it.
     message.channel.messages
@@ -46,19 +45,19 @@ module.exports = (message, gdb) => {
   }
 
   // Save the timestamp of the latest valid message.
-  db.set(message.guild.id, message.createdTimestamp, "latestMessageTimestamp");
+  gdb.set("latestMessageTimestamp", message.createdTimestamp);
 
   // Increment the expected count.
   // gdb.inc(message.guild.id, "nextCount");
-  db.set(message.guild.id, "nextCount", gdb.nextCount + 1);
+  gdb.set("nextCount", gdb.nextCount + 1);
 
   // Update the highest score for the server, to keep track of when to pin.
   if (messageNumber > gdb.highestCount) {
     // gdb.inc(message.guild.id, "highestCount");
-    db.set(message.guild.id, "highestCount", gdb.highestCount + 1);
+    gdb.set("highestCount", gdb.highestCount + 1);
 
     // Store the id of the new highest message.
-    db.set(message.guild.id, message.id, "highestCountID");
+    gdb.set("highestCountID", message.id);
   }
 
   // If a user sends a number without any message following it, and without an attachment...

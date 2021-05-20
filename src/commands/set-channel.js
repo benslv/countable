@@ -1,5 +1,3 @@
-const db = require("../db");
-
 module.exports = {
   name: "set-channel",
   description:
@@ -8,7 +6,7 @@ module.exports = {
   guildOnly: true,
   ownerOnly: true,
   usage: "<channel ID>",
-  execute({ message, args }) {
+  execute({ message, args, gdb }) {
     const guildChannels = message.guild.channels.cache;
 
     // Match the ID of the channel, whether it's passed in as the raw ID or as a channel mention.
@@ -17,7 +15,7 @@ module.exports = {
     // Check that the channel ID exists in the guild.
     if (guildChannels.has(id)) {
       // If so, store the new ID in settings.
-      db.set(message.guild.id, id, "channel");
+      gdb.set("channel", id);
 
       message.client.channels
         .fetch(id)

@@ -1,4 +1,4 @@
-module.exports = (message, gdb) => {
+module.exports = ({message, gdb}) => {
   // Split message into arguments (delimited by spaces in the message).
   const args = message.content.slice(gdb.prefix.length).trim().split(/ +/);
 

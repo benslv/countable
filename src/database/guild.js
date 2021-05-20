@@ -1,4 +1,4 @@
-const Enmap = require("enmap");
+const db = require("./index");
 
 const guildTemplate = {
   id: "", // ID of the guild
@@ -16,23 +16,14 @@ const guildTemplate = {
   users: [], // (future) statistics about each user (id, number of correct counts etc.)
 };
 
-module.exports = {
-  settings: new Enmap({
-    name: "settings",
-    fetchAll: false,
-    autoFetch: true,
-    cloneLevel: "deep",
-  }),
-  guild: function (id) {
-    return this.settings.ensure(id, { ...guildTemplate, id });
-  },
-  debug: function () {
-    return this.settings;
-  },
-  set: function (id, value, key) {
-    this.settings.set(id, value, key);
-  },
-  get: function (id, key) {
-    return this.settings.get(id, key);
-  },
+module.exports = id => {
+  return {
+    ...db.settings.ensure(id, { ...guildTemplate, id }),
+    set: (key, value) => {
+      db.settings.set(id, value, key);
+    },
+    get: key => {
+      return db.settings.get(id, key);
+    },
+  };
 };

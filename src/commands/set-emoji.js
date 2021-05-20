@@ -1,5 +1,3 @@
-const db = require("../db");
-
 module.exports = {
   name: "set-emoji",
   description:
@@ -8,7 +6,7 @@ module.exports = {
   guildOnly: true,
   ownerOnly: true,
   usage: "<emoji or custom emote you want to use>",
-  execute({ message, args }) {
+  execute({ message, args, gdb }) {
     // Retrieve all of the emojis the bot has access to.
     const guildEmojis = message.client.emojis.cache;
 
@@ -25,7 +23,7 @@ module.exports = {
 
     if (emoji) {
       console.log(emoji[0]);
-      db.set(message.guild.id, emoji[0], "emojiID");
+      gdb.set("emojiID", emoji[0]);
       message.channel.send(
         `The emoji reaction has been updated and set to ${emoji[0]}`,
       );
@@ -35,7 +33,7 @@ module.exports = {
 
       if (emojiID && guildEmojis.has(emojiID[0])) {
         const emoji = guildEmojis.get(emojiID[0]);
-        db.set(message.guild.id, emojiID[0], "emojiID");
+        gdb.set("emojiID", emojiID[0]);
 
         message.channel.send(
           `The emoji reaction has been updated and set to ${emoji}.`,

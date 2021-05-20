@@ -1,4 +1,3 @@
-const db = require("../db");
 const utils = require("../utils");
 
 module.exports = {
@@ -8,7 +7,7 @@ module.exports = {
   guildOnly: true,
   ownerOnly: true,
   usage: "<action> <value/s>",
-  execute({ message, args }) {
+  execute({ message, args, gdb }) {
     const action = args[0];
     const values = args.slice(1);
 
@@ -23,6 +22,7 @@ module.exports = {
         message: message,
         count: values[0],
         name: values[1],
+        gdb: gdb,
       });
 
       if (response) {
@@ -38,8 +38,8 @@ module.exports = {
   },
 };
 
-function listMilestones({ message }) {
-  const milestones = db.get(message.guild.id, "milestones");
+function listMilestones({ gdb }) {
+  const milestones = gdb.get("milestones");
 
   const milestoneFields = [];
 
@@ -54,12 +54,12 @@ function listMilestones({ message }) {
     fields: milestoneFields,
   };
 
-  console.log("Listing milestones:\n", db.get(message.guild.id, "milestones"));
+  console.log("Listing milestones:\n", gdb.get("milestones"));
 
   return { embed };
 }
 
-function addMilestone({ message, count, name }) {
+function addMilestone({ count, name, gdb }) {
   if (count < 0 || !utils.isNumber(count)) {
     return "Milestones can only be added at positive integers :grimacing:";
   }
@@ -68,28 +68,28 @@ function addMilestone({ message, count, name }) {
     return "Please provide a name for the milestone.";
   }
 
-  db.set(message.guild.id, name, `milestones.${count}`);
+  gdb.set(`milestones.${count}`, name);
 
   console.log(
     `Added title milestone of ${name} at count ${count}.\n`,
-    db.get(message.guild.id, "milestones"),
+    gdb.get("milestones"),
   );
 
   return `Milestone of **#${name}** was added at count \`${count}\`!`;
 }
 
-function removeMilestone({ message, count }) {
+function removeMilestone({ count, gdb }) {
   if (count < 0 || !utils.isNumber(count)) {
     return "Milestones can only be removed from positive integers :grimacing:";
   }
 
-  const milestones = db.get(message.guild.id, "milestones");
+  const milestones = gdb.get("milestones");
 
   delete milestones[count];
 
   console.log(
     `Delete title milestone from count ${count}.\n`,
-    db.get(message.guild.id, "milestones"),
+    gdb.get("milestones"),
   );
 
   return `Any milestones have been deleted from count \`${count}\`!`;
