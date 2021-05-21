@@ -17,17 +17,26 @@ module.exports = {
         JSON.parse(arg), // converts the string representation into a boolean value.
       );
 
-      message.channel.send({
-        embed: embed(message, {
-          type: "success",
-          title: "Setting updated!",
-          description: `Messages now **${
-            arg === "true" ? "will" : "won't"
-          }** be reacted to when left empty.`,
-        }),
-      });
-
       console.log(`Set "no message reaction" to ${arg}.`);
+
+      if (arg === "true") {
+        return message.channel.send({
+          embed: embed(message, {
+            type: "success",
+            title: "Message reactions enabled.",
+            description: "Messages now **will** be reacted to when left empty.",
+          }),
+        });
+      } else {
+        return message.channel.send({
+          embed: embed(message, {
+            type: "success",
+            title: "Message reactions disabled.",
+            description:
+              "Messages now **won't** be reacted to when left empty.",
+          }),
+        });
+      }
     } else {
       message.channel.send({
         embed: embed(message, {
