@@ -1,3 +1,5 @@
+const { embed } = require("../utils");
+
 module.exports = {
   name: "set-numbersonly",
   description:
@@ -11,16 +13,26 @@ module.exports = {
 
     if (arg === "true" || arg === "false") {
       gdb.set("numbersOnly", JSON.parse(arg));
-      message.channel.send(
-        `Counts now **${
-          arg === "true" ? "aren't" : "are"
-        }** allowed a message after them.`,
-      );
+
+      message.channel.send({
+        embed: embed(message, {
+          type: "success",
+          title: "Setting updated!",
+          description: `Counts now **${
+            arg === "true" ? "aren't" : "are"
+          }** allowed a message after them.`,
+        }),
+      });
       console.log(`Set numbers only to ${arg}.`);
     } else {
-      message.channel.send(
-        "That's not a valid argument. Please enter `true` or `false`.",
-      );
+      message.channel.send({
+        embed: embed(message, {
+          type: "error",
+          title: "Invalid input.",
+          description:
+            "That's not a valid argument. Please enter `true` or `false`.",
+        }),
+      });
     }
   },
 };
