@@ -38,21 +38,22 @@ module.exports = {
   },
 };
 
-function listMilestones({ gdb }) {
+function listMilestones({ message, gdb }) {
   const milestones = gdb.get("milestones");
 
   const milestoneFields = [];
 
   for (let key in milestones) {
-    milestoneFields.push({ name: key, value: milestones[key] });
+    milestoneFields.push({ name: key, value: milestones[key], inline: true });
   }
 
-  const embed = {
-    color: 0xffa630,
+  const embed = utils.embed(message, {
+    type: "info",
     title: "Server Milestones",
     description: "Here are the milestones you have set up in your server!",
+    thumbnail: { url: message.guild.iconURL() },
     fields: milestoneFields,
-  };
+  });
 
   console.log("Listing milestones:\n", gdb.get("milestones"));
 
