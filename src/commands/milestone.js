@@ -1,4 +1,4 @@
-const utils = require("../utils");
+const { isNumber, embed } = require("../utils");
 
 module.exports = {
   name: "milestone",
@@ -17,7 +17,7 @@ module.exports = {
       remove: removeMilestone,
     };
 
-    try {
+    if (action in actions) {
       const response = actions[action]({
         message: message,
         count: values[0],
@@ -25,47 +25,56 @@ module.exports = {
         gdb: gdb,
       });
 
-      if (response) {
-        return message.channel.send(response);
-      }
-    } catch (err) {
-      console.error(err);
-
-      return message.channel.send(
-        "Sorry! That isn't a valid action for this command... :sob:",
-      );
+      return message.channel.send({ embed: embed(message, { ...response }) });
     }
+
+    return message.channel.send({
+      embed: embed(message, {
+        type: "error",
+        title: "Invalid action.",
+        description:
+          "Sorry! That isn't a valid action for this command.\nValid actions are: `list`, `add`, `remove`",
+      }),
+    });
   },
 };
 
-function listMilestones({ gdb }) {
+function listMilestones({ message, gdb }) {
   const milestones = gdb.get("milestones");
+
+  console.log("Listing milestones:\n", milestones);
 
   const milestoneFields = [];
 
   for (let key in milestones) {
-    milestoneFields.push({ name: key, value: milestones[key] });
+    milestoneFields.push({ name: key, value: milestones[key], inline: true });
   }
 
-  const embed = {
-    color: 0xffa630,
+  return {
+    type: "info",
     title: "Server Milestones",
     description: "Here are the milestones you have set up in your server!",
+    thumbnail: { url: message.guild.iconURL() },
     fields: milestoneFields,
   };
-
-  console.log("Listing milestones:\n", gdb.get("milestones"));
-
-  return { embed };
 }
 
 function addMilestone({ count, name, gdb }) {
-  if (count < 0 || !utils.isNumber(count)) {
-    return "Milestones can only be added at positive integers :grimacing:";
+  if (count < 0 || !isNumber(count)) {
+    return {
+      type: "error",
+      title: "Invalid number.",
+      description:
+        "Milestones can only be added at positive integers :grimacing:",
+    };
   }
 
   if (!name) {
-    return "Please provide a name for the milestone.";
+    return {
+      type: "error",
+      title: "No name provided.",
+      description: "Please provide a name for the milestone.",
+    };
   }
 
   gdb.set(`milestones.${count}`, name);
@@ -75,12 +84,21 @@ function addMilestone({ count, name, gdb }) {
     gdb.get("milestones"),
   );
 
-  return `Milestone of **#${name}** was added at count \`${count}\`!`;
+  return {
+    type: "success",
+    title: "Milestone added!",
+    description: `Milestone of **#${name}** was added at count \`${count}\`!`,
+  };
 }
 
 function removeMilestone({ count, gdb }) {
-  if (count < 0 || !utils.isNumber(count)) {
-    return "Milestones can only be removed from positive integers :grimacing:";
+  if (count < 0 || !isNumber(count)) {
+    return {
+      type: "error",
+      title: "Invalid number.",
+      description:
+        "Milestones can only be removed from positive integers :grimacing:",
+    };
   }
 
   const milestones = gdb.get("milestones");
@@ -92,5 +110,9 @@ function removeMilestone({ count, gdb }) {
     gdb.get("milestones"),
   );
 
-  return `Any milestones have been deleted from count \`${count}\`!`;
+  return {
+    type: "success",
+    title: "Milestone added!",
+    description: `Any milestones have been deleted from count \`${count}\`!`,
+  };
 }

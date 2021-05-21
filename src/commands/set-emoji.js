@@ -1,3 +1,5 @@
+const { embed } = require("../utils");
+
 module.exports = {
   name: "set-emoji",
   description:
@@ -23,25 +25,41 @@ module.exports = {
 
     if (emoji) {
       console.log(emoji[0]);
+
       gdb.set("emojiID", emoji[0]);
-      message.channel.send(
-        `The emoji reaction has been updated and set to ${emoji[0]}`,
-      );
+
+      message.channel.send({
+        embed: embed(message, {
+          type: "success",
+          title: "Emoji set!",
+          description: `The emoji reaction has been updated and set to ${emoji[0]}`,
+        }),
+      });
     } else {
       // Otherwise, try and match a custom emote ID.
       const emojiID = args[0].match(/(\d{18})/g);
 
       if (emojiID && guildEmojis.has(emojiID[0])) {
         const emoji = guildEmojis.get(emojiID[0]);
+
         gdb.set("emojiID", emojiID[0]);
 
-        message.channel.send(
-          `The emoji reaction has been updated and set to ${emoji}.`,
-        );
+        message.channel.send({
+          embed: embed(message, {
+            type: "success",
+            title: "Emoji set!",
+            description: `The emoji reaction has been updated and set to ${emoji}`,
+          }),
+        });
       } else {
-        message.channel.send(
-          "I couldn't find that emoji in my list. Make sure the ID is correct...",
-        );
+        message.channel.send({
+          embed: embed(message, {
+            type: "error",
+            title: "Not found...",
+            description:
+              "I couldn't find that emoji in my list. Make sure the ID is correct.",
+          }),
+        });
       }
     }
   },
