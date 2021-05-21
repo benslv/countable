@@ -3,6 +3,7 @@ module.exports.isNumber = n => /^\d+$/.test(n); // Regex testing for a string be
 module.exports.embed = (
   message,
   { type = "info", title = "", description = "", ...rest },
+  verbose = false,
 ) => {
   const types = {
     info: 0xffa630,
@@ -10,15 +11,23 @@ module.exports.embed = (
     success: 0x4aeb47,
   };
 
-  return {
+  let output = {
     color: types[type],
     title: title,
     description: description,
-    footer: {
-      text: `Requested by ${message.author.tag}`,
-      icon_url: message.author.avatarURL(),
-    },
-    timestamp: new Date(),
     ...rest,
   };
+
+  if (verbose) {
+    output = {
+      ...output,
+      footer: {
+        text: `Requested by ${message.author.tag}`,
+        icon_url: message.author.avatarURL(),
+      },
+      timestamp: new Date(),
+    };
+  }
+
+  return output;
 };
