@@ -1,4 +1,4 @@
-const utils = require("../utils");
+const { embed } = require("../utils");
 
 module.exports = {
   name: "ping",
@@ -8,12 +8,12 @@ module.exports = {
   ownerOnly: false,
   description: "Replies to the user to confirm the bot is running correctly!",
   execute({ message }) {
-    const embed = utils.embed(message, {
-      type: "success",
-      title: "🏓 Pong!",
-      description: "Everything seems to be in order.",
+    message.channel.send({
+      embed: embed(message, {
+        type: "success",
+        title: "🏓 Pong!",
+        description: "Everything seems to be in order.",
+      }),
     });
-
-    message.channel.send({ embed });
   },
 };
