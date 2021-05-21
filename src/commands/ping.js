@@ -11,7 +11,7 @@ module.exports = {
     const embed = utils.embed(message, {
       type: "success",
       title: "🏓 Pong!",
-      description: "Looks like everything's in order.",
+      description: "Everything seems to be in order.",
     });
 
     message.channel.send({ embed });
