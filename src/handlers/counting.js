@@ -33,6 +33,11 @@ module.exports = ({ message, gdb }) => {
 
     gdb.set("nextCount", 1);
 
+    if (!gdb.users[message.member.id]) {
+      gdb.addUser(message.member);
+    }
+
+    gdb.inc(`users.${message.member.id}.incorrect`);
     // Fetch the message-to-be-pinned by its ID, and then pin it.
     message.channel.messages
       .fetch(gdb.highestCountID)
@@ -48,8 +53,13 @@ module.exports = ({ message, gdb }) => {
   gdb.set("latestMessage", message.createdTimestamp);
 
   // Increment the expected count.
-  // gdb.inc(message.guild.id, "nextCount");
-  gdb.set("nextCount", gdb.nextCount + 1);
+  gdb.inc("nextCount");
+
+  if (!gdb.users[message.member.id]) {
+    gdb.addUser(message.member);
+  }
+
+  gdb.inc(`users.${message.member.id}.correct`);
 
   // Update the highest score for the server, to keep track of when to pin.
   if (messageNumber > gdb.highestCount) {

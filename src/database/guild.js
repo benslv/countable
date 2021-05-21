@@ -13,7 +13,13 @@ const guildTemplate = {
   emojiID: "", // ID of the emoji to use when reacting to messages
   numbersOnly: false, // whether to enforce "numbers only" in the counting channel
   milestones: {}, // which channel-renaming milestones have been set up by the guild
-  users: [], // (future) statistics about each user (id, number of correct counts etc.)
+  users: {}, // (future) statistics about each user (id, number of correct counts etc.)
+};
+
+const userTemplate = {
+  correct: 0, // number of correct count
+  incorrect: 0, // number of incorrect counts
+  points: 0, // (future) a "currency" system for users, earned by counting
 };
 
 module.exports = id => {
@@ -24,6 +30,15 @@ module.exports = id => {
     },
     get: key => {
       return db.settings.get(id, key);
+    },
+    inc: key => {
+      db.settings.inc(id, key);
+    },
+    addUser: member => {
+      db.settings.set(id, userTemplate, `users.${member.id}`);
+    },
+    delete: key => {
+      db.settings.delete(id, key);
     },
   };
 };
