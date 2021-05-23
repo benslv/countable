@@ -7,19 +7,19 @@ module.exports = {
   guildOnly: true,
   ownerOnly: false,
   usage: "<blank> or <user mention>",
-  execute({ message, gdb }) {
+  execute: async ({ message, gdb }) => {
     const mentions = message.mentions.users;
 
     let response;
 
     if (mentions.size === 0) {
-      response = getUserStats({ gdb, message, id: message.member.id });
+      response = await getUserStats({ gdb, message, id: message.member.id });
     } else {
       const id = mentions.first().id;
       const userInfo = gdb.users[id];
 
       if (userInfo) {
-        response = getUserStats({ gdb, message, id });
+        response = await getUserStats({ gdb, message, id });
       } else {
         response = {
           type: "error",
@@ -34,16 +34,18 @@ module.exports = {
   },
 };
 
-const getUserStats = ({ gdb, message, id }) => {
+const getUserStats = async ({ gdb, message, id }) => {
   const correct = gdb.users[id].correct;
   const incorrect = gdb.users[id].incorrect;
 
+  const user = await message.client.users.fetch(id);
+
   return {
     type: "info",
-    title: `Stats for ${message.author.tag}`,
+    title: `Stats for ${user.tag}`,
     description: "Here are your stats for this server!",
     thumbnail: {
-      url: message.author.avatarURL(),
+      url: user.avatarURL() || user.defaultAvatarURL,
     },
     fields: [
       {
