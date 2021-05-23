@@ -15,24 +15,35 @@ module.exports = {
 
     // Sort by score
     const top15 = users.sort(byScore).slice(0, 15);
-    console.log(top15);
 
     const scoreStrings = [];
 
-    top15.forEach((user, i) => {
+    let i = 0;
+    for (let user of top15) {
+      let userInfo;
+      try {
+        userInfo = await message.client.users.fetch(user.id);
+      } catch (err) {
+        console.error(err);
+      }
       const score = getUserScore(user);
 
       scoreStrings.push(
-        `${medals[i] ? medals[i] : "🔸"} **${score}** - <@${user.id}>`,
+        `${medals[i] || "🔸"} **${score}** - ${
+          userInfo ? userInfo.tag : "*Unknown User*"
+        }`,
       );
-    });
+
+      i += 1;
+    }
 
     message.channel.send({
       embed: embed(message, {
         type: "info",
         title: `Top counters in ${message.guild.name}`,
         description: scoreStrings.join("\n"),
-        footer: "Sorted by score",
+        footer: { text: "Sorted by player score" },
+        timestamp: new Date(),
       }),
     });
   },
