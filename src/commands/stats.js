@@ -1,4 +1,4 @@
-const { embed } = require("../utils");
+const { embed, getUserScore } = require("../utils");
 
 module.exports = {
   name: "stats",
@@ -37,6 +37,8 @@ module.exports = {
 const getUserStats = async ({ gdb, message, id }) => {
   const correct = gdb.users[id].correct;
   const incorrect = gdb.users[id].incorrect;
+  const score = correct - incorrect;
+  const accuracy = `${(100 * (correct / (correct + incorrect))).toFixed(2)}%`;
 
   const user = await message.client.users.fetch(id);
 
@@ -45,7 +47,7 @@ const getUserStats = async ({ gdb, message, id }) => {
     title: `Stats for ${user.tag}`,
     description: "Here are your stats for this server!",
     thumbnail: {
-      url: user.avatarURL() || user.defaultAvatarURL,
+      url: user.avatarURL({ size: 128 }) || user.defaultAvatarURL,
     },
     fields: [
       {
@@ -65,12 +67,12 @@ const getUserStats = async ({ gdb, message, id }) => {
       },
       {
         name: "Score",
-        value: correct - incorrect,
+        value: score,
         inline: true,
       },
       {
         name: "Accuracy",
-        value: correct / (correct + incorrect),
+        value: accuracy,
         inline: true,
       },
     ],

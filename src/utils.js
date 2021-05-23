@@ -31,3 +31,5 @@ module.exports.embed = (
 
   return output;
 };
+
+module.exports.getUserScore = user => user.correct - user.incorrect;

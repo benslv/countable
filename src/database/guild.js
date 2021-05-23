@@ -17,6 +17,7 @@ const guildTemplate = {
 };
 
 const userTemplate = {
+  id: "",
   correct: 0, // number of correct count
   incorrect: 0, // number of incorrect counts
   points: 0, // (future) a "currency" system for users, earned by counting
@@ -35,7 +36,11 @@ module.exports = id => {
       db.settings.inc(id, key);
     },
     addUser: member => {
-      db.settings.set(id, userTemplate, `users.${member.id}`);
+      db.settings.set(
+        id,
+        { ...userTemplate, id: member.id.toString() },
+        `users.${member.id}`,
+      );
     },
     delete: key => {
       db.settings.delete(id, key);
