@@ -55,11 +55,16 @@ module.exports = ({ message, gdb }) => {
   // Increment the expected count.
   gdb.inc("nextCount");
 
-  if (!gdb.users[message.member.id]) {
-    gdb.addUser(message.member);
+  // Add the user to the database if they don't already exist.
+  if (!gdb.users[message.author.id]) {
+    gdb.addUser(message.author);
   }
 
-  gdb.inc(`users.${message.member.id}.correct`);
+  // Update the number of correct counts for the user.
+  gdb.inc(`users.${message.author.id}.correct`);
+
+  // Award the user with a point!
+  gdb.inc(`users.${message.author.id}.points`);
 
   // Update the highest score for the server, to keep track of when to pin.
   if (messageNumber > gdb.highestCount) {
