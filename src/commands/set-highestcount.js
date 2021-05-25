@@ -2,7 +2,7 @@ const utils = require("../utils");
 
 module.exports = {
   name: "set-highestcount",
-  aliases: ["highest"],
+  aliases: ["highest", "highestcount"],
   description: "Sets the value of the highest-reached count.",
   args: true,
   guildOnly: true,
