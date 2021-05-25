@@ -13,7 +13,6 @@ module.exports = {
       gdb;
 
     const prevUser = await message.client.users.fetch(prevUserID);
-    console.log(prevUser);
 
     const emoji = message.client.emojis.cache.get(emojiID);
 
