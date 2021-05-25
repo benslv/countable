@@ -2,6 +2,7 @@ const { embed } = require("../utils");
 
 module.exports = {
   name: "set-numbersonly",
+  aliases: ["numbersonly"],
   description:
     "Sets whether messages are allowed to contain a message after their number count.",
   args: true,

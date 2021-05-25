@@ -2,6 +2,7 @@ const { embed } = require("../utils");
 
 module.exports = {
   name: "set-nomessage",
+  aliases: ["nomessage"],
   description:
     "Sets whether or not the bot should react to any counts not containing a message.",
   args: true,

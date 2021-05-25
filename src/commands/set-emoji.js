@@ -2,6 +2,7 @@ const { embed } = require("../utils");
 
 module.exports = {
   name: "set-emoji",
+  aliases: ["emoji"],
   description:
     "Sets the reaction used by the bot when a user sends a count with no message.",
   args: true,

@@ -5,11 +5,15 @@ module.exports = ({ message, gdb }) => {
   // Pop the first item from args to use as the command name.
   const commandName = args.shift().toLowerCase();
 
-  // Check that the given command actually exists.
-  if (!message.client.commands.has(commandName)) return;
-
   // Retrieve the contents of the command (this will return nothing if the command doesn't exist).
-  const command = message.client.commands.get(commandName);
+  const command =
+    message.client.commands.get(commandName) ||
+    message.client.commands.find(
+      cmd => cmd.aliases && cmd.aliases.includes(commandName),
+    );
+
+  // Check that the given command actually exists.
+  if (!command) return;
 
   // Check whether the command can be executed in DMs.
   if (command.guildOnly && message.channel.type !== "text") {
