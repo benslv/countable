@@ -64,7 +64,7 @@ module.exports = ({ message, gdb }) => {
   // Update the highest score for the server, to keep track of when to pin.
   if (messageNumber > gdb.highestCount) {
     // gdb.inc(message.guild.id, "highestCount");
-    gdb.set("highestCount", gdb.highestCount + 1);
+    gdb.set("highestCount", messageNumber);
 
     // Store the id of the new highest message.
     gdb.set("highestCountID", message.id);
