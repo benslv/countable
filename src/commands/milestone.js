@@ -7,36 +7,37 @@ module.exports = {
   guildOnly: true,
   ownerOnly: true,
   usage: "<action> <value/s>",
-  execute({ message, args, gdb }) {
-    const action = args[0];
-    const values = args.slice(1);
+};
 
-    const actions = {
-      list: listMilestones,
-      add: addMilestone,
-      remove: removeMilestone,
-    };
+module.exports.execute = ({ message, args, gdb }) => {
+  const action = args[0];
+  const values = args.slice(1);
 
-    if (action in actions) {
-      const response = actions[action]({
-        message: message,
-        count: values[0],
-        name: values[1],
-        gdb: gdb,
-      });
+  const actions = {
+    list: listMilestones,
+    add: addMilestone,
+    remove: removeMilestone,
+  };
 
-      return message.channel.send({ embed: embed(message, { ...response }) });
-    }
-
-    return message.channel.send({
-      embed: embed(message, {
-        type: "error",
-        title: "Invalid action.",
-        description:
-          "Sorry! That isn't a valid action for this command.\nValid actions are: `list`, `add`, `remove`",
-      }),
+  if (action in actions) {
+    const response = actions[action]({
+      message: message,
+      count: values[0],
+      name: values[1],
+      gdb: gdb,
     });
-  },
+
+    return message.channel.send({ embed: embed(message, { ...response }) });
+  }
+
+  return message.channel.send({
+    embed: embed(message, {
+      type: "error",
+      title: "Invalid action.",
+      description:
+        "Sorry! That isn't a valid action for this command.\nValid actions are: `list`, `add`, `remove`",
+    }),
+  });
 };
 
 function listMilestones({ message, gdb }) {

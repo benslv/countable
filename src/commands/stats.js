@@ -7,31 +7,32 @@ module.exports = {
   guildOnly: true,
   ownerOnly: false,
   usage: "<blank> or <user mention>",
-  execute: async ({ message, gdb }) => {
-    const mentions = message.mentions.users;
+};
 
-    let response;
+module.exports.execute = async ({ message, gdb }) => {
+  const mentions = message.mentions.users;
 
-    if (mentions.size === 0) {
-      response = await getUserStats({ gdb, message, id: message.member.id });
+  let response;
+
+  if (mentions.size === 0) {
+    response = await getUserStats({ gdb, message, id: message.member.id });
+  } else {
+    const id = mentions.first().id;
+    const userInfo = gdb.users[id];
+
+    if (userInfo) {
+      response = await getUserStats({ gdb, message, id });
     } else {
-      const id = mentions.first().id;
-      const userInfo = gdb.users[id];
-
-      if (userInfo) {
-        response = await getUserStats({ gdb, message, id });
-      } else {
-        response = {
-          type: "error",
-          title: "User not found.",
-          description:
-            "Sorry, I couldn't find that user.\n\nMake sure you mentioned the correct person.\nPerhaps they haven't done any counting yet?",
-        };
-      }
+      response = {
+        type: "error",
+        title: "User not found.",
+        description:
+          "Sorry, I couldn't find that user.\n\nMake sure you mentioned the correct person.\nPerhaps they haven't done any counting yet?",
+      };
     }
+  }
 
-    return message.channel.send({ embed: embed(message, response) });
-  },
+  return message.channel.send({ embed: embed(message, response) });
 };
 
 const getUserStats = async ({ gdb, message, id }) => {
