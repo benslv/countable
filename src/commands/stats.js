@@ -1,4 +1,4 @@
-const { embed, getUserScore } = require("../utils");
+const { embed } = require("../utils");
 
 module.exports = {
   name: "stats",

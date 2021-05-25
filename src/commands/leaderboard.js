@@ -2,6 +2,7 @@ const { getUserScore, embed } = require("../utils");
 
 module.exports = {
   name: "leaderboard",
+  aliases: ["board", "top", "scoreboard"],
   description: "Displays the leaderboard for the current guild.",
   args: false,
   guildOnly: true,

@@ -2,6 +2,7 @@ const utils = require("../utils");
 
 module.exports = {
   name: "set-count",
+  aliases: ["count", "="],
   description: "Sets the value of the next expected count.",
   args: true,
   guildOnly: true,

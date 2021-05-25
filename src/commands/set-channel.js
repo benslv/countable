@@ -2,6 +2,7 @@ const { embed } = require("../utils");
 
 module.exports = {
   name: "set-channel",
+  aliases: ["channel"],
   description:
     "Sets the ID of the counting channel to the ID provided by the user.",
   args: true,
