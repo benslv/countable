@@ -78,7 +78,7 @@ const getUserStats = async ({ gdb, message, id }) => {
         inline: true,
       },
       {
-        name: "Points",
+        name: "Money",
         value: points,
         inline: true,
       },
