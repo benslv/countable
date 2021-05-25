@@ -15,7 +15,7 @@ module.exports.execute = async ({ message, gdb }) => {
   let response;
 
   if (mentions.size === 0) {
-    response = await getUserStats({ gdb, message, id: message.member.id });
+    response = await getUserStats({ gdb, message, id: message.author.id });
   } else {
     const id = mentions.first().id;
     const userInfo = gdb.users[id];
@@ -40,6 +40,7 @@ const getUserStats = async ({ gdb, message, id }) => {
   const incorrect = gdb.users[id].incorrect;
   const score = correct - incorrect;
   const accuracy = `${(100 * (correct / (correct + incorrect))).toFixed(2)}%`;
+  const points = gdb.users[id].points;
 
   const user = await message.client.users.fetch(id);
 
@@ -74,6 +75,11 @@ const getUserStats = async ({ gdb, message, id }) => {
       {
         name: "Accuracy",
         value: accuracy,
+        inline: true,
+      },
+      {
+        name: "Points",
+        value: points,
         inline: true,
       },
     ],

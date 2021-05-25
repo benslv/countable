@@ -35,11 +35,11 @@ module.exports = id => {
     inc: key => {
       db.settings.inc(id, key);
     },
-    addUser: member => {
+    addUser: author => {
       db.settings.set(
         id,
-        { ...userTemplate, id: member.id.toString() },
-        `users.${member.id}`,
+        { ...userTemplate, id: author.id.toString() },
+        `users.${author.id}`,
       );
     },
     delete: key => {
