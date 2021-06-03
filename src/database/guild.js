@@ -14,6 +14,8 @@ const guildTemplate = {
   numbersOnly: false, // whether to enforce "numbers only" in the counting channel
   milestones: {}, // which channel-renaming milestones have been set up by the guild
   users: {}, // (future) statistics about each user (id, number of correct counts etc.)
+  savePrice: 500,
+  saves: [], // array of counts at which there exists a save point. Multiple saves can exist on the same count, and will be used up one at a time.
 };
 
 const userTemplate = {
@@ -41,6 +43,19 @@ module.exports = id => {
         { ...userTemplate, id: author.id.toString() },
         `users.${author.id}`,
       );
+    },
+    addSave: save => {
+      // Retrieve the current saves for the guild.
+      const guildSaves = db.settings.ensure(id, [], "saves");
+
+      // Push the newest save to the array.
+      guildSaves.push(save);
+
+      // Re-sort the array in descending order.
+      guildSaves.sort((a, b) => b - a);
+
+      // Set the value back to the database.
+      db.settings.set(id, guildSaves, "saves");
     },
     delete: key => {
       db.settings.delete(id, key);
