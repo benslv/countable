@@ -3,7 +3,7 @@
 const fs = require("fs");
 
 // Config containing bot token and prefix.
-const config = require("./config.json");
+const config = require("../config.json");
 const { CLIENT_TOKEN } = config;
 
 const Discord = require("discord.js");
