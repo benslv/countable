@@ -12,8 +12,15 @@ module.exports = {
 };
 
 module.exports.execute = async ({ message, gdb }) => {
-  const { nextCount, highestCount, prevUserID, emojiID, milestones, users } =
-    gdb;
+  const {
+    prefix,
+    nextCount,
+    highestCount,
+    prevUserID,
+    emojiID,
+    milestones,
+    users,
+  } = gdb;
 
   const prevUser = await message.client.users.fetch(prevUserID);
 
@@ -50,6 +57,11 @@ module.exports.execute = async ({ message, gdb }) => {
           {
             name: "Reaction emoji",
             value: emoji,
+            inline: true,
+          },
+          {
+            name: "Prefix",
+            value: prefix,
             inline: true,
           },
         ],
