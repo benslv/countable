@@ -3,7 +3,7 @@ const { isNumber, embed } = require("../utils");
 module.exports = {
   name: "milestone",
   description: "Commands related to adding/removing/listing milestones.",
-  args: true,
+  checkArgs: args => args.length >= 1,
   guildOnly: true,
   ownerOnly: true,
   usage: "<action> <value/s>",
@@ -42,6 +42,16 @@ module.exports.execute = ({ message, args, gdb }) => {
 
 function listMilestones({ message, gdb }) {
   const milestones = gdb.get("milestones");
+
+  if (Object.keys(milestones).length === 0) {
+    return {
+      type: "info",
+      title: "Server Milestones",
+      description:
+        "You haven't got any milestones set up in this server 😭\n\nUse the command `milestone add` to create some!",
+      thumbnail: { url: message.guild.iconURL() },
+    };
+  }
 
   console.log("Listing milestones:\n", milestones);
 

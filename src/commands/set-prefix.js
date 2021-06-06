@@ -2,7 +2,7 @@ const { embed } = require("../utils");
 
 module.exports = {
   name: "set-prefix",
-  args: true,
+  checkArgs: args => args.length === 1,
   usage: "<prefix>",
   guildOnly: true,
   ownerOnly: true,

@@ -5,7 +5,7 @@ module.exports = {
   aliases: ["emoji"],
   description:
     "Sets the reaction used by the bot when a user sends a count with no message.",
-  args: true,
+  checkArgs: args => args.length === 1,
   guildOnly: true,
   ownerOnly: true,
   usage: "<emoji or custom emote you want to use>",

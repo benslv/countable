@@ -3,7 +3,7 @@ const { embed } = require("../utils");
 module.exports = {
   name: "stats",
   description: "Replies to the user to confirm the bot is running correctly!",
-  args: false,
+  checkArgs: args => 0 <= args.length <= 1,
   guildOnly: true,
   ownerOnly: false,
   usage: "<blank> or <user mention>",

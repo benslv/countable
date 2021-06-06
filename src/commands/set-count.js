@@ -4,7 +4,7 @@ module.exports = {
   name: "set-count",
   aliases: ["count", "="],
   description: "Sets the value of the next expected count.",
-  args: true,
+  checkArgs: args => args.length === 1,
   guildOnly: true,
   ownerOnly: true,
   usage: "<number>",

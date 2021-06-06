@@ -4,7 +4,7 @@ module.exports = {
   name: "leaderboard",
   aliases: ["board", "top", "scoreboard"],
   description: "Displays the leaderboard for the current guild.",
-  args: false,
+  checkArgs: () => true,
   guildOnly: true,
   ownerOnly: false,
   usage: "",

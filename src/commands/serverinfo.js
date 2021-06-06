@@ -3,7 +3,7 @@ const { embed } = require("../utils");
 module.exports = {
   name: "serverinfo",
   aliases: ["info", "server"],
-  args: false,
+  checkArgs: () => true,
   usage: "",
   guildOnly: true,
   ownerOnly: false,
