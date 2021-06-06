@@ -2,7 +2,7 @@ const { embed } = require("../utils");
 
 module.exports = {
   name: "ping",
-  args: false,
+  checkArgs: () => true, // No arguments required, so always valid.
   usage: "",
   guildOnly: false,
   ownerOnly: false,

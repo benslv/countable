@@ -5,7 +5,7 @@ module.exports = {
   aliases: ["numbersonly"],
   description:
     "Sets whether messages are allowed to contain a message after their number count.",
-  args: true,
+  checkArgs: args => args.length === 1,
   guildOnly: true,
   ownerOnly: true,
   usage: "<true|false>",

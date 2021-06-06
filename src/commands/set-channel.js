@@ -5,7 +5,7 @@ module.exports = {
   aliases: ["channel"],
   description:
     "Sets the ID of the counting channel to the ID provided by the user.",
-  args: true,
+  checkArgs: args => args.length === 1,
   guildOnly: true,
   ownerOnly: true,
   usage: "<channel ID>",

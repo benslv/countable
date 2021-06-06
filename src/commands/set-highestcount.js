@@ -4,7 +4,7 @@ module.exports = {
   name: "set-highestcount",
   aliases: ["highest", "highestcount"],
   description: "Sets the value of the highest-reached count.",
-  args: true,
+  checkArgs: args => args.length === 1,
   guildOnly: true,
   ownerOnly: true,
   usage: "<number>",

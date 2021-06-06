@@ -5,7 +5,7 @@ module.exports = {
   aliases: ["nomessage"],
   description:
     "Sets whether or not the bot should react to any counts not containing a message.",
-  args: true,
+  checkArgs: args => args.length === 1,
   guildOnly: true,
   ownerOnly: true,
   usage: "<true|false>",

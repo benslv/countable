@@ -3,7 +3,7 @@ const { embed } = require("../utils");
 module.exports = {
   name: "reload",
   aliases: ["r", "rel"],
-  args: true,
+  checkArgs: args => args.length == 1,
   usage: "<command name>",
   guildOnly: false,
   ownerOnly: true,

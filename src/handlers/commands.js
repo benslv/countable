@@ -28,8 +28,8 @@ module.exports = ({ message, gdb }) => {
   }
 
   // If the command has been listed as taking arguments, ensure the user has provided them.
-  if (command.args && !args.length) {
-    let reply = `You didn't provide any arguments, ${message.author}!`;
+  if (!command.checkArgs(args)) {
+    let reply = `You didn't provide the correct arguments, ${message.author}!`;
 
     if (command.usage) {
       reply += `\n**Usage:** \`${gdb.prefix}${command.name} ${command.usage}\``;
