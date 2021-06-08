@@ -1,18 +1,13 @@
 "use strict";
 
-//import fs from "fs";
-
 // Config containing bot token and prefix.
-const config = require("../config.json");
+import config from "../config.json";
 const { CLIENT_TOKEN } = config;
 
 import * as Discord from "discord.js";
 const client = new Discord.Client();
 
-// const guild = require("./database/guild")
-import { guild } from "./database/guild";
-
-// import doGuildThing from Gfrom "./database/guild";
+import { database } from "./database/guild";
 
 import { commandHandler } from "./handlers/commands";
 import { countingHandler } from "./handlers/counting";
@@ -31,11 +26,6 @@ import * as setprefix from "./commands/set-prefix";
 
 // Create a new collection to store the bot's commands.
 let commands = new Discord.Collection();
-
-// Filter out any files that aren't `.js` files.
-// const commandFiles = fs
-//   .readdirSync("src/commands/")
-//   .filter((file: string) => file.endsWith(".js"));
 
 // Commands
 commands.set("leaderboard", {
@@ -109,7 +99,7 @@ client.on("message", message => {
   if (!message.guild || message.author.bot) return;
 
   // Retrieve the settings for the current guild.
-  const gdb = guild(message.guild.id);
+  const gdb = database.getGuild(message.guild.id);
 
   // Behaviour for messages sent in non-counting channels.
   if (message.channel.id === gdb.channel) {
@@ -121,7 +111,7 @@ client.on("message", message => {
 
 client.on("messageDelete", message => {
   // Retrieve the settings for the current guild.
-  const gdb = guild(message.guild.id);
+  const gdb = database.getGuild(message.guild.id);
 
   // Only do anything if the deleted message was in the counting channel.
   if (message.channel.id !== gdb.channel) return;

@@ -69,7 +69,11 @@ export type guild_db = {
   delete: (key: string) => void;
 };
 
-export function guild(id: string): guild_db {
+export const database = {
+  getGuild: database_getGuild,
+};
+
+function database_getGuild(id: string): guild_db {
   return {
     ...db.settings.ensure(id, { ...guildTemplate, id }),
     set: (key, value) => {
