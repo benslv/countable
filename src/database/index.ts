@@ -1,13 +1,13 @@
-const Enmap = require("enmap");
+import Enmap from "enmap";
 
-module.exports = {
+export const db = {
   settings: new Enmap({
     name: "settings",
     fetchAll: false,
     autoFetch: true,
     cloneLevel: "deep",
   }),
-  debug: function () {
+  debug: function (): Enmap<string | number, any> {
     return this.settings;
   },
 };

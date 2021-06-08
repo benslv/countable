@@ -1,6 +1,8 @@
-const { embed } = require("../utils");
+import { Message } from "discord.js";
+import { execute_args, metadata_t } from "../handlers/commands";
+import { embed } from "../utils";
 
-module.exports = {
+export const metadata: metadata_t = {
   name: "set-channel",
   aliases: ["channel"],
   description:
@@ -11,7 +13,12 @@ module.exports = {
   usage: "<channel ID>",
 };
 
-module.exports.execute = ({ message, args, gdb }) => {
+export async function execute({
+  message,
+  args,
+  gdb,
+}: execute_args): Promise<Message> {
+  // TODO check that this is a valid channel before accepting
   const guildChannels = message.guild.channels.cache;
 
   // Match the ID of the channel, whether it's passed in as the raw ID or as a channel mention.
@@ -34,20 +41,17 @@ module.exports.execute = ({ message, args, gdb }) => {
     // If so, store the new ID in settings.
     gdb.set("channel", id);
 
-    return message.client.channels
-      .fetch(id)
-      .then(channel => {
-        message.channel.send({
-          embed: embed(message, {
-            type: "success",
-            title: "Channel updated!",
-            description: `The counting channel has been set to ${channel.toString()}`,
-          }),
-        });
+    let channel = await message.client.channels.fetch(id);
 
-        console.log(`Counting channel ID set to ${id}.`);
-      })
-      .catch(err => console.error(err));
+    console.log(`Counting channel ID set to ${id}.`);
+
+    return message.channel.send({
+      embed: embed(message, {
+        type: "success",
+        title: "Channel updated!",
+        description: `The counting channel has been set to ${channel.toString()}`,
+      }),
+    });
   }
 
   return message.channel.send({
@@ -58,4 +62,4 @@ module.exports.execute = ({ message, args, gdb }) => {
         "I couldn't find that channel in this server. Make sure the ID is correct...",
     }),
   });
-};
+}

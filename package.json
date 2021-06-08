@@ -1,11 +1,12 @@
 {
-  "name": "counter-bot",
-  "version": "0.0.1",
+  "name": "countable",
+  "version": "0.1.0",
   "description": "A lightweight bot to manage a counting channel on your Discord server!",
   "main": "index.js",
   "author": "Ben Silverman <bensilverman10@gmail.com>",
   "scripts": {
     "start": "node src/index.js",
+    "watch": "tsc -p tsconfig.json -w",
     "lint": "eslint src/**/*.js",
     "format": "prettier ./src/**/*.js --write"
   },
@@ -27,6 +28,7 @@
     "eslint-plugin-prettier": "^3.4.0"
   },
   "devDependencies": {
+    "@types/node": "^15.12.2",
     "eslint": "^7.26.0",
     "husky": "^6.0.0",
     "lint-staged": "^11.0.0",
