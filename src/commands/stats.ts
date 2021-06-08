@@ -1,18 +1,24 @@
-const { embed } = require("../utils");
+import { Message } from "discord.js";
+import { guild_db } from "../database/guild";
+import { execute_args, metadata_t } from "../handlers/commands";
+import { embed } from "../utils";
 
-module.exports = {
+export const metadata: metadata_t = {
   name: "stats",
+  aliases: [],
   description: "Replies to the user to confirm the bot is running correctly!",
-  checkArgs: args => 0 <= args.length <= 1,
+  checkArgs: args => args.length == 0 || args.length == 1,
   guildOnly: true,
   ownerOnly: false,
   usage: "<blank> or <user mention>",
 };
 
-module.exports.execute = async ({ message, gdb }) => {
+type user_stats = { [x: string]: any; type: any; title: any; description: any; thumbnail?: { url: string; }; fields?: { name: string; value: any; inline: boolean; }[]; }
+
+export async function execute({ message, gdb }: execute_args): Promise<Message> {
   const mentions = message.mentions.users;
 
-  let response;
+  let response: user_stats;
 
   if (mentions.size === 0) {
     response = await getUserStats({ gdb, message, id: message.author.id });
@@ -35,7 +41,7 @@ module.exports.execute = async ({ message, gdb }) => {
   return message.channel.send({ embed: embed(message, response) });
 };
 
-const getUserStats = async ({ gdb, message, id }) => {
+async function getUserStats({ gdb, message, id }: { gdb: guild_db, message: Message, id: string }): Promise<user_stats> {
   const correct = gdb.users[id].correct;
   const incorrect = gdb.users[id].incorrect;
   const score = correct - incorrect;

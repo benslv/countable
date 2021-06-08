@@ -1,6 +1,8 @@
-const { embed } = require("../utils");
+import { Message } from "discord.js";
+import { execute_args, metadata_t } from "../handlers/commands";
+import { embed } from "../utils";
 
-module.exports = {
+export const metadata: metadata_t = {
   name: "set-emoji",
   aliases: ["emoji"],
   description:
@@ -11,7 +13,7 @@ module.exports = {
   usage: "<emoji or custom emote you want to use>",
 };
 
-module.exports.execute = ({ message, args, gdb }) => {
+export function execute({ message, args, gdb }: execute_args): Promise<Message> {
   // Retrieve all of the emojis the bot has access to.
   const guildEmojis = message.client.emojis.cache;
 
@@ -31,7 +33,7 @@ module.exports.execute = ({ message, args, gdb }) => {
 
     gdb.set("emojiID", emoji[0]);
 
-    message.channel.send({
+    return message.channel.send({
       embed: embed(message, {
         type: "success",
         title: "Emoji set!",
@@ -47,7 +49,7 @@ module.exports.execute = ({ message, args, gdb }) => {
 
       gdb.set("emojiID", emojiID[0]);
 
-      message.channel.send({
+      return message.channel.send({
         embed: embed(message, {
           type: "success",
           title: "Emoji set!",
@@ -55,7 +57,7 @@ module.exports.execute = ({ message, args, gdb }) => {
         }),
       });
     } else {
-      message.channel.send({
+      return message.channel.send({
         embed: embed(message, {
           type: "error",
           title: "Not found...",

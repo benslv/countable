@@ -1,6 +1,8 @@
-const { embed } = require("../utils");
+import { Message } from "discord.js";
+import { execute_args, metadata_t } from "../handlers/commands";
+import { embed } from "../utils";
 
-module.exports = {
+export const metadata: metadata_t = {
   name: "reload",
   aliases: ["r", "rel"],
   checkArgs: args => args.length == 1,
@@ -10,7 +12,7 @@ module.exports = {
   description: "Reloads a command.",
 };
 
-module.exports.execute = ({ message, args }) => {
+export function execute({ message, args }: execute_args): Promise<Message> {
   const commandName = args[0].toLowerCase();
   const command =
     message.client.commands.get(commandName) ||

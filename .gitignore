@@ -228,3 +228,6 @@ dist
 
 config.json
 data/*
+
+countable_data.json
+package-lock.json

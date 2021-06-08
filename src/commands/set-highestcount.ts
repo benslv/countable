@@ -1,6 +1,8 @@
-const utils = require("../utils");
+import { Message } from "discord.js";
+import { execute_args, metadata_t } from "../handlers/commands";
+import { isNumber, embed } from "../utils";
 
-module.exports = {
+export const metadata: metadata_t = {
   name: "set-highestcount",
   aliases: ["highest", "highestcount"],
   description: "Sets the value of the highest-reached count.",
@@ -10,12 +12,12 @@ module.exports = {
   usage: "<number>",
 };
 
-module.exports.execute = ({ message, args, gdb }) => {
+export function execute({ message, args, gdb }: execute_args): Promise<Message> {
   const count = args[0];
 
-  if (!utils.isNumber(count)) {
+  if (!isNumber(count)) {
     return message.channel.send({
-      embed: utils.embed(message, {
+      embed: embed(message, {
         type: "error",
         title: "Invalid number.",
         description:
@@ -27,7 +29,7 @@ module.exports.execute = ({ message, args, gdb }) => {
   gdb.set("highestCount", parseInt(count, 10));
 
   message.channel.send({
-    embed: utils.embed(message, {
+    embed: embed(message, {
       type: "success",
       title: "Count updated!",
       description: `The highest count has been updated to \`${count}\``,

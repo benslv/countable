@@ -1,7 +1,10 @@
-const { embed } = require("../utils");
+import { Message } from "discord.js";
+import { execute_args, metadata_t } from "../handlers/commands";
+import { embed } from "../utils";
 
-module.exports = {
+export const metadata: metadata_t = {
   name: "ping",
+  aliases: [],
   checkArgs: () => true, // No arguments required, so always valid.
   usage: "",
   guildOnly: false,
@@ -9,8 +12,8 @@ module.exports = {
   description: "Replies to the user to confirm the bot is running correctly!",
 };
 
-module.exports.execute = ({ message }) => {
-  message.channel.send({
+export function execute({ message }: execute_args): Promise<Message> {
+  return message.channel.send({
     embed: embed(message, {
       type: "success",
       title: "🏓 Pong!",
