@@ -1,6 +1,6 @@
 import { Message } from "discord.js";
 import { guild_db } from "../database/guild";
-import { commands } from "../commands/commands";
+import { commands } from "../commands/registry";
 
 export type execute_args = {
   message: Message;

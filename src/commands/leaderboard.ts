@@ -18,7 +18,10 @@ function byScore(a: user_t, b: user_t): number {
   return getUserScore(b) - getUserScore(a);
 }
 
-export async function execute({ message, gdb }: execute_args): Promise<Message> {
+export async function execute({
+  message,
+  gdb,
+}: execute_args): Promise<Message> {
   const medals = ["🥇", "🥈", "🥉"];
 
   // Get all users stored in gdb
