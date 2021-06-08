@@ -1,12 +1,12 @@
 "use strict";
 
-import fs from "fs";
+//import fs from "fs";
 
 // Config containing bot token and prefix.
 const config = require("../config.json")
 const { CLIENT_TOKEN } = config;
 
-import Discord from "discord.js";
+import * as Discord from "discord.js";
 const client = new Discord.Client();
 
 // const guild = require("./database/guild")
