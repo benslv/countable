@@ -1,6 +1,6 @@
 {
-  "name": "counter-bot",
-  "version": "0.0.1",
+  "name": "countable",
+  "version": "0.1.0",
   "description": "A lightweight bot to manage a counting channel on your Discord server!",
   "main": "index.js",
   "author": "Ben Silverman <bensilverman10@gmail.com>",
