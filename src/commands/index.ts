@@ -1,16 +1,17 @@
 import { command_t } from "../handlers/commands";
 
-import * as leaderboard from "../commands/leaderboard";
-import * as milestone from "../commands/milestone";
-import * as ping from "../commands/ping";
-import * as serverinfo from "../commands/serverinfo";
-import * as setchannel from "../commands/set-channel";
-import * as setcount from "../commands/set-count";
-import * as setemoji from "../commands/set-emoji";
-import * as sethighestcount from "../commands/set-highestcount";
-import * as setnomessage from "../commands/set-nomessage";
-import * as setnumbersonly from "../commands/set-numbersonly";
-import * as setprefix from "../commands/set-prefix";
+import * as leaderboard from "./leaderboard";
+import * as milestone from "./milestone";
+import * as ping from "./ping";
+import * as serverinfo from "./serverinfo";
+import * as setchannel from "./set-channel";
+import * as setcount from "./set-count";
+import * as setemoji from "./set-emoji";
+import * as sethighestcount from "./set-highestcount";
+import * as setnomessage from "./set-nomessage";
+import * as setnumbersonly from "./set-numbersonly";
+import * as setprefix from "./set-prefix";
+import * as stats from "./stats";
 
 export const commands: command_t[] = [
   {
@@ -56,5 +57,9 @@ export const commands: command_t[] = [
   {
     metadata: setprefix.metadata,
     execute: setprefix.execute,
+  },
+  {
+    metadata: stats.metadata,
+    execute: stats.execute,
   },
 ];
