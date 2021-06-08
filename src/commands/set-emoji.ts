@@ -57,7 +57,7 @@ export function execute({
         embed: embed(message, {
           type: "success",
           title: "Emoji set!",
-          description: `The emoji reaction has been updated and set to ${emoji}`,
+          description: `The emoji reaction has been updated and set to ${emoji.toString()}`,
         }),
       });
     } else {
