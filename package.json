@@ -5,8 +5,8 @@
   "main": "index.js",
   "author": "Ben Silverman <bensilverman10@gmail.com>",
   "scripts": {
-    "start": "node src/index.js",
-    "watch": "tsc -p tsconfig.json -w",
+    "start": "ts-node src/index.ts",
+    "dev": "ts-node-dev src/index.ts",
     "lint": "eslint src/**/*.js",
     "format": "prettier ./src/**/*.js --write"
   },
@@ -25,7 +25,10 @@
     "emoji-regex": "^9.2.2",
     "enmap": "^5.8.5",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.0"
+    "eslint-plugin-prettier": "^3.4.0",
+    "ts-node": "^10.0.0",
+    "ts-node-dev": "^1.1.6",
+    "typescript": "^4.3.2"
   },
   "devDependencies": {
     "@types/node": "^15.12.2",
