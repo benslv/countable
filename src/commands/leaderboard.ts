@@ -1,5 +1,5 @@
 // const { getUserScore, embed } = require("../utils");
-import { User } from "discord.js";
+import { Message, User } from "discord.js";
 import { user_t } from "../database/guild";
 import { execute_args } from "../handlers/commands";
 import { getUserScore, embed } from "../utils";
@@ -18,7 +18,7 @@ function byScore(a: user_t, b: user_t): number {
   return getUserScore(b) - getUserScore(a);
 }
 
-export async function execute({ message, gdb }: execute_args) {
+export async function execute({ message, gdb }: execute_args): Promise<Message> {
   const medals = ["🥇", "🥈", "🥉"];
 
   // Get all users stored in gdb
@@ -48,7 +48,7 @@ export async function execute({ message, gdb }: execute_args) {
     i += 1;
   }
 
-  message.channel.send({
+  return message.channel.send({
     embed: embed(message, {
       type: "info",
       title: `Top counters in ${message.guild.name}`,
