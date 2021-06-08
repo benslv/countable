@@ -23,11 +23,11 @@ const guildTemplate = {
 };
 
 export type user_t = {
-  id: Snowflake,
-  correct: number,
-  incorrect: number,
-  points: number,
-}
+  id: Snowflake;
+  correct: number;
+  incorrect: number;
+  points: number;
+};
 
 const userTemplate: user_t = {
   id: "",
@@ -42,31 +42,31 @@ type userID = string;
 type timestamp = number;
 
 export type milestone_t = {
-  [index: number]: string
+  [index: number]: string;
 };
 
 type value_t = string | number | boolean | milestone_t | object;
 
 export type guild_db = {
-  id: guildID,
-  prefix: string,
-  channel: string,
-  nextCount: number,
-  highestCount: number,
-  highestCountID: userID,
-  prevUserID: userID,
-  latestMessage: timestamp,
-  noMessageReaction: boolean,
-  emojiID: emojiID,
-  numbersOnly: false,
-  milestones: milestone_t,
-  users: { id: user_t },
+  id: guildID;
+  prefix: string;
+  channel: string;
+  nextCount: number;
+  highestCount: number;
+  highestCountID: userID;
+  prevUserID: userID;
+  latestMessage: timestamp;
+  noMessageReaction: boolean;
+  emojiID: emojiID;
+  numbersOnly: false;
+  milestones: milestone_t;
+  users: { id: user_t };
 
-  set: (key: string, value: value_t) => void,
-  get: (key: string) => value_t,
-  inc: (key: string) => void,
-  addUser: (author: User) => void,
-  delete: (key: string) => void,
+  set: (key: string, value: value_t) => void;
+  get: (key: string) => value_t;
+  inc: (key: string) => void;
+  addUser: (author: User) => void;
+  delete: (key: string) => void;
 };
 
 export function guild(id: string): guild_db {
@@ -90,4 +90,4 @@ export function guild(id: string): guild_db {
       db.settings.delete(id, key);
     },
   };
-};
+}

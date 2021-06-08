@@ -13,19 +13,23 @@ export const metadata: metadata_t = {
   usage: "<action> <value/s>",
 };
 
-type milestone_function_t = (message: Message, count: string, name: string, gdb: guild_db) => object;
+type milestone_function_t = (
+  message: Message,
+  count: string,
+  name: string,
+  gdb: guild_db,
+) => object;
 
 enum ErrorKind {
   InvalidAction,
   InvalidNumber,
   NoMilestones,
   MissingName,
-
 }
 
 export function execute({ args, message, gdb }: execute_args) {
   try {
-    const action: milestone_function_t = ((arg) => {
+    const action: milestone_function_t = (arg => {
       switch (arg) {
         case "list":
           return listMilestones;
@@ -36,20 +40,14 @@ export function execute({ args, message, gdb }: execute_args) {
         default:
           throw ErrorKind.InvalidAction;
       }
-    })(args[0].toLowerCase())
+    })(args[0].toLowerCase());
 
     const values = args.slice(1);
 
-    const response = action(
-      message,
-      values[0],
-      values[1],
-      gdb,
-    );
+    const response = action(message, values[0], values[1], gdb);
 
     return message.channel.send({ embed: embed(message, { ...response }) });
   } catch (e) {
-
     let error_message = (() => {
       switch (e) {
         case ErrorKind.InvalidAction:
@@ -59,7 +57,6 @@ export function execute({ args, message, gdb }: execute_args) {
             description:
               "Sorry! That isn't a valid action for this command.\nValid actions are: `list`, `add`, `remove`",
           };
-
         case ErrorKind.InvalidNumber:
           return {
             type: "error",
@@ -90,9 +87,14 @@ export function execute({ args, message, gdb }: execute_args) {
       embed: embed(message, error_message),
     });
   }
-};
+}
 
-function listMilestones(message: Message, _count: unknown, _name: unknown, gdb: guild_db): object {
+function listMilestones(
+  message: Message,
+  _count: unknown,
+  _name: unknown,
+  gdb: guild_db,
+): object {
   const milestones = gdb.get("milestones") as milestone_t;
 
   if (Object.keys(milestones).length === 0) {
@@ -116,7 +118,12 @@ function listMilestones(message: Message, _count: unknown, _name: unknown, gdb: 
   };
 }
 
-function addMilestone(_message: unknown, count: string, name: string, gdb: guild_db): object {
+function addMilestone(
+  _message: unknown,
+  count: string,
+  name: string,
+  gdb: guild_db,
+): object {
   if (!isNumber(count)) {
     throw ErrorKind.InvalidNumber;
   }
@@ -139,7 +146,12 @@ function addMilestone(_message: unknown, count: string, name: string, gdb: guild
   };
 }
 
-function removeMilestone(_message: Message, count: string, _name: unknown, gdb: guild_db): object {
+function removeMilestone(
+  _message: Message,
+  count: string,
+  _name: unknown,
+  gdb: guild_db,
+): object {
   if (!isNumber(count)) {
     throw ErrorKind.InvalidNumber;
   }

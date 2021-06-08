@@ -13,7 +13,11 @@ export const metadata: metadata_t = {
   usage: "<emoji or custom emote you want to use>",
 };
 
-export function execute({ message, args, gdb }: execute_args): Promise<Message> {
+export function execute({
+  message,
+  args,
+  gdb,
+}: execute_args): Promise<Message> {
   // Retrieve all of the emojis the bot has access to.
   const guildEmojis = message.client.emojis.cache;
 
@@ -67,4 +71,4 @@ export function execute({ message, args, gdb }: execute_args): Promise<Message> 
       });
     }
   }
-};
+}

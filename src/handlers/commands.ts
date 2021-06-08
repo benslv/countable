@@ -2,29 +2,29 @@ import { Message } from "discord.js";
 import { guild_db } from "../database/guild";
 
 export type execute_args = {
-  message: Message,
-  gdb: guild_db,
-  args?: string[],
+  message: Message;
+  gdb: guild_db;
+  args?: string[];
 };
 
 type execute_t = (_: execute_args) => Promise<Message>;
 
 export type metadata_t = {
-  name: string,
-  aliases: string[],
-  description: string,
-  checkArgs: (() => boolean) | ((args: string[]) => boolean),
-  guildOnly: boolean,
-  ownerOnly: boolean,
-  usage: string,
+  name: string;
+  aliases: string[];
+  description: string;
+  checkArgs: (() => boolean) | ((args: string[]) => boolean);
+  guildOnly: boolean;
+  ownerOnly: boolean;
+  usage: string;
 };
 
 export type command_t = {
-  metatdata: metadata_t,
-  func: execute_t,
-}
+  metatdata: metadata_t;
+  func: execute_t;
+};
 
-export function commandHandler({ message, gdb }: { message: Message, gdb: guild_db }) {
+export function commandHandler(message: Message, gdb: guild_db) {
   // Split message into arguments (delimited by spaces in the message).
   const args = message.content.slice(gdb.prefix.length).trim().split(/ +/);
 
@@ -73,4 +73,4 @@ export function commandHandler({ message, gdb }: { message: Message, gdb: guild_
       "There was an error trying to execute that command. Hmm...",
     );
   }
-};
+}

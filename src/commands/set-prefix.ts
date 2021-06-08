@@ -12,7 +12,11 @@ export const metadata: metadata_t = {
   description: "Sets the prefix for commands in the current server.",
 };
 
-export function execute({ message, args, gdb }: execute_args): Promise<Message> {
+export function execute({
+  message,
+  args,
+  gdb,
+}: execute_args): Promise<Message> {
   const prefix = args[0];
 
   gdb.set("prefix", prefix);
@@ -26,4 +30,4 @@ export function execute({ message, args, gdb }: execute_args): Promise<Message> 
       description: `This server's prefix has been set to \`${prefix}\`.`,
     }),
   });
-};
+}

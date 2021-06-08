@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { execute_args, metadata_t } from "../handlers/commands";
+import { command_t, execute_args, metadata_t } from "../handlers/commands";
 import { embed } from "../utils";
 
 export const metadata: metadata_t = {
@@ -17,7 +17,8 @@ export function execute({ message, args }: execute_args): Promise<Message> {
   const command =
     message.client.commands.get(commandName) ||
     message.client.commands.find(
-      cmd => cmd.aliases && cmd.aliases.includes(commandName),
+      (cmd: command_t) =>
+        cmd.metatdata.aliases && cmd.metatdata.aliases.includes(commandName),
     );
 
   if (!command) {
@@ -53,4 +54,4 @@ export function execute({ message, args }: execute_args): Promise<Message> {
       }),
     });
   }
-};
+}

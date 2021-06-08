@@ -2,7 +2,7 @@
 import { User } from "discord.js";
 import { user_t } from "../database/guild";
 import { execute_args } from "../handlers/commands";
-import { getUserScore, embed } from "../utils"
+import { getUserScore, embed } from "../utils";
 
 export const metadata = {
   name: "leaderboard",
@@ -40,7 +40,8 @@ export async function execute({ message, gdb }: execute_args) {
     const score = getUserScore(user);
 
     scoreStrings.push(
-      `${medals[i] || "🔸"} **${score}** - ${userInfo ? userInfo.tag : "*Unknown User*"
+      `${medals[i] || "🔸"} **${score}** - ${
+        userInfo ? userInfo.tag : "*Unknown User*"
       }`,
     );
 
@@ -56,4 +57,4 @@ export async function execute({ message, gdb }: execute_args) {
       timestamp: new Date(),
     }),
   });
-};
+}

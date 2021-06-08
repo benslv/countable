@@ -3,14 +3,14 @@
 //import fs from "fs";
 
 // Config containing bot token and prefix.
-const config = require("../config.json")
+const config = require("../config.json");
 const { CLIENT_TOKEN } = config;
 
 import * as Discord from "discord.js";
 const client = new Discord.Client();
 
 // const guild = require("./database/guild")
-import { guild } from "./database/guild"
+import { guild } from "./database/guild";
 
 // import doGuildThing from Gfrom "./database/guild";
 
@@ -38,20 +38,48 @@ let commands = new Discord.Collection();
 //   .filter((file: string) => file.endsWith(".js"));
 
 // Commands
-commands.set("leaderboard", { metadata: leaderboard.metadata, func: leaderboard.execute });
-commands.set("milestone", { metadata: milestone.metadata, func: milestone.execute });
+commands.set("leaderboard", {
+  metadata: leaderboard.metadata,
+  func: leaderboard.execute,
+});
+commands.set("milestone", {
+  metadata: milestone.metadata,
+  func: milestone.execute,
+});
 commands.set("ping", { metadata: ping.metadata, func: ping.execute });
 commands.set("reload", { metadata: reload.metadata, func: reload.execute });
-commands.set("serverinfo", { metadata: serverinfo.metadata, func: serverinfo.execute });
-commands.set("set-channel", { metadata: setchannel.metadata, func: setchannel.execute });
-commands.set("set-count", { metadata: setcount.metadata, func: setcount.execute });
-commands.set("set-emoji", { metadata: setemoji.metadata, func: setemoji.execute });
-commands.set("set-highestcount", { metadata: sethighestcount.metadata, func: sethighestcount.execute });
-commands.set("set-nomessage", { metadata: setnomessage.metadata, func: setnomessage.execute });
-commands.set("set-numbersonly", { metadata: setnumbersonly.metadata, func: setnumbersonly.execute });
-commands.set("set-prefix", { metadata: setprefix.metadata, func: setprefix.execute });
-
-
+commands.set("serverinfo", {
+  metadata: serverinfo.metadata,
+  func: serverinfo.execute,
+});
+commands.set("set-channel", {
+  metadata: setchannel.metadata,
+  func: setchannel.execute,
+});
+commands.set("set-count", {
+  metadata: setcount.metadata,
+  func: setcount.execute,
+});
+commands.set("set-emoji", {
+  metadata: setemoji.metadata,
+  func: setemoji.execute,
+});
+commands.set("set-highestcount", {
+  metadata: sethighestcount.metadata,
+  func: sethighestcount.execute,
+});
+commands.set("set-nomessage", {
+  metadata: setnomessage.metadata,
+  func: setnomessage.execute,
+});
+commands.set("set-numbersonly", {
+  metadata: setnumbersonly.metadata,
+  func: setnumbersonly.execute,
+});
+commands.set("set-prefix", {
+  metadata: setprefix.metadata,
+  func: setprefix.execute,
+});
 
 // Iterate through the list of available commands and add them all to the commands Collection.
 // for (const file of commandFiles) {
@@ -85,9 +113,9 @@ client.on("message", message => {
 
   // Behaviour for messages sent in non-counting channels.
   if (message.channel.id === gdb.channel) {
-    return countingHandler({ message, gdb });
+    return countingHandler(message, gdb);
   } else if (message.content.startsWith(gdb.prefix)) {
-    return commandHandler({ message, gdb });
+    return commandHandler(message, gdb);
   }
 });
 
@@ -101,7 +129,9 @@ client.on("messageDelete", message => {
   if (message.createdTimestamp === gdb.latestMessage) {
     // Grab the number component from the deleted message, and repost it.
     return message.channel.send(
-      `**${gdb.get("nextCount") as number - 1}**, from ${message.author.toString()}. `,
+      `**${
+        (gdb.get("nextCount") as number) - 1
+      }**, from ${message.author.toString()}. `,
     );
   }
 });

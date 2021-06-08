@@ -12,7 +12,11 @@ export const metadata: metadata_t = {
   usage: "<number>",
 };
 
-export function execute({ message, args, gdb }: execute_args): Promise<Message> {
+export function execute({
+  message,
+  args,
+  gdb,
+}: execute_args): Promise<Message> {
   const count = args[0];
 
   if (!isNumber(count)) {
@@ -37,4 +41,4 @@ export function execute({ message, args, gdb }: execute_args): Promise<Message> 
   });
 
   console.log(`Updated highest count to ${count}.`);
-};
+}

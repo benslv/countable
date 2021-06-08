@@ -20,4 +20,4 @@ export function execute({ message }: execute_args): Promise<Message> {
       description: "Everything seems to be in order.",
     }),
   });
-};
+}

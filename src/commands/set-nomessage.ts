@@ -15,24 +15,27 @@ export const metadata: metadata_t = {
 };
 
 enum ErrorKind {
-  InvalidArgument
+  InvalidArgument,
 }
 
-export function execute({ message, args, gdb }: execute_args): Promise<Message> {
+export function execute({
+  message,
+  args,
+  gdb,
+}: execute_args): Promise<Message> {
   try {
-    const arg = ((a) => {
+    const arg = (a => {
       switch (a) {
-        case "true": return true;
-        case "false": return false;
+        case "true":
+          return true;
+        case "false":
+          return false;
         default:
           throw ErrorKind.InvalidArgument;
       }
     })(args[0].toLowerCase());
 
-    gdb.set(
-      "noMessageReaction",
-      arg
-    );
+    gdb.set("noMessageReaction", arg);
 
     console.log(`Set "no message reaction" to ${arg}.`);
 
@@ -40,10 +43,11 @@ export function execute({ message, args, gdb }: execute_args): Promise<Message> 
       embed: embed(message, {
         type: "success",
         title: `Message reactions ${arg ? "en" : "dis"}abled.`,
-        description: `Messages now **${arg ? "will" : "won't"}** be reacted to when left empty.`,
+        description: `Messages now **${
+          arg ? "will" : "won't"
+        }** be reacted to when left empty.`,
       }),
     });
-
   } catch (e) {
     switch (e) {
       case ErrorKind.InvalidArgument:
@@ -59,4 +63,4 @@ export function execute({ message, args, gdb }: execute_args): Promise<Message> 
         throw e;
     }
   }
-};
+}

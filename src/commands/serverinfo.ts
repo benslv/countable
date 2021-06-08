@@ -13,7 +13,10 @@ export const metadata: metadata_t = {
     "Display a bunch of useful/interesting information about the current server.",
 };
 
-export async function execute({ message, gdb }: execute_args): Promise<Message> {
+export async function execute({
+  message,
+  gdb,
+}: execute_args): Promise<Message> {
   const {
     prefix,
     nextCount,
@@ -71,4 +74,4 @@ export async function execute({ message, gdb }: execute_args): Promise<Message> 
       true,
     ),
   });
-};
+}

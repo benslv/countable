@@ -1,5 +1,10 @@
 import { timeStamp } from "console";
-import { EmbedField, Message, MessageEmbed, MessageEmbedAuthor } from "discord.js";
+import {
+  EmbedField,
+  Message,
+  MessageEmbed,
+  MessageEmbedAuthor,
+} from "discord.js";
 import { user_t } from "./database/guild";
 
 /**
@@ -27,7 +32,6 @@ type embed_kind = "INFO" | "ERROR" | "SUCCESS";
 //       case "SUCCESS": return 0x4aeb47;
 //     }
 //   })();
-
 
 //   let embed = new MessageEmbed();
 
@@ -77,7 +81,7 @@ export function embed(
   }
 
   return output;
-};
+}
 
 export function getUserScore(user: user_t) {
   return user.correct - user.incorrect;

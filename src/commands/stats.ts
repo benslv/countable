@@ -13,9 +13,19 @@ export const metadata: metadata_t = {
   usage: "<blank> or <user mention>",
 };
 
-type user_stats = { [x: string]: any; type: any; title: any; description: any; thumbnail?: { url: string; }; fields?: { name: string; value: any; inline: boolean; }[]; }
+type user_stats = {
+  [x: string]: any;
+  type: any;
+  title: any;
+  description: any;
+  thumbnail?: { url: string };
+  fields?: { name: string; value: any; inline: boolean }[];
+};
 
-export async function execute({ message, gdb }: execute_args): Promise<Message> {
+export async function execute({
+  message,
+  gdb,
+}: execute_args): Promise<Message> {
   const mentions = message.mentions.users;
 
   let response: user_stats;
@@ -39,9 +49,17 @@ export async function execute({ message, gdb }: execute_args): Promise<Message> 
   }
 
   return message.channel.send({ embed: embed(message, response) });
-};
+}
 
-async function getUserStats({ gdb, message, id }: { gdb: guild_db, message: Message, id: string }): Promise<user_stats> {
+async function getUserStats({
+  gdb,
+  message,
+  id,
+}: {
+  gdb: guild_db;
+  message: Message;
+  id: string;
+}): Promise<user_stats> {
   const correct = gdb.users[id].correct;
   const incorrect = gdb.users[id].incorrect;
   const score = correct - incorrect;
@@ -90,4 +108,4 @@ async function getUserStats({ gdb, message, id }: { gdb: guild_db, message: Mess
       },
     ],
   };
-};
+}

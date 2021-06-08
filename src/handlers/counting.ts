@@ -1,8 +1,11 @@
 import { Channel, Message, TextChannel } from "discord.js";
 import { guild_db } from "../database/guild";
-import { isNumber } from "../utils"
+import { isNumber } from "../utils";
 
-export function countingHandler({ message, gdb }: { message: Message, gdb: guild_db }): Promise<void | Message> {
+export function countingHandler(
+  message: Message,
+  gdb: guild_db,
+): Promise<void | Message> {
   // Split the message up into parts.
   const messageSplit = message.content.split(/[ :\n]+/);
   let messageNumberString = messageSplit[0];
@@ -90,8 +93,7 @@ export function countingHandler({ message, gdb }: { message: Message, gdb: guild
   // If the most recently counted number reached a new title milestone, change the counting
   // channel title.
   if (gdb.milestones.hasOwnProperty(messageNumber)) {
-    let channel: Channel = message.client.channels.cache
-      .get(gdb.channel);
+    let channel: Channel = message.client.channels.cache.get(gdb.channel);
 
     let text_channel = channel as TextChannel; // This is type safe because the counting channel can never not be a text channel in a guild
 
@@ -101,4 +103,4 @@ export function countingHandler({ message, gdb }: { message: Message, gdb: guild
       `Set name of counting channel to ${gdb.milestones[messageNumber]}.`,
     );
   }
-};
+}

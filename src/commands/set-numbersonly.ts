@@ -14,15 +14,21 @@ export const metadata: metadata_t = {
 };
 
 enum ErrorKind {
-  InvalidArgument
+  InvalidArgument,
 }
 
-export function execute({ message, args, gdb }: execute_args): Promise<Message> {
+export function execute({
+  message,
+  args,
+  gdb,
+}: execute_args): Promise<Message> {
   try {
-    const arg = ((a) => {
+    const arg = (a => {
       switch (a) {
-        case "true": return true;
-        case "false": return false;
+        case "true":
+          return true;
+        case "false":
+          return false;
         default:
           throw ErrorKind.InvalidArgument;
       }
@@ -36,7 +42,9 @@ export function execute({ message, args, gdb }: execute_args): Promise<Message> 
       embed: embed(message, {
         type: "success",
         title: `Numbers-only mode ${arg ? "en" : "dis"}abled.`,
-        description: `Counts now **are${arg ? "n't" : ""}** allowed a message after them.`,
+        description: `Counts now **are${
+          arg ? "n't" : ""
+        }** allowed a message after them.`,
       }),
     });
   } catch (e) {
@@ -54,4 +62,4 @@ export function execute({ message, args, gdb }: execute_args): Promise<Message> 
         throw e;
     }
   }
-};
+}

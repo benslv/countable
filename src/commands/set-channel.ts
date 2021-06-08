@@ -13,7 +13,11 @@ export const metadata: metadata_t = {
   usage: "<channel ID>",
 };
 
-export async function execute({ message, args, gdb }: execute_args): Promise<Message> {
+export async function execute({
+  message,
+  args,
+  gdb,
+}: execute_args): Promise<Message> {
   // TODO check that this is a valid channel before accepting
   const guildChannels = message.guild.channels.cache;
 
@@ -48,7 +52,6 @@ export async function execute({ message, args, gdb }: execute_args): Promise<Mes
         description: `The counting channel has been set to ${channel.toString()}`,
       }),
     });
-
   }
 
   return message.channel.send({
@@ -59,4 +62,4 @@ export async function execute({ message, args, gdb }: execute_args): Promise<Mes
         "I couldn't find that channel in this server. Make sure the ID is correct...",
     }),
   });
-};
+}
