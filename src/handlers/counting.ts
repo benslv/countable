@@ -1,17 +1,22 @@
-const utils = require("../utils");
+import { Channel, Message, TextChannel } from "discord.js";
+import { guild_db } from "../database/guild";
+import { isNumber } from "../utils";
 
-module.exports = ({ message, gdb }) => {
+export function countingHandler(
+  message: Message,
+  gdb: guild_db,
+): Promise<void | Message> {
   // Split the message up into parts.
   const messageSplit = message.content.split(/[ :\n]+/);
-  let messageNumber = messageSplit[0];
+  const messageNumberString = messageSplit[0];
 
   // Delete the message if it doesn't start with a number.
-  if (!utils.isNumber(messageNumber)) {
+  if (!isNumber(messageNumberString)) {
     return message.delete();
   }
 
   // Convert user input to a base-10 integer.
-  messageNumber = parseInt(messageNumber, 10);
+  const messageNumber = parseInt(messageNumberString, 10);
 
   // Compare the author id of the current message to that of the previous message sent.
   if (message.author.id === gdb.prevUserID) {
@@ -33,11 +38,11 @@ module.exports = ({ message, gdb }) => {
 
     gdb.set("nextCount", 1);
 
-    if (!gdb.users[message.member.id]) {
-      gdb.addUser(message.member);
+    if (!gdb.users[message.author.id]) {
+      gdb.addUser(message.author);
     }
 
-    gdb.inc(`users.${message.member.id}.incorrect`);
+    gdb.inc(`users.${message.author.id}.incorrect`);
     // Fetch the message-to-be-pinned by its ID, and then pin it.
     message.channel.messages
       .fetch(gdb.highestCountID)
@@ -87,15 +92,15 @@ module.exports = ({ message, gdb }) => {
 
   // If the most recently counted number reached a new title milestone, change the counting
   // channel title.
-  if (Object.prototype.hasOwnProperty.call(gdb.milestones, messageNumber)) {
-    message.client.channels.cache
-      .get(gdb.channel)
-      .setName(gdb.milestones[messageNumber]);
+  if (gdb.milestones.hasOwnProperty(messageNumber)) {
+    const channel: Channel = message.client.channels.cache.get(gdb.channel);
+
+    const text_channel = channel as TextChannel; // This is type safe because the counting channel can never not be a text channel in a guild
+
+    text_channel.setName(gdb.milestones[messageNumber]);
 
     console.log(
       `Set name of counting channel to ${gdb.milestones[messageNumber]}.`,
     );
   }
-
-  return;
-};
+}

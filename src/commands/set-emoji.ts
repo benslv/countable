@@ -1,20 +1,27 @@
-const { embed } = require("../utils");
+import { Message } from "discord.js";
+import { execute_args, metadata_t } from "../handlers/commands";
+import { embed } from "../utils";
 
-module.exports = {
+export const metadata: metadata_t = {
   name: "set-emoji",
   aliases: ["emoji"],
   description:
     "Sets the reaction used by the bot when a user sends a count with no message.",
-  args: true,
+  checkArgs: args => args.length === 1,
   guildOnly: true,
   ownerOnly: true,
   usage: "<emoji or custom emote you want to use>",
 };
 
-module.exports.execute = ({ message, args, gdb }) => {
+export function execute({
+  message,
+  args,
+  gdb,
+}: execute_args): Promise<Message> {
   // Retrieve all of the emojis the bot has access to.
   const guildEmojis = message.client.emojis.cache;
 
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const emojiRegex = require("emoji-regex/RGI_Emoji");
   const regex = emojiRegex();
 
@@ -31,7 +38,7 @@ module.exports.execute = ({ message, args, gdb }) => {
 
     gdb.set("emojiID", emoji[0]);
 
-    message.channel.send({
+    return message.channel.send({
       embed: embed(message, {
         type: "success",
         title: "Emoji set!",
@@ -47,15 +54,15 @@ module.exports.execute = ({ message, args, gdb }) => {
 
       gdb.set("emojiID", emojiID[0]);
 
-      message.channel.send({
+      return message.channel.send({
         embed: embed(message, {
           type: "success",
           title: "Emoji set!",
-          description: `The emoji reaction has been updated and set to ${emoji}`,
+          description: `The emoji reaction has been updated and set to ${emoji.toString()}`,
         }),
       });
     } else {
-      message.channel.send({
+      return message.channel.send({
         embed: embed(message, {
           type: "error",
           title: "Not found...",
@@ -65,4 +72,4 @@ module.exports.execute = ({ message, args, gdb }) => {
       });
     }
   }
-};
+}

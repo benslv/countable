@@ -227,4 +227,10 @@ dist
 # End of https://www.toptal.com/developers/gitignore/api/node
 
 config.json
+data/
 data/*
+
+countable_data.json
+package-lock.json
+
+build/

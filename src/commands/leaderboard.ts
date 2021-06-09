@@ -1,18 +1,26 @@
-const { getUserScore, embed } = require("../utils");
+import { Message, User } from "discord.js";
+import { user_t } from "../database/guild";
+import { execute_args } from "../handlers/commands";
+import { getUserScore, embed } from "../utils";
 
-module.exports = {
+export const metadata = {
   name: "leaderboard",
   aliases: ["board", "top", "scoreboard"],
   description: "Displays the leaderboard for the current guild.",
-  args: false,
+  checkArgs: (): boolean => true,
   guildOnly: true,
   ownerOnly: false,
   usage: "",
 };
 
-const byScore = (a, b) => getUserScore(b) - getUserScore(a);
+function byScore(a: user_t, b: user_t): number {
+  return getUserScore(b) - getUserScore(a);
+}
 
-module.exports.execute = async ({ message, gdb }) => {
+export async function execute({
+  message,
+  gdb,
+}: execute_args): Promise<Message> {
   const medals = ["🥇", "🥈", "🥉"];
 
   // Get all users stored in gdb
@@ -24,8 +32,8 @@ module.exports.execute = async ({ message, gdb }) => {
   const scoreStrings = [];
 
   let i = 0;
-  for (let user of top15) {
-    let userInfo;
+  for (const user of top15) {
+    let userInfo: User;
     try {
       userInfo = await message.client.users.fetch(user.id);
     } catch (err) {
@@ -42,7 +50,7 @@ module.exports.execute = async ({ message, gdb }) => {
     i += 1;
   }
 
-  message.channel.send({
+  return message.channel.send({
     embed: embed(message, {
       type: "info",
       title: `Top counters in ${message.guild.name}`,
@@ -51,4 +59,4 @@ module.exports.execute = async ({ message, gdb }) => {
       timestamp: new Date(),
     }),
   });
-};
+}

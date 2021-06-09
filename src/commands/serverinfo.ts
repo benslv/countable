@@ -1,9 +1,11 @@
-const { embed } = require("../utils");
+import { Message } from "discord.js";
+import { execute_args, metadata_t } from "../handlers/commands";
+import { embed } from "../utils";
 
-module.exports = {
+export const metadata: metadata_t = {
   name: "serverinfo",
   aliases: ["info", "server"],
-  args: false,
+  checkArgs: () => true,
   usage: "",
   guildOnly: true,
   ownerOnly: false,
@@ -11,15 +13,25 @@ module.exports = {
     "Display a bunch of useful/interesting information about the current server.",
 };
 
-module.exports.execute = async ({ message, gdb }) => {
-  const { nextCount, highestCount, prevUserID, emojiID, milestones, users } =
-    gdb;
+export async function execute({
+  message,
+  gdb,
+}: execute_args): Promise<Message> {
+  const {
+    prefix,
+    nextCount,
+    highestCount,
+    prevUserID,
+    emojiID,
+    milestones,
+    users,
+  } = gdb;
 
   const prevUser = await message.client.users.fetch(prevUserID);
 
   const emoji = message.client.emojis.cache.get(emojiID);
 
-  message.channel.send({
+  return message.channel.send({
     embed: embed(
       message,
       {
@@ -52,9 +64,14 @@ module.exports.execute = async ({ message, gdb }) => {
             value: emoji,
             inline: true,
           },
+          {
+            name: "Prefix",
+            value: prefix,
+            inline: true,
+          },
         ],
       },
       true,
     ),
   });
-};
+}

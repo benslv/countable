@@ -1,4 +1,5 @@
-const db = require("./index");
+import { Snowflake, User } from "discord.js";
+import { db } from "./index";
 
 const guildTemplate = {
   id: "", // ID of the guild
@@ -16,24 +17,74 @@ const guildTemplate = {
   users: {}, // (future) statistics about each user (id, number of correct counts etc.)
   savePrice: 500,
   saves: [], // array of counts at which there exists a save point. Multiple saves can exist on the same count, and will be used up one at a time.
+
+  set: undefined,
+  get: undefined,
+  inc: undefined,
+  addUser: undefined,
+  delete: undefined,
 };
 
-const userTemplate = {
+export type user_t = {
+  id: Snowflake;
+  correct: number;
+  incorrect: number;
+  points: number;
+};
+
+const userTemplate: user_t = {
   id: "",
   correct: 0, // number of correct count
   incorrect: 0, // number of incorrect counts
   points: 0, // (future) a "currency" system for users, earned by counting
 };
 
-module.exports = id => {
+type emojiID = string;
+type guildID = string;
+type userID = string;
+type timestamp = number;
+
+export type milestone_t = {
+  [index: number]: string;
+};
+
+type value_t = string | number | boolean | milestone_t | object;
+
+export type guild_db = {
+  id: guildID;
+  prefix: string;
+  channel: string;
+  nextCount: number;
+  highestCount: number;
+  highestCountID: userID;
+  prevUserID: userID;
+  latestMessage: timestamp;
+  noMessageReaction: boolean;
+  emojiID: emojiID;
+  numbersOnly: false;
+  milestones: milestone_t;
+  users: { id: user_t };
+  savePrice: number;
+  saves: number[];
+
+  set: (key: string, value: value_t) => void;
+  get: (key: string) => value_t;
+  inc: (key: string) => void;
+  addUser: (author: User) => void;
+  delete: (key: string) => void;
+};
+
+export const database = {
+  getGuild: database_getGuild,
+};
+
+function database_getGuild(id: string): guild_db {
   return {
     ...db.settings.ensure(id, { ...guildTemplate, id }),
     set: (key, value) => {
       db.settings.set(id, value, key);
     },
-    get: key => {
-      return db.settings.get(id, key);
-    },
+    get: key => db.settings.get(id, key),
     inc: key => {
       db.settings.inc(id, key);
     },
@@ -61,4 +112,4 @@ module.exports = id => {
       db.settings.delete(id, key);
     },
   };
-};
+}
