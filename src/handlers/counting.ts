@@ -42,7 +42,7 @@ export function countingHandler(
       gdb.addUser(message.author);
     }
 
-    gdb.inc(`users.${message.member.id}.incorrect`);
+    gdb.inc(`users.${message.author.id}.incorrect`);
     // Fetch the message-to-be-pinned by its ID, and then pin it.
     message.channel.messages
       .fetch(gdb.highestCountID)
