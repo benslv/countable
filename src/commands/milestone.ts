@@ -27,7 +27,11 @@ enum ErrorKind {
   MissingName,
 }
 
-export function execute({ args, message, gdb }: execute_args) {
+export function execute({
+  args,
+  message,
+  gdb,
+}: execute_args): Promise<Message> {
   try {
     const action: milestone_function_t = (arg => {
       switch (arg) {
@@ -48,7 +52,7 @@ export function execute({ args, message, gdb }: execute_args) {
 
     return message.channel.send({ embed: embed(message, { ...response }) });
   } catch (e) {
-    let error_message = (() => {
+    const error_message = (() => {
       switch (e) {
         case ErrorKind.InvalidAction:
           return {
@@ -105,7 +109,7 @@ function listMilestones(
 
   const milestoneFields = [];
 
-  for (let key in milestones) {
+  for (const key in milestones) {
     milestoneFields.push({ name: key, value: milestones[key], inline: true });
   }
 

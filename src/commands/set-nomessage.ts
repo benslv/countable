@@ -1,4 +1,3 @@
-import { defaultCoreCipherList } from "constants";
 import { Message } from "discord.js";
 import { execute_args, metadata_t } from "../handlers/commands";
 import { embed } from "../utils";

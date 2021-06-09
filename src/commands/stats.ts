@@ -14,12 +14,11 @@ export const metadata: metadata_t = {
 };
 
 type user_stats = {
-  [x: string]: any;
-  type: any;
-  title: any;
-  description: any;
+  type: string;
+  title: string;
+  description: string;
   thumbnail?: { url: string };
-  fields?: { name: string; value: any; inline: boolean }[];
+  fields?: { name: string; value: number; inline: boolean }[];
 };
 
 export async function execute({

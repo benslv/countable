@@ -8,7 +8,7 @@ export function countingHandler(
 ): Promise<void | Message> {
   // Split the message up into parts.
   const messageSplit = message.content.split(/[ :\n]+/);
-  let messageNumberString = messageSplit[0];
+  const messageNumberString = messageSplit[0];
 
   // Delete the message if it doesn't start with a number.
   if (!isNumber(messageNumberString)) {
@@ -16,7 +16,7 @@ export function countingHandler(
   }
 
   // Convert user input to a base-10 integer.
-  let messageNumber = parseInt(messageNumberString, 10);
+  const messageNumber = parseInt(messageNumberString, 10);
 
   // Compare the author id of the current message to that of the previous message sent.
   if (message.author.id === gdb.prevUserID) {
@@ -93,9 +93,9 @@ export function countingHandler(
   // If the most recently counted number reached a new title milestone, change the counting
   // channel title.
   if (gdb.milestones.hasOwnProperty(messageNumber)) {
-    let channel: Channel = message.client.channels.cache.get(gdb.channel);
+    const channel: Channel = message.client.channels.cache.get(gdb.channel);
 
-    let text_channel = channel as TextChannel; // This is type safe because the counting channel can never not be a text channel in a guild
+    const text_channel = channel as TextChannel; // This is type safe because the counting channel can never not be a text channel in a guild
 
     text_channel.setName(gdb.milestones[messageNumber]);
 

@@ -21,6 +21,7 @@ export function execute({
   // Retrieve all of the emojis the bot has access to.
   const guildEmojis = message.client.emojis.cache;
 
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const emojiRegex = require("emoji-regex/RGI_Emoji");
   const regex = emojiRegex();
 

@@ -25,7 +25,10 @@ export type command_t = {
   execute: execute_t;
 };
 
-export function commandHandler(message: Message, gdb: guild_db) {
+export function commandHandler(
+  message: Message,
+  gdb: guild_db,
+): Promise<void | Message> {
   // Split message into arguments (delimited by spaces in the message).
   const args = message.content.slice(gdb.prefix.length).trim().split(/ +/);
 

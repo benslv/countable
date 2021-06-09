@@ -1,4 +1,3 @@
-// const { getUserScore, embed } = require("../utils");
 import { Message, User } from "discord.js";
 import { user_t } from "../database/guild";
 import { execute_args } from "../handlers/commands";
@@ -8,7 +7,7 @@ export const metadata = {
   name: "leaderboard",
   aliases: ["board", "top", "scoreboard"],
   description: "Displays the leaderboard for the current guild.",
-  checkArgs: () => true,
+  checkArgs: (): boolean => true,
   guildOnly: true,
   ownerOnly: false,
   usage: "",
@@ -33,7 +32,7 @@ export async function execute({
   const scoreStrings = [];
 
   let i = 0;
-  for (let user of top15) {
+  for (const user of top15) {
     let userInfo: User;
     try {
       userInfo = await message.client.users.fetch(user.id);

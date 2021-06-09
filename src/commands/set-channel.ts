@@ -41,7 +41,7 @@ export async function execute({
     // If so, store the new ID in settings.
     gdb.set("channel", id);
 
-    let channel = await message.client.channels.fetch(id);
+    const channel = await message.client.channels.fetch(id);
 
     console.log(`Counting channel ID set to ${id}.`);
 

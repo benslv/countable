@@ -1,4 +1,4 @@
-import { GuildMember, Message, Snowflake, User } from "discord.js";
+import { Snowflake, User } from "discord.js";
 import { db } from "./index";
 
 const guildTemplate = {
