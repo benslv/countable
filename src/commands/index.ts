@@ -3,15 +3,16 @@ import { command_t } from "../handlers/commands";
 import * as leaderboard from "./leaderboard";
 import * as milestone from "./milestone";
 import * as ping from "./ping";
-import * as serverinfo from "./serverinfo";
-import * as setchannel from "./set-channel";
-import * as setcount from "./set-count";
-import * as setemoji from "./set-emoji";
-import * as sethighestcount from "./set-highestcount";
-import * as setnomessage from "./set-nomessage";
-import * as setnumbersonly from "./set-numbersonly";
-import * as setprefix from "./set-prefix";
+import * as serverIno from "./serverinfo";
+import * as setChannel from "./set-channel";
+import * as setCount from "./set-count";
+import * as setEmoji from "./set-emoji";
+import * as setHighestCount from "./set-highestcount";
+import * as setNoMessage from "./set-nomessage";
+import * as setNumbersOnly from "./set-numbersonly";
+import * as setPrefix from "./set-prefix";
 import * as stats from "./stats";
+import * as addSave from "./add-save";
 
 export const commands: command_t[] = [
   {
@@ -27,39 +28,43 @@ export const commands: command_t[] = [
     execute: ping.execute,
   },
   {
-    metadata: serverinfo.metadata,
-    execute: serverinfo.execute,
+    metadata: serverIno.metadata,
+    execute: serverIno.execute,
   },
   {
-    metadata: setchannel.metadata,
-    execute: setchannel.execute,
+    metadata: setChannel.metadata,
+    execute: setChannel.execute,
   },
   {
-    metadata: setcount.metadata,
-    execute: setcount.execute,
+    metadata: setCount.metadata,
+    execute: setCount.execute,
   },
   {
-    metadata: setemoji.metadata,
-    execute: setemoji.execute,
+    metadata: setEmoji.metadata,
+    execute: setEmoji.execute,
   },
   {
-    metadata: sethighestcount.metadata,
-    execute: sethighestcount.execute,
+    metadata: setHighestCount.metadata,
+    execute: setHighestCount.execute,
   },
   {
-    metadata: setnomessage.metadata,
-    execute: setnomessage.execute,
+    metadata: setNoMessage.metadata,
+    execute: setNoMessage.execute,
   },
   {
-    metadata: setnumbersonly.metadata,
-    execute: setnumbersonly.execute,
+    metadata: setNumbersOnly.metadata,
+    execute: setNumbersOnly.execute,
   },
   {
-    metadata: setprefix.metadata,
-    execute: setprefix.execute,
+    metadata: setPrefix.metadata,
+    execute: setPrefix.execute,
   },
   {
     metadata: stats.metadata,
     execute: stats.execute,
+  },
+  {
+    metadata: addSave.metadata,
+    execute: addSave.execute,
   },
 ];
