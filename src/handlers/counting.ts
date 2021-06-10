@@ -36,6 +36,8 @@ export function countingHandler(
       `:boom: **Wrong number, ${message.author.toString()}!**`,
     );
 
+    // TODO: Add logic here to check for valid save points.
+
     gdb.set("nextCount", 1);
 
     if (!gdb.users[message.author.id]) {
