@@ -13,6 +13,7 @@ import * as setNumbersOnly from "./set-numbersonly";
 import * as setPrefix from "./set-prefix";
 import * as stats from "./stats";
 import * as addSave from "./add-save";
+import * as setSavePrice from "./set-saveprice";
 
 export const commands: command_t[] = [
   {
@@ -66,5 +67,9 @@ export const commands: command_t[] = [
   {
     metadata: addSave.metadata,
     execute: addSave.execute,
+  },
+  {
+    metadata: setSavePrice.metadata,
+    execute: setSavePrice.execute,
   },
 ];
