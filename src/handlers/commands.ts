@@ -63,7 +63,7 @@ export function commandHandler(
 
   // If the command has been listed as taking arguments, ensure the user has provided them.
   if (!command.metadata.checkArgs(args)) {
-    let reply = `You didn't provide the correct arguments, ${message.author}!`;
+    let reply = `You didn't provide the correct arguments, ${message.author.toString()}!`;
 
     if (command.metadata.usage) {
       reply += `\n**Usage:** \`${gdb.prefix}${command.metadata.name} ${command.metadata.usage}\``;
