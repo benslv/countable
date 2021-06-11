@@ -83,6 +83,29 @@ export function embed(
   return output;
 }
 
-export function getUserScore(user: user_t) {
+export function getUserScore(user: user_t): number {
   return user.correct - user.incorrect;
+}
+
+export function findClosestSave(saves: number[], currentCount: number): number {
+  // Look through the list of saves to find the largest valid one (i.e. still smaller than the current count)
+  for (const save of saves) {
+    if (save <= currentCount) {
+      return save;
+    }
+  }
+
+  // If no valid save points found, return 1 (i.e. back to the start)
+  return 1;
+}
+
+export function removeSave(saves: number[], save: number): number[] {
+  const index = saves.indexOf(save);
+  const copySaves = [...saves];
+
+  if (index !== -1) {
+    copySaves.splice(index, 1);
+  }
+
+  return copySaves;
 }

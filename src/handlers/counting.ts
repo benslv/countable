@@ -1,6 +1,6 @@
 import { Channel, Message, TextChannel } from "discord.js";
 import { guild_db } from "../database/guild";
-import { isNumber } from "../utils";
+import { isNumber, findClosestSave, removeSave } from "../utils";
 
 export function countingHandler(
   message: Message,
@@ -36,15 +36,23 @@ export function countingHandler(
       `:boom: **Wrong number, ${message.author.toString()}!**`,
     );
 
-    // TODO: Add logic here to check for valid save points.
+    // Check for any valid save points to use.
+    const resetPoint = findClosestSave(gdb.saves, gdb.nextCount - 1);
 
-    gdb.set("nextCount", 1);
+    // Reset the count back to the save point (or 1 if no save was found).
+    gdb.set("nextCount", resetPoint);
+
+    // Remove the save point if one was used.
+    if (resetPoint !== 1) {
+      gdb.set("saves", removeSave(gdb.saves, resetPoint));
+    }
 
     if (!gdb.users[message.author.id]) {
       gdb.addUser(message.author);
     }
 
     gdb.inc(`users.${message.author.id}.incorrect`);
+
     // Fetch the message-to-be-pinned by its ID, and then pin it.
     message.channel.messages
       .fetch(gdb.highestCountID)
