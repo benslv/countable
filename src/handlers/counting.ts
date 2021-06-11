@@ -42,9 +42,11 @@ export function countingHandler(
       .send(`:boom: **Wrong number, ${message.author.toString()}!**`)
       .then(msg => {
         if (resetPoint !== 0) {
-          msg.channel.send(
-            `**${resetPoint}** That was close! Good thing you had a save! <:save:852972587873206302>`,
-          );
+          msg.channel.send({
+            embed: {
+              description: `**${resetPoint}** That was close! Good thing you had a save! <:save:852972587873206302>`,
+            },
+          });
         }
       });
 
