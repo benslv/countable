@@ -79,7 +79,7 @@ async function getUserStats({
   return {
     type: "info",
     title: `Stats for ${user.tag}`,
-    description: "Here are the stats for this user!",
+    description: `Here are the stats for ${user.toString()}!`,
     thumbnail: {
       url:
         user.avatarURL({ size: 128, dynamic: true }) || user.defaultAvatarURL,
