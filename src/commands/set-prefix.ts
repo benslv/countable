@@ -4,7 +4,7 @@ import { embed } from "../utils";
 
 export const metadata: metadata_t = {
   name: "set-prefix",
-  aliases: [],
+  aliases: ["prefix"],
   checkArgs: args => args.length === 1,
   usage: "<prefix>",
   guildOnly: true,
