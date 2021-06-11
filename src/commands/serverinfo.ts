@@ -25,6 +25,8 @@ export async function execute({
     emojiID,
     milestones,
     users,
+    saves,
+    savePrice,
   } = gdb;
 
   const prevUser = await message.client.users.fetch(prevUserID);
@@ -64,6 +66,8 @@ export async function execute({
             value: emoji,
             inline: true,
           },
+          { name: "# Saves", value: saves.length, inline: true },
+          { name: "Save price", value: savePrice, inline: true },
           {
             name: "Prefix",
             value: prefix,
