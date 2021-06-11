@@ -15,11 +15,8 @@ const guildTemplate = {
   numbersOnly: false, // whether to enforce "numbers only" in the counting channel
   milestones: {}, // which channel-renaming milestones have been set up by the guild
   users: {}, // (future) statistics about each user (id, number of correct counts etc.)
-  set: undefined,
-  get: undefined,
-  inc: undefined,
-  addUser: undefined,
-  delete: undefined,
+  savePrice: 500,
+  saves: [], // array of counts at which there exists a save point. Multiple saves can exist on the same count, and will be used up one at a time.
 };
 
 export type user_t = {
@@ -61,11 +58,15 @@ export type guild_db = {
   numbersOnly: false;
   milestones: milestone_t;
   users: { id: user_t };
+  savePrice: number;
+  saves: number[];
 
   set: (key: string, value: value_t) => void;
   get: (key: string) => value_t;
   inc: (key: string) => void;
+  getUser: (user: User) => user_t;
   addUser: (author: User) => void;
+  addSave: (save: number) => void;
   delete: (key: string) => void;
 };
 
@@ -83,12 +84,35 @@ function database_getGuild(id: string): guild_db {
     inc: key => {
       db.settings.inc(id, key);
     },
-    addUser: author => {
+    getUser: user => {
+      return db.settings.ensure(
+        id,
+        {
+          ...userTemplate,
+          id: user.id.toString(),
+        },
+        `users.${user.id}`,
+      );
+    },
+    addUser: user => {
       db.settings.set(
         id,
-        { ...userTemplate, id: author.id.toString() },
-        `users.${author.id}`,
+        { ...userTemplate, id: user.id.toString() },
+        `users.${user.id}`,
       );
+    },
+    addSave: save => {
+      // Retrieve the current saves for the guild (or set it to empty if not already created).
+      const guildSaves = db.settings.ensure(id, [], "saves");
+
+      // Push the newest save to the array.
+      guildSaves.push(save);
+
+      // Re-sort the array in descending order.
+      guildSaves.sort((a: number, b: number) => b - a);
+
+      // Set the value back to the database.
+      db.settings.set(id, guildSaves, "saves");
     },
     delete: key => {
       db.settings.delete(id, key);

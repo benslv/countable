@@ -1,8 +1,7 @@
 {
   "name": "countable",
-  "version": "0.1.0",
-  "description": "A lightweight bot to manage a counting channel on your Discord server!",
-  "main": "index.js",
+  "version": "0.2.0",
+  "description": "A small, robust bot to help support and manage a counting channel in your Discord server!",
   "author": "Ben Silverman <bensilverman10@gmail.com>",
   "scripts": {
     "start": "ts-node src/index.ts",
