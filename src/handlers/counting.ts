@@ -32,15 +32,21 @@ export function countingHandler(
     (messageSplit.length > 1 && gdb.numbersOnly) ||
     messageNumber !== gdb.nextCount
   ) {
-    message.channel.send(
-      `:boom: **Wrong number, ${message.author.toString()}!**`,
-    );
-
     // Check for any valid save points to use.
     const resetPoint = findClosestSave(gdb.saves, gdb.nextCount - 1);
 
     // Reset the count back to the save point (or 1 if no save was found).
-    gdb.set("nextCount", resetPoint);
+    gdb.set("nextCount", resetPoint + 1);
+
+    message.channel
+      .send(`:boom: **Wrong number, ${message.author.toString()}!**`)
+      .then(msg => {
+        if (resetPoint !== 1) {
+          msg.edit(
+            `${msg.content}\n\n:crystal_ball: A __**save**__ is used and the count is reset back to \`${resetPoint}\`!`,
+          );
+        }
+      });
 
     // Remove the save point if one was used.
     if (resetPoint !== 1) {
@@ -56,8 +62,8 @@ export function countingHandler(
     // Fetch the message-to-be-pinned by its ID, and then pin it.
     message.channel.messages
       .fetch(gdb.highestCountID)
-      .then(message => {
-        if (!message.pinned) message.pin().catch(err => console.error(err));
+      .then(msg => {
+        if (!msg.pinned) msg.pin().catch(err => console.error(err));
       })
       .catch(err => console.error(err));
 

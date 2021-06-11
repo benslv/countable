@@ -58,7 +58,7 @@ export function execute({
 
   // Save point is valid.
   gdb.addSave(savePoint); // add the save
-  gdb.set(`users.${message.author.id}`, user.points - gdb.savePrice); // subtract the points from the user
+  gdb.set(`users.${message.author.id}.points`, user.points - gdb.savePrice); // subtract the points from the user
 
   return message.channel.send({
     embed: embed(message, {

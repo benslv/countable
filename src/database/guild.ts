@@ -17,14 +17,6 @@ const guildTemplate = {
   users: {}, // (future) statistics about each user (id, number of correct counts etc.)
   savePrice: 500,
   saves: [], // array of counts at which there exists a save point. Multiple saves can exist on the same count, and will be used up one at a time.
-
-  set: undefined,
-  get: undefined,
-  inc: undefined,
-  getUser: undefined,
-  addUser: undefined,
-  addSave: undefined,
-  delete: undefined,
 };
 
 export type user_t = {

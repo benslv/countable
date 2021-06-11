@@ -95,8 +95,8 @@ export function findClosestSave(saves: number[], currentCount: number): number {
     }
   }
 
-  // If no valid save points found, return 1 (i.e. back to the start)
-  return 1;
+  // If no valid save points found, return 0 (i.e. back to the start)
+  return 0;
 }
 
 export function removeSave(saves: number[], save: number): number[] {
