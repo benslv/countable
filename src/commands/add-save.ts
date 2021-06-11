@@ -18,7 +18,7 @@ export function execute({
   args,
 }: execute_args): Promise<Message> {
   // Save point is not a positive integer.
-  if (!isNumber(args[0])) {
+  if (!isNumber(args[0]) || parseInt(args[0], 10) <= 0) {
     return message.channel.send({
       embed: embed(message, {
         type: "error",
