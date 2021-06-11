@@ -41,9 +41,9 @@ export function countingHandler(
     message.channel
       .send(`:boom: **Wrong number, ${message.author.toString()}!**`)
       .then(msg => {
-        if (resetPoint !== 1) {
-          msg.edit(
-            `${msg.content}\n\n:crystal_ball: A __**save**__ is used and the count is reset back to \`${resetPoint}\`!`,
+        if (resetPoint !== 0) {
+          msg.channel.send(
+            `**${resetPoint}** That was close! Good thing you had a save! <:save:852972587873206302>`,
           );
         }
       });
