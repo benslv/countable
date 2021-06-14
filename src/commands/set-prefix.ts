@@ -21,8 +21,6 @@ export function execute({
 
   gdb.set("prefix", prefix);
 
-  console.log(gdb.get("prefix"));
-
   return message.channel.send({
     embed: embed(message, {
       type: "success",
