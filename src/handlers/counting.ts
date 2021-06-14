@@ -61,6 +61,7 @@ export function countingHandler(
 
     gdb.inc(`users.${message.author.id}.incorrect`);
 
+    // Logic for applying/removing a fail role (if it is set).
     const failRole = message.guild.roles.cache.get(gdb.failRoleID);
 
     if (failRole) {
