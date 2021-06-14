@@ -61,6 +61,24 @@ export function countingHandler(
 
     gdb.inc(`users.${message.author.id}.incorrect`);
 
+    // Logic for applying/removing a fail role (if it is set).
+    const failRole = message.guild.roles.cache.get(gdb.failRoleID);
+
+    if (failRole) {
+      // Remove the fail role from the previous user.
+      const prevFailUser = message.guild.members.cache.get(gdb.failUserID);
+
+      if (prevFailUser) {
+        prevFailUser.roles.remove(failRole).catch(err => console.error(err));
+      }
+
+      // Add the fail role to the user.
+      const newFailUser = message.guild.members.cache.get(message.author.id);
+      newFailUser.roles.add(failRole).catch(err => console.error(err));
+
+      gdb.set("failUserID", message.author.id);
+    }
+
     // Fetch the message-to-be-pinned by its ID, and then pin it.
     message.channel.messages
       .fetch(gdb.highestCountID)

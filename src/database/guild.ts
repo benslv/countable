@@ -17,6 +17,8 @@ const guildTemplate = {
   users: {}, // (future) statistics about each user (id, number of correct counts etc.)
   savePrice: 500,
   saves: [], // array of counts at which there exists a save point. Multiple saves can exist on the same count, and will be used up one at a time.
+  failRoleID: "", // id of the role to assign to a user when they make an incorrect count
+  failUserID: "", // id of the user that most recently had the fail role assigned.
 };
 
 export type user_t = {
@@ -37,6 +39,8 @@ type emojiID = string;
 type guildID = string;
 type userID = string;
 type timestamp = number;
+type failRoleID = string;
+type failUserID = string;
 
 export type milestone_t = {
   [index: number]: string;
@@ -60,6 +64,8 @@ export type guild_db = {
   users: { id: user_t };
   savePrice: number;
   saves: number[];
+  failRoleID: failRoleID;
+  failUserID: failUserID;
 
   set: (key: string, value: value_t) => void;
   get: (key: string) => value_t;
