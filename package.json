@@ -5,7 +5,6 @@
   "author": "Ben Silverman <bensilverman10@gmail.com>",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "dev": "ts-node-dev src/index.ts",
     "lint": "eslint src/**/*.ts",
     "format": "prettier ./src/**/*.ts --write",
     "prebuild": "yarn run format && yarn run lint",
@@ -38,7 +37,6 @@
     "prettier": "^2.3.0",
     "pretty-quick": "^3.1.0",
     "ts-node": "^10.0.0",
-    "ts-node-dev": "^1.1.6",
     "typescript": "^4.3.2"
   }
 }
