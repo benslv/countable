@@ -13,11 +13,7 @@ export const metadata: metadata_t = {
     "Sets the role to apply to users if they make an incorrect count.",
 };
 
-export function execute({
-  message,
-  gdb,
-  args,
-}: execute_args): Promise<Message> {
+export function execute({ message, gdb }: execute_args): Promise<Message> {
   const mentions = message.mentions.roles;
 
   // Disable fail role
