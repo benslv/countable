@@ -46,7 +46,7 @@ export async function countingHandler(
     if (resetPoint !== 0) {
       gdb.set("saves", removeSave(gdb.saves, resetPoint));
 
-      return boomMessage.channel.send({
+      boomMessage.channel.send({
         embed: {
           description: `**${resetPoint}** That was close! Good thing you had a save! <:save:852972587873206302>`,
         },
