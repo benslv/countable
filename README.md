@@ -1,90 +1,34 @@
 <h1 align="center">Countable</h1>
 
-🤖 Countable is a small, robust(-ish) Discord bot to support and manage a counting channel in your server!
+🤖 Countable is a small, robust Discord bot to support and manage a counting channel in your server!
 
-[![DeepScan grade](https://deepscan.io/api/teams/11357/projects/14263/branches/260846/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=11357&pid=14263&bid=260846) [![Dependencies](https://img.shields.io/david/silverben10/countable)](https://david-dm.org/silverben10/countable) [![https://github.com/silverben10/countable/issues](https://img.shields.io/github/issues/silverben10/countable)](https://github.com/silverben10/countable/issues)
+[![DeepScan grade](https://deepscan.io/api/teams/11357/projects/14263/branches/260846/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=11357&pid=14263&bid=260846) [![Dependencies](https://img.shields.io/david/benslv/countable)](https://david-dm.org/benslv/countable) [![https://github.com/benslv/countable/issues](https://img.shields.io/github/issues/benslv/countable)](https://github.com/benslv/countable/issues)
 
----
+## Getting Started
 
-## Get started
+Setup is extremely easy, and only requires a couple of commands to get everything up and running!
 
-### Self-hosted
+1. [Invite](https://invite.countable.cc) the bot to your server.
 
-I'd recommend hosting an instance of this bot yourself, because the server I've got mine running on isn't really designed for a huge number of guilds.
+2. Get Countable to watch your counting channel with [`set-channel​`](https://docs.countable.cc/commands#set-channel).
 
-First off, you need to create a bot user to run this client from. [**Here's a good guide**](https://discordjs.guide/preparations/setting-up-a-bot-application.html) on how to do this!
+3. The count will start at 0, but you can use [`set-count`](https://docs.countable.cc/commands#set-count) if you want to continue from an existing counting channel.
 
-From here on out, these instructions will assume you've got a server set up or are planning on running the bot from your current computer.
+Happy counting!
 
-1. **Clone the repo**
+## [Documentation](https://docs.countable.cc)
 
-```zsh
-git clone https://github.com/silverben10/countable.git
-```
+Full documentation of the bot, including a list of [commands](https://docs.countable.cc/commands) and a guide on how to [self-host](https://docs.countable.cc/self-hosting) your own version Countable can be found [here](https://docs.countable.cc).
 
-2. **`cd` into the newly created directory**
+## Contributing
+I don't yet have a guide on how to start contributing to Countable, but rest assured I absolutely *love* it when other people show interest in getting involved with the development; it brings me so much joy!
 
-```zsh
-cd countable
-```
+If you'd like to help fix any of Countable's bugs, implement a new feature, or do anything else you can think of that might be helpful, check out the [issues](https://github.com/benslv/countable/issues) pages to see if anything piques your interest.
 
-3. **Install dependencies**
+I'm pretty active on GitHub so will be around to respond to any questions you have as quick as possible!
 
-```zsh
-npm install
-```
+## Support
 
-or
+If you're interested in helping support the hosting and future development of Countable, I'd really appreciate you clicking the button below! Servers aren't free, unfortunately, and I really want to make sure it keeps running smoothly for you and your server!
 
-```zsh
-yarn install
-```
-
-4. **Create a `config.json` file** in the root of the project directory. Place the _Client ID_ and _Client Token_ from the bot application into it like so:
-
-```json
-{
-  "CLIENT_ID": "ID goes here",
-  "CLIENT_TOKEN": "token goes here"
-}
-```
-
-5. (Optional) You should be able to quickly test that everything's been set up correctly so far by typing the following:
-
-```zsh
-node index.js
-```
-
-> Come to think of it, that probably won't work because you haven't added the bot to any servers yet. Follow [**this guide**](https://discordjs.guide/preparations/adding-your-bot-to-servers.html) on how to get that done!
-
-6. **Get the bot running permanently**
-   Cool, nearly there! The last thing you'll probably want to do is get the bot running using some kind of process manager so it's not sitting there in a terminal window taking up precious screen real estate. I'd recommend using PM2 (literally only because that's what _I_ first found and decided to use).
-   Courtesy of discordjs.guide _again_, [**here's a good set of instructions**](https://discordjs.guide/improving-dev-environment/pm2.html#installation) on how to set _that_ up!
-
-### Grab an invite link from me
-
-If you _really_ don't want to or can't self-host this bot yourself, it's worth giving me a ping on Discord and seeing if you can invite my instance to your server.
-
-💬 You can get in touch with me here: `poisonwasp#5284`
-
-## How to use
-
-The one _essential_ thing you need to do before this bot will work is setup a channel to be used as the counting channel.
-
-Once you've created it, use the following command to set it up:
-
-```
-`set-channel <channel ID>
-```
-
-This will set the bot watching the channel of your choice, so have fun counting!
-
-### Commands
-
-| Name          | Description                                                                                                                                       | Arguments      | Example                             |
-| :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------ | :------------- | :---------------------------------- |
-| `ping`        | Ping the bot, mainly to test it's working.                                                                                                        | -              | `ping`                              |
-| `set-channel` | Specify which channel should be used for counting.                                                                                                | `channel ID`   | `set-channel 123456789101112131415` |
-| `set-count`   | Update the value of the _next expected_ count.                                                                                                    | `number`       | `set-count 42`                      |
-| `set-emoji`   | Set the emoji that should be used as a reaction when someone posts a count without an accompanying message.                                       | `emoji ID`     | `set-emoji 123456789101112131415`   |
-| `reload`      | Reload a command after updating its source code. You shouldn't need to use this unless you are self-hosting and have modified the bot in any way. | `command name` | `reload set-count`                  |
+<a href="https://www.buymeacoffee.com/benslv" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-yellow.png" alt="Buy Me A Coffee" height="41" width="174" style="border-radius: 10px"></a>
