@@ -26,7 +26,7 @@ client.on("ready", () => {
   });
 });
 
-client.on("message", message => {
+client.on("message", async message => {
   // Will not respond to the message if it's from a bot or isn't a guild message.
   if (!message.guild || message.author.bot) return;
 
@@ -41,7 +41,7 @@ client.on("message", message => {
   }
 });
 
-client.on("messageDelete", message => {
+client.on("messageDelete", async message => {
   // Retrieve the settings for the current guild.
   const gdb = database.getGuild(message.guild.id);
 

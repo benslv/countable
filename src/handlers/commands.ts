@@ -25,7 +25,7 @@ export type command_t = {
   execute: execute_t;
 };
 
-export function commandHandler(
+export async function commandHandler(
   message: Message,
   gdb: guild_db,
 ): Promise<void | Message> {
