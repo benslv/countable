@@ -27,6 +27,7 @@ export async function execute({
     users,
     saves,
     savePrice,
+    correctCounts,
   } = gdb;
 
   const prevUser = await message.client.users.fetch(prevUserID);
@@ -47,8 +48,8 @@ export async function execute({
           { name: "Next count", value: nextCount, inline: true },
           { name: "Highest count", value: highestCount, inline: true },
           {
-            name: "Most recent counter",
-            value: prevUser,
+            name: "Total counts",
+            value: correctCounts,
             inline: true,
           },
           {
@@ -61,16 +62,21 @@ export async function execute({
             value: Object.keys(users).length,
             inline: true,
           },
+          { name: "# Saves", value: saves.length, inline: true },
+          { name: "Save price", value: savePrice, inline: true },
           {
             name: "Reaction emoji",
             value: emoji,
             inline: true,
           },
-          { name: "# Saves", value: saves.length, inline: true },
-          { name: "Save price", value: savePrice, inline: true },
           {
             name: "Prefix",
             value: prefix,
+            inline: true,
+          },
+          {
+            name: "Most recent counter",
+            value: prevUser,
             inline: true,
           },
         ],

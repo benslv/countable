@@ -95,6 +95,8 @@ export async function countingHandler(
   // Increment the expected count.
   gdb.inc("nextCount");
 
+  gdb.inc("correctCounts");
+
   // Add the user to the database if they don't already exist.
   if (!gdb.users[message.author.id]) {
     gdb.addUser(message.author);

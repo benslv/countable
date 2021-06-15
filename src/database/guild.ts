@@ -19,6 +19,7 @@ const guildTemplate = {
   saves: [], // array of counts at which there exists a save point. Multiple saves can exist on the same count, and will be used up one at a time.
   failRoleID: "", // id of the role to assign to a user when they make an incorrect count
   failUserID: "", // id of the user that most recently had the fail role assigned.
+  correctCounts: 0,
 };
 
 export type user_t = {
@@ -66,6 +67,7 @@ export type guild_db = {
   saves: number[];
   failRoleID: failRoleID;
   failUserID: failUserID;
+  correctCounts: number;
 
   set: (key: string, value: value_t) => void;
   get: (key: string) => value_t;
