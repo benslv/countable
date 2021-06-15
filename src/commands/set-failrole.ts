@@ -14,32 +14,31 @@ export const metadata: metadata_t = {
 };
 
 export function execute({ message, gdb }: execute_args): Promise<Message> {
-  const mentions = message.mentions.roles;
+  const roleMentions = message.mentions.roles;
 
   // Disable fail role
-  if (mentions.size === 0) {
+  if (roleMentions.size === 0) {
     gdb.set("failRoleID", "");
 
     return message.channel.send({
       embed: embed(message, {
         type: "success",
         title: "Fail Role Disabled",
-        description: "The fail role has been turned off now.",
+        description:
+          "The fail role has been turned off now.\nTag the role to use if you'd like to turn this feature on!",
       }),
     });
   }
 
-  const id = mentions.first().id;
+  const roleID = roleMentions.first().id;
 
-  if (id) {
-    gdb.set("failRoleID", id);
+  gdb.set("failRoleID", roleID);
 
-    return message.channel.send({
-      embed: embed(message, {
-        type: "success",
-        title: "Fail Role Enabled",
-        description: `The fail role has been set to <@&${id}>.`,
-      }),
-    });
-  }
+  return message.channel.send({
+    embed: embed(message, {
+      type: "success",
+      title: "Fail Role Enabled",
+      description: `The fail role has been set to <@&${roleID}>.`,
+    }),
+  });
 }

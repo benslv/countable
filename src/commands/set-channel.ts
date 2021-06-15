@@ -15,51 +15,30 @@ export const metadata: metadata_t = {
 
 export async function execute({
   message,
-  args,
   gdb,
 }: execute_args): Promise<Message> {
-  // TODO check that this is a valid channel before accepting
-  const guildChannels = message.guild.channels.cache;
+  const channelMentions = message.mentions.channels;
 
-  // Match the ID of the channel, whether it's passed in as the raw ID or as a channel mention.
-  const match = args[0].match(/(\d{18})/g);
-
-  if (!match) {
+  if (channelMentions.size === 0) {
     return message.channel.send({
       embed: embed(message, {
         type: "error",
-        title: "Invalid input",
-        description: "That doesn't look like the right format for a channel ID",
+        title: "Channel not included.",
+        description: "Make sure to mention the channel you want me to watch.",
       }),
     });
   }
 
-  const [id] = match;
+  const channelID = channelMentions.first().id;
 
-  // Check that the channel ID exists in the guild.
-  if (guildChannels.has(id)) {
-    // If so, store the new ID in settings.
-    gdb.set("channel", id);
-
-    const channel = await message.client.channels.fetch(id);
-
-    console.log(`Counting channel ID set to ${id}.`);
-
-    return message.channel.send({
-      embed: embed(message, {
-        type: "success",
-        title: "Channel updated!",
-        description: `The counting channel has been set to ${channel.toString()}`,
-      }),
-    });
-  }
+  // If so, store the new ID in settings.
+  gdb.set("channel", channelID);
 
   return message.channel.send({
     embed: embed(message, {
-      type: "error",
-      title: "Channel not found.",
-      description:
-        "I couldn't find that channel in this server. Make sure the ID is correct...",
+      type: "success",
+      title: "Channel updated!",
+      description: `The counting channel has been set to <#${channelID}>`,
     }),
   });
 }

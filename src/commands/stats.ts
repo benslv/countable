@@ -25,27 +25,34 @@ export async function execute({
   message,
   gdb,
 }: execute_args): Promise<Message> {
-  const mentions = message.mentions.users;
+  const userMentions = message.mentions.users;
 
-  let response: user_stats;
+  // Retrieve message author stats.
+  if (userMentions.size === 0) {
+    const response = await getUserStats({
+      gdb,
+      message,
+      id: message.author.id,
+    });
+    return message.channel.send({ embed: embed(message, response) });
+  }
 
-  if (mentions.size === 0) {
-    response = await getUserStats({ gdb, message, id: message.author.id });
-  } else {
-    const id = mentions.first().id;
-    const userInfo = gdb.users[id];
+  const userID = userMentions.first().id;
+  const userInfo = gdb.users[userID];
 
-    if (userInfo) {
-      response = await getUserStats({ gdb, message, id });
-    } else {
-      response = {
+  // User not found in database.
+  if (!userInfo) {
+    return message.channel.send({
+      embed: embed(message, {
         type: "error",
         title: "User not found.",
         description:
           "Sorry, I couldn't find that user.\n\nMake sure you mentioned the correct person.\nPerhaps they haven't done any counting yet?",
-      };
-    }
+      }),
+    });
   }
+
+  const response = await getUserStats({ gdb, message, id: userID });
 
   return message.channel.send({ embed: embed(message, response) });
 }
@@ -59,15 +66,6 @@ async function getUserStats({
   message: Message;
   id: string;
 }): Promise<user_stats> {
-  if (!gdb.users[id]) {
-    return {
-      type: "error",
-      title: "User stats not found.",
-      description:
-        "I couldn't find any stats for this user. Perhaps they haven't counted yet?",
-    };
-  }
-
   const correct = gdb.users[id].correct;
   const incorrect = gdb.users[id].incorrect;
   const score = correct - incorrect;
