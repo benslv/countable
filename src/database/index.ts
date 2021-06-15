@@ -7,6 +7,7 @@ export const db = {
     fetchAll: false,
     autoFetch: true,
     cloneLevel: "deep",
+    ensureProps: true,
   }),
   debug: function (): Enmap<string | number, any> {
     return this.settings;
