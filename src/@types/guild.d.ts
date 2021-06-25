@@ -20,7 +20,7 @@ export interface userT {
 
 type valueT = string | number | boolean | milestoneT | object;
 
-export interface Guild {
+export interface guildDB {
   id: guildID;
   prefix: string;
   channel: string;

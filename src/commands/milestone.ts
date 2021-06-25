@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { Guild, milestoneT } from "../@types/guild";
+import { guildDB, milestoneT } from "../@types/guild";
 import { execute_args, metadata_t } from "../handlers/commands";
 import { isNumber, embed } from "../utils";
 
@@ -17,7 +17,7 @@ type milestone_function_t = (
   message: Message,
   count: string,
   name: string,
-  gdb: Guild,
+  gdb: guildDB,
 ) => object;
 
 enum ErrorKind {
@@ -97,7 +97,7 @@ function listMilestones(
   message: Message,
   _count: unknown,
   _name: unknown,
-  gdb: Guild,
+  gdb: guildDB,
 ): object {
   const milestones = gdb.get("milestones") as milestoneT;
 
@@ -126,7 +126,7 @@ function addMilestone(
   _message: unknown,
   count: string,
   name: string,
-  gdb: Guild,
+  gdb: guildDB,
 ): object {
   if (!isNumber(count)) {
     throw ErrorKind.InvalidNumber;
@@ -154,7 +154,7 @@ function removeMilestone(
   _message: Message,
   count: string,
   _name: unknown,
-  gdb: Guild,
+  gdb: guildDB,
 ): object {
   if (!isNumber(count)) {
     throw ErrorKind.InvalidNumber;

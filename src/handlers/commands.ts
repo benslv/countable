@@ -1,10 +1,10 @@
 import { Message } from "discord.js";
-import { Guild } from "../@types/guild";
+import { guildDB } from "../@types/guild";
 import { commands } from "../commands";
 
 export type execute_args = {
   message: Message;
-  gdb: Guild;
+  gdb: guildDB;
   args?: string[];
 };
 
@@ -27,7 +27,7 @@ export type command_t = {
 
 export async function commandHandler(
   message: Message,
-  gdb: Guild,
+  gdb: guildDB,
 ): Promise<void | Message> {
   // Split message into arguments (delimited by spaces in the message).
   const args = message.content.slice(gdb.prefix.length).trim().split(/ +/);

@@ -1,5 +1,5 @@
 import { db } from "./index";
-import { userT, Guild } from "../@types/guild";
+import { userT, guildDB } from "../@types/guild";
 
 const guildTemplate = {
   id: "", // ID of the guild
@@ -33,7 +33,7 @@ export const database = {
   getGuild: getGuild,
 };
 
-function getGuild(id: string): Guild {
+function getGuild(id: string): guildDB {
   return {
     ...db.settings.ensure(id, { ...guildTemplate, id }),
     set: (key, value) => {

@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { Guild } from "../@types/guild";
+import { guildDB } from "../@types/guild";
 import { execute_args, metadata_t } from "../handlers/commands";
 import { embed } from "../utils";
 
@@ -62,7 +62,7 @@ async function getUserStats({
   message,
   id,
 }: {
-  gdb: Guild;
+  gdb: guildDB;
   message: Message;
   id: string;
 }): Promise<user_stats> {
