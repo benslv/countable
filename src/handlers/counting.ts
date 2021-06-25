@@ -1,10 +1,10 @@
 import { Channel, Message, TextChannel } from "discord.js";
-import { guild_db } from "../database/guild";
+import { guildDB } from "../@types/guild";
 import { isNumber, findClosestSave, removeSave } from "../utils";
 
 export async function countingHandler(
   message: Message,
-  gdb: guild_db,
+  gdb: guildDB,
 ): Promise<void | Message> {
   // Split the message up into parts.
   const messageSplit = message.content.split(/[ :\n]+/);

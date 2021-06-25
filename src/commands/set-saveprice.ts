@@ -1,8 +1,8 @@
 import { Message } from "discord.js";
-import { execute_args, metadata_t } from "../handlers/commands";
+import { executeArgs, Metadata } from "../@types/commands";
 import { isNumber, embed } from "../utils";
 
-export const metadata: metadata_t = {
+export const metadata: Metadata = {
   name: "set-saveprice",
   aliases: ["saveprice"],
   description: "Sets the price for buying save points.",
@@ -12,11 +12,7 @@ export const metadata: metadata_t = {
   usage: "<number>",
 };
 
-export function execute({
-  message,
-  args,
-  gdb,
-}: execute_args): Promise<Message> {
+export function execute({ message, args, gdb }: executeArgs): Promise<Message> {
   const price = args[0];
 
   if (!isNumber(price)) {

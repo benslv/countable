@@ -1,9 +1,9 @@
 import { Message } from "discord.js";
-import { guild_db, milestone_t } from "../database/guild";
-import { execute_args, metadata_t } from "../handlers/commands";
+import { guildDB, milestoneT } from "../@types/guild";
+import { executeArgs, Metadata } from "../@types/commands";
 import { isNumber, embed } from "../utils";
 
-export const metadata: metadata_t = {
+export const metadata: Metadata = {
   name: "milestone",
   aliases: [],
   description: "Commands related to adding/removing/listing milestones.",
@@ -17,7 +17,7 @@ type milestone_function_t = (
   message: Message,
   count: string,
   name: string,
-  gdb: guild_db,
+  gdb: guildDB,
 ) => object;
 
 enum ErrorKind {
@@ -27,11 +27,7 @@ enum ErrorKind {
   MissingName,
 }
 
-export function execute({
-  args,
-  message,
-  gdb,
-}: execute_args): Promise<Message> {
+export function execute({ args, message, gdb }: executeArgs): Promise<Message> {
   try {
     const action: milestone_function_t = (arg => {
       switch (arg) {
@@ -97,9 +93,9 @@ function listMilestones(
   message: Message,
   _count: unknown,
   _name: unknown,
-  gdb: guild_db,
+  gdb: guildDB,
 ): object {
-  const milestones = gdb.get("milestones") as milestone_t;
+  const milestones = gdb.get("milestones") as milestoneT;
 
   if (Object.keys(milestones).length === 0) {
     throw ErrorKind.NoMilestones;
@@ -126,7 +122,7 @@ function addMilestone(
   _message: unknown,
   count: string,
   name: string,
-  gdb: guild_db,
+  gdb: guildDB,
 ): object {
   if (!isNumber(count)) {
     throw ErrorKind.InvalidNumber;
@@ -154,7 +150,7 @@ function removeMilestone(
   _message: Message,
   count: string,
   _name: unknown,
-  gdb: guild_db,
+  gdb: guildDB,
 ): object {
   if (!isNumber(count)) {
     throw ErrorKind.InvalidNumber;

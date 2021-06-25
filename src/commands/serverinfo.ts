@@ -1,8 +1,8 @@
 import { Message } from "discord.js";
-import { execute_args, metadata_t } from "../handlers/commands";
+import { executeArgs, Metadata } from "../@types/commands";
 import { embed } from "../utils";
 
-export const metadata: metadata_t = {
+export const metadata: Metadata = {
   name: "serverinfo",
   aliases: ["info", "server"],
   checkArgs: () => true,
@@ -13,10 +13,7 @@ export const metadata: metadata_t = {
     "Display a bunch of useful/interesting information about the current server.",
 };
 
-export async function execute({
-  message,
-  gdb,
-}: execute_args): Promise<Message> {
+export async function execute({ message, gdb }: executeArgs): Promise<Message> {
   const {
     prefix,
     nextCount,

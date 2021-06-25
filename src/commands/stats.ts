@@ -1,9 +1,9 @@
 import { Message } from "discord.js";
-import { guild_db } from "../database/guild";
-import { execute_args, metadata_t } from "../handlers/commands";
+import { guildDB } from "../@types/guild";
+import { executeArgs, Metadata } from "../@types/commands";
 import { embed } from "../utils";
 
-export const metadata: metadata_t = {
+export const metadata: Metadata = {
   name: "stats",
   aliases: [],
   description: "Replies to the user to confirm the bot is running correctly!",
@@ -21,10 +21,7 @@ type user_stats = {
   fields?: { name: string; value: number; inline: boolean }[];
 };
 
-export async function execute({
-  message,
-  gdb,
-}: execute_args): Promise<Message> {
+export async function execute({ message, gdb }: executeArgs): Promise<Message> {
   const userMentions = message.mentions.users;
 
   // Retrieve message author stats.
@@ -62,7 +59,7 @@ async function getUserStats({
   message,
   id,
 }: {
-  gdb: guild_db;
+  gdb: guildDB;
   message: Message;
   id: string;
 }): Promise<user_stats> {

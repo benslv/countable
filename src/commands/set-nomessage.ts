@@ -1,8 +1,8 @@
 import { Message } from "discord.js";
-import { execute_args, metadata_t } from "../handlers/commands";
+import { executeArgs, Metadata } from "../@types/commands";
 import { embed } from "../utils";
 
-export const metadata: metadata_t = {
+export const metadata: Metadata = {
   name: "set-nomessage",
   aliases: ["nomessage"],
   description:
@@ -17,11 +17,7 @@ enum ErrorKind {
   InvalidArgument,
 }
 
-export function execute({
-  message,
-  args,
-  gdb,
-}: execute_args): Promise<Message> {
+export function execute({ message, args, gdb }: executeArgs): Promise<Message> {
   try {
     const arg = (a => {
       switch (a) {
