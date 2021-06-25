@@ -1,5 +1,5 @@
 import { Message, User } from "discord.js";
-import { user_t } from "../database/guild";
+import { userT } from "../@types/guild";
 import { execute_args } from "../handlers/commands";
 import { getUserScore, embed } from "../utils";
 
@@ -13,7 +13,7 @@ export const metadata = {
   usage: "",
 };
 
-function byScore(a: user_t, b: user_t): number {
+function byScore(a: userT, b: userT): number {
   return getUserScore(b) - getUserScore(a);
 }
 
@@ -24,7 +24,7 @@ export async function execute({
   const medals = ["🥇", "🥈", "🥉"];
 
   // Get all users stored in gdb
-  const users = Array.from(Object.values(gdb.users));
+  const users: userT[] = Array.from(Object.values(gdb.users));
 
   // Sort by score
   const top15 = users.sort(byScore).slice(0, 15);

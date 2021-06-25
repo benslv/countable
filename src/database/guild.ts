@@ -1,5 +1,5 @@
-import { Snowflake, User } from "discord.js";
 import { db } from "./index";
+import { userT, Guild } from "../@types/guild";
 
 const guildTemplate = {
   id: "", // ID of the guild
@@ -22,67 +22,18 @@ const guildTemplate = {
   correctCounts: 0,
 };
 
-export type user_t = {
-  id: Snowflake;
-  correct: number;
-  incorrect: number;
-  points: number;
-};
-
-const userTemplate: user_t = {
+const userTemplate: userT = {
   id: "",
   correct: 0, // number of correct count
   incorrect: 0, // number of incorrect counts
   points: 0, // (future) a "currency" system for users, earned by counting
 };
 
-type emojiID = string;
-type guildID = string;
-type userID = string;
-type timestamp = number;
-type failRoleID = string;
-type failUserID = string;
-
-export type milestone_t = {
-  [index: number]: string;
-};
-
-type value_t = string | number | boolean | milestone_t | object;
-
-export type guild_db = {
-  id: guildID;
-  prefix: string;
-  channel: string;
-  nextCount: number;
-  highestCount: number;
-  highestCountID: userID;
-  prevUserID: userID;
-  latestMessage: timestamp;
-  noMessageReaction: boolean;
-  emojiID: emojiID;
-  numbersOnly: false;
-  milestones: milestone_t;
-  users: { id: user_t };
-  savePrice: number;
-  saves: number[];
-  failRoleID: failRoleID;
-  failUserID: failUserID;
-  correctCounts: number;
-
-  set: (key: string, value: value_t) => void;
-  get: (key: string) => value_t;
-  inc: (key: string) => void;
-  getUser: (user: User) => user_t;
-  addUser: (author: User) => void;
-  addSave: (save: number) => void;
-  delete: (key: string) => void;
-};
-
 export const database = {
-  getGuild: database_getGuild,
+  getGuild: getGuild,
 };
 
-function database_getGuild(id: string): guild_db {
+function getGuild(id: string): Guild {
   return {
     ...db.settings.ensure(id, { ...guildTemplate, id }),
     set: (key, value) => {

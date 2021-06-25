@@ -5,7 +5,7 @@ import {
   MessageEmbed,
   MessageEmbedAuthor,
 } from "discord.js";
-import { user_t } from "./database/guild";
+import { userT } from "./@types/guild";
 
 /**
  Regex testing for a string being a number (more specifically, consisting only of digits).
@@ -83,7 +83,7 @@ export function embed(
   return output;
 }
 
-export function getUserScore(user: user_t): number {
+export function getUserScore(user: userT): number {
   return user.correct - user.incorrect;
 }
 
