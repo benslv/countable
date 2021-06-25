@@ -2,29 +2,6 @@ import { Message } from "discord.js";
 import { guildDB } from "../@types/guild";
 import { commands } from "../commands";
 
-export type execute_args = {
-  message: Message;
-  gdb: guildDB;
-  args?: string[];
-};
-
-type execute_t = (_: execute_args) => Promise<Message>;
-
-export type metadata_t = {
-  name: string;
-  aliases: string[];
-  description: string;
-  checkArgs: (() => boolean) | ((args: string[]) => boolean);
-  guildOnly: boolean;
-  ownerOnly: boolean;
-  usage: string;
-};
-
-export type command_t = {
-  metadata: metadata_t;
-  execute: execute_t;
-};
-
 export async function commandHandler(
   message: Message,
   gdb: guildDB,

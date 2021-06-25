@@ -1,8 +1,8 @@
 import { Message } from "discord.js";
-import { execute_args, metadata_t } from "../handlers/commands";
+import { executeArgs, Metadata } from "../@types/commands";
 import { embed, isNumber } from "../utils";
 
-export const metadata: metadata_t = {
+export const metadata: Metadata = {
   name: "add-save",
   aliases: ["save"],
   checkArgs: args => args.length === 1,
@@ -12,11 +12,7 @@ export const metadata: metadata_t = {
   description: "Replies to the user to confirm the bot is running correctly!",
 };
 
-export function execute({
-  message,
-  gdb,
-  args,
-}: execute_args): Promise<Message> {
+export function execute({ message, gdb, args }: executeArgs): Promise<Message> {
   // Save point is not a positive integer.
   if (!isNumber(args[0]) || parseInt(args[0], 10) <= 0) {
     return message.channel.send({

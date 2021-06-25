@@ -1,9 +1,9 @@
 import { Message } from "discord.js";
 import { guildDB, milestoneT } from "../@types/guild";
-import { execute_args, metadata_t } from "../handlers/commands";
+import { executeArgs, Metadata } from "../@types/commands";
 import { isNumber, embed } from "../utils";
 
-export const metadata: metadata_t = {
+export const metadata: Metadata = {
   name: "milestone",
   aliases: [],
   description: "Commands related to adding/removing/listing milestones.",
@@ -27,11 +27,7 @@ enum ErrorKind {
   MissingName,
 }
 
-export function execute({
-  args,
-  message,
-  gdb,
-}: execute_args): Promise<Message> {
+export function execute({ args, message, gdb }: executeArgs): Promise<Message> {
   try {
     const action: milestone_function_t = (arg => {
       switch (arg) {

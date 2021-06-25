@@ -1,8 +1,8 @@
 import { Message } from "discord.js";
-import { execute_args, metadata_t } from "../handlers/commands";
+import { executeArgs, Metadata } from "../@types/commands";
 import { embed } from "../utils";
 
-export const metadata: metadata_t = {
+export const metadata: Metadata = {
   name: "set-failrole",
   aliases: ["failrole"],
   checkArgs: args => args.length == 0 || args.length == 1,
@@ -13,7 +13,7 @@ export const metadata: metadata_t = {
     "Sets the role to apply to users if they make an incorrect count.",
 };
 
-export function execute({ message, gdb }: execute_args): Promise<Message> {
+export function execute({ message, gdb }: executeArgs): Promise<Message> {
   const roleMentions = message.mentions.roles;
 
   // Disable fail role

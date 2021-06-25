@@ -1,8 +1,8 @@
 import { Message } from "discord.js";
-import { execute_args, metadata_t } from "../handlers/commands";
+import { executeArgs, Metadata } from "../@types/commands";
 import { isNumber, embed } from "../utils";
 
-export const metadata: metadata_t = {
+export const metadata: Metadata = {
   name: "set-count",
   aliases: ["count", "="],
   description: "Sets the value of the next expected count.",
@@ -12,11 +12,7 @@ export const metadata: metadata_t = {
   usage: "<number>",
 };
 
-export function execute({
-  message,
-  args,
-  gdb,
-}: execute_args): Promise<Message> {
+export function execute({ message, args, gdb }: executeArgs): Promise<Message> {
   const count = args[0];
 
   if (!isNumber(count)) {

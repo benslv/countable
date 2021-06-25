@@ -1,8 +1,8 @@
 import { Message } from "discord.js";
-import { execute_args, metadata_t } from "../handlers/commands";
+import { executeArgs, Metadata } from "../@types/commands";
 import { embed } from "../utils";
 
-export const metadata: metadata_t = {
+export const metadata: Metadata = {
   name: "set-prefix",
   aliases: ["prefix"],
   checkArgs: args => args.length === 1,
@@ -12,11 +12,7 @@ export const metadata: metadata_t = {
   description: "Sets the prefix for commands in the current server.",
 };
 
-export function execute({
-  message,
-  args,
-  gdb,
-}: execute_args): Promise<Message> {
+export function execute({ message, args, gdb }: executeArgs): Promise<Message> {
   const prefix = args[0];
 
   gdb.set("prefix", prefix);

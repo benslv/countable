@@ -1,6 +1,6 @@
 import { Message, User } from "discord.js";
 import { userT } from "../@types/guild";
-import { execute_args } from "../handlers/commands";
+import { executeArgs } from "../@types/commands";
 import { getUserScore, embed } from "../utils";
 
 export const metadata = {
@@ -17,10 +17,7 @@ function byScore(a: userT, b: userT): number {
   return getUserScore(b) - getUserScore(a);
 }
 
-export async function execute({
-  message,
-  gdb,
-}: execute_args): Promise<Message> {
+export async function execute({ message, gdb }: executeArgs): Promise<Message> {
   const medals = ["🥇", "🥈", "🥉"];
 
   // Get all users stored in gdb

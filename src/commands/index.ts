@@ -1,4 +1,4 @@
-import { command_t } from "../handlers/commands";
+import { Command } from "../@types/commands";
 
 import * as leaderboard from "./leaderboard";
 import * as milestone from "./milestone";
@@ -16,7 +16,7 @@ import * as addSave from "./add-save";
 import * as setSavePrice from "./set-saveprice";
 import * as setFailRole from "./set-failrole";
 
-export const commands: command_t[] = [
+export const commands: Command[] = [
   {
     metadata: leaderboard.metadata,
     execute: leaderboard.execute,
