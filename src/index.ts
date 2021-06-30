@@ -58,4 +58,23 @@ client.on("messageDelete", async message => {
   }
 });
 
+client.on("guildCreate", async guild => {
+  const message = `
+Hello, I'm Countable! :wave:
+Thanks for inviting me to your server!
+
+You can set the channel you want me to manage with **\`set-channel #channel-name**
+If you've already done some counting, update me with on your progress using **\`set-count <count>**
+This will set the value of the **next expected** count in your server.
+
+:books: For more information on what I can do, check out my documentation: **https://docs.countable.cc**
+
+Happy Counting!
+  `;
+
+  const guildOwner = await client.users.fetch(guild.ownerID);
+
+  guildOwner.send(message);
+});
+
 client.login(CLIENT_TOKEN);
