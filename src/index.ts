@@ -67,7 +67,7 @@ You can set the channel you want me to manage with **\`set-channel #channel-name
 If you've already done some counting, update me with on your progress using **\`set-count <count>**
 This will set the value of the **next expected** count in your server.
 
-:books: For more information on what I can do, check out my documentation: **https://docs.countable.cc**
+:books: For more information on what I can do, such as saves and milestones, check out my documentation: https://docs.countable.cc
 
 Happy Counting!
   `;
