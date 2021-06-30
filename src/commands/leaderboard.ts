@@ -34,7 +34,7 @@ export async function execute({ message, gdb }: executeArgs): Promise<Message> {
     try {
       userInfo = await message.client.users.fetch(user.id);
     } catch (err) {
-      console.error(err);
+      console.error(`Unable to find user info for ${user.id}`);
     }
     const score = getUserScore(user);
 

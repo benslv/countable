@@ -67,12 +67,24 @@ export async function countingHandler(
       const prevFailUser = message.guild.members.cache.get(gdb.failUserID);
 
       if (prevFailUser) {
-        prevFailUser.roles.remove(failRole).catch(err => console.error(err));
+        prevFailUser.roles
+          .remove(failRole)
+          .catch(err =>
+            console.error(
+              `Unable to remove fail frole from ${prevFailUser}. Do I have permission to Manage Roles?\n${err}`,
+            ),
+          );
       }
 
       // Add the fail role to the user.
       const newFailUser = message.guild.members.cache.get(message.author.id);
-      newFailUser.roles.add(failRole).catch(err => console.error(err));
+      newFailUser.roles
+        .add(failRole)
+        .catch(err =>
+          console.error(
+            `Unable to add fail frole to ${newFailUser}. Do I have permission to Manage Roles?\n${err}`,
+          ),
+        );
 
       gdb.set("failUserID", message.author.id);
     }
@@ -83,7 +95,13 @@ export async function countingHandler(
     );
 
     if (!highestMessage.pinned) {
-      highestMessage.pin().catch(err => console.error(err));
+      highestMessage
+        .pin()
+        .catch(err =>
+          console.error(
+            `Unable to pin new highest message. Do I have permissions to pin messages? Have you reached the max pin count?\n${err}`,
+          ),
+        );
     }
 
     return;
@@ -124,7 +142,13 @@ export async function countingHandler(
     message.attachments.size == 0
   ) {
     // React to it with the :npc: emote (custom emote in the 8-Ball server).
-    message.react(gdb.emojiID).catch(err => console.error(err));
+    message
+      .react(gdb.emojiID)
+      .catch(err =>
+        console.error(
+          `Unable to react to message with an emoji. Do I have permissions to react?\n${err}`,
+        ),
+      );
   }
 
   // If the most recently counted number reached a new title milestone, change the counting
