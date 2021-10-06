@@ -65,6 +65,15 @@ async function getUserStats({
   message: Message;
   id: string;
 }): Promise<user_stats> {
+  if (!gdb.users[id]) {
+    return {
+      type: "error",
+      title: "User not found.",
+      description:
+        "Sorry, I couldn't find that user. Have they done any counting yet?",
+    };
+  }
+
   const correct = gdb.users[id].correct;
   const incorrect = gdb.users[id].incorrect;
   const score = correct - incorrect;
