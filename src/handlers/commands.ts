@@ -24,14 +24,14 @@ export async function commandHandler(
   if (!command) return;
 
   // Check whether the command can be executed in DMs.
-  if (command.metadata.guildOnly && message.channel.type !== "text") {
+  if (command.metadata.guildOnly && message.channel.type !== "GUILD_TEXT") {
     return message.reply("I can't execute that command inside DMs, sorry!");
   }
 
   // Check whether the command can only be executed by the guild owner.
   if (
     command.metadata.ownerOnly &&
-    message.author.id !== message.guild.ownerID
+    message.author.id !== message.guild.ownerId
   ) {
     return message.reply(
       "You don't have permission to run that command. :eyes:",

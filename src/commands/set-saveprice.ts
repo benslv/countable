@@ -17,22 +17,26 @@ export function execute({ message, args, gdb }: executeArgs): Promise<Message> {
 
   if (!isNumber(price)) {
     return message.channel.send({
-      embed: embed(message, {
-        type: "error",
-        title: "Invalid number.",
-        description:
-          "Sorry, that's not a valid number. Make sure to use a positive integer!",
-      }),
+      embeds: [
+        embed(message, {
+          type: "error",
+          title: "Invalid number.",
+          description:
+            "Sorry, that's not a valid number. Make sure to use a positive integer!",
+        }),
+      ],
     });
   }
 
   gdb.set("savePrice", parseInt(price, 10));
 
   return message.channel.send({
-    embed: embed(message, {
-      type: "success",
-      title: "Price updated!",
-      description: `The price of a save point has been updated to \`${price}\``,
-    }),
+    embeds: [
+      embed(message, {
+        type: "success",
+        title: "Price updated!",
+        description: `The price of a save point has been updated to \`${price}\``,
+      }),
+    ],
   });
 }

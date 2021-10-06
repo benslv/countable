@@ -5,7 +5,7 @@ import { isNumber, findClosestSave, removeSave } from "../utils";
 export async function countingHandler(
   message: Message,
   gdb: guildDB,
-): Promise<void | Message> {
+): Promise<Message | void> {
   // Split the message up into parts.
   const messageSplit = message.content.split(/[ :\n]+/);
   const messageNumberString = messageSplit[0];
@@ -47,9 +47,11 @@ export async function countingHandler(
       gdb.set("saves", removeSave(gdb.saves, resetPoint));
 
       boomMessage.channel.send({
-        embed: {
-          description: `**${resetPoint}** That was close! Good thing you had a save! <:save:852972587873206302>`,
-        },
+        embeds: [
+          {
+            description: `**${resetPoint}** That was close! Good thing you had a save! <:save:852972587873206302>`,
+          },
+        ],
       });
     }
 

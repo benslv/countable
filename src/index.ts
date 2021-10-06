@@ -4,8 +4,11 @@
 import config from "../config.json";
 const { CLIENT_TOKEN } = config;
 
-import * as Discord from "discord.js";
-const client = new Discord.Client();
+import { Client, Intents, Message } from "discord.js";
+
+const client = new Client({
+  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+});
 
 import { database } from "./database/guild";
 
@@ -14,19 +17,21 @@ import { countingHandler } from "./handlers/counting";
 
 console.log("Initialised command collection.");
 
-client.on("ready", () => {
+client.once("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
 
   client.user.setPresence({
     status: "online",
-    activity: {
-      type: "WATCHING",
-      name: "people count",
-    },
+    activities: [
+      {
+        type: "WATCHING",
+        name: "people count!",
+      },
+    ],
   });
 });
 
-client.on("message", async message => {
+client.on("messageCreate", async message => {
   // Will not respond to the message if it's from a bot or isn't a guild message.
   if (!message.guild || message.author.bot) return;
 
@@ -35,9 +40,9 @@ client.on("message", async message => {
 
   // Behaviour for messages sent in non-counting channels.
   if (message.channel.id === gdb.channel) {
-    return countingHandler(message, gdb);
+    countingHandler(message, gdb);
   } else if (message.content.startsWith(gdb.prefix)) {
-    return commandHandler(message, gdb);
+    commandHandler(message, gdb);
   }
 });
 
@@ -50,7 +55,7 @@ client.on("messageDelete", async message => {
 
   if (message.createdTimestamp === gdb.latestMessage) {
     // Grab the number component from the deleted message, and repost it.
-    return message.channel.send(
+    message.channel.send(
       `**${
         (gdb.get("nextCount") as number) - 1
       }**, from ${message.author.toString()}. `,
@@ -72,9 +77,9 @@ This will set the value of the **next expected** count in your server.
 Happy Counting!
   `;
 
-  const guildOwner = await client.users.fetch(guild.ownerID);
+  const guildOwner = await client.users.fetch(guild.ownerId);
 
-  guildOwner.send(message);
+  guildOwner.send({ content: message });
 });
 
 client.login(CLIENT_TOKEN);

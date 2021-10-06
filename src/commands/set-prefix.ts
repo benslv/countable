@@ -18,10 +18,12 @@ export function execute({ message, args, gdb }: executeArgs): Promise<Message> {
   gdb.set("prefix", prefix);
 
   return message.channel.send({
-    embed: embed(message, {
-      type: "success",
-      title: "Prefix set!",
-      description: `This server's prefix has been set to \`${prefix}\`.`,
-    }),
+    embeds: [
+      embed(message, {
+        type: "success",
+        title: "Prefix set!",
+        description: `This server's prefix has been set to \`${prefix}\`.`,
+      }),
+    ],
   });
 }

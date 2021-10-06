@@ -35,24 +35,28 @@ export function execute({ message, args, gdb }: executeArgs): Promise<Message> {
     console.log(`Set "no message reaction" to ${arg}.`);
 
     return message.channel.send({
-      embed: embed(message, {
-        type: "success",
-        title: `Message reactions ${arg ? "en" : "dis"}abled.`,
-        description: `Messages now **${
-          arg ? "will" : "won't"
-        }** be reacted to when left empty.`,
-      }),
+      embeds: [
+        embed(message, {
+          type: "success",
+          title: `Message reactions ${arg ? "en" : "dis"}abled.`,
+          description: `Messages now **${
+            arg ? "will" : "won't"
+          }** be reacted to when left empty.`,
+        }),
+      ],
     });
   } catch (e) {
     switch (e) {
       case ErrorKind.InvalidArgument:
         return message.channel.send({
-          embed: embed(message, {
-            type: "error",
-            title: "Invalid input.",
-            description:
-              "That's not a valid argument. Please enter `true` or `false`.",
-          }),
+          embeds: [
+            embed(message, {
+              type: "error",
+              title: "Invalid input.",
+              description:
+                "That's not a valid argument. Please enter `true` or `false`.",
+            }),
+          ],
         });
       default:
         throw e;

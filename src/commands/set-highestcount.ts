@@ -17,23 +17,27 @@ export function execute({ message, args, gdb }: executeArgs): Promise<Message> {
 
   if (!isNumber(count)) {
     return message.channel.send({
-      embed: embed(message, {
-        type: "error",
-        title: "Invalid number.",
-        description:
-          "Sorry, that's not a valid number. Make sure to use a positive integer!",
-      }),
+      embeds: [
+        embed(message, {
+          type: "error",
+          title: "Invalid number.",
+          description:
+            "Sorry, that's not a valid number. Make sure to use a positive integer!",
+        }),
+      ],
     });
   }
 
   gdb.set("highestCount", parseInt(count, 10));
 
   message.channel.send({
-    embed: embed(message, {
-      type: "success",
-      title: "Count updated!",
-      description: `The highest count has been updated to \`${count}\``,
-    }),
+    embeds: [
+      embed(message, {
+        type: "success",
+        title: "Count updated!",
+        description: `The highest count has been updated to \`${count}\``,
+      }),
+    ],
   });
 
   console.log(`Updated highest count to ${count}.`);

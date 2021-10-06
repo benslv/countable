@@ -35,11 +35,13 @@ export function execute({ message, args, gdb }: executeArgs): Promise<Message> {
     gdb.set("emojiID", emoji[0]);
 
     return message.channel.send({
-      embed: embed(message, {
-        type: "success",
-        title: "Emoji set!",
-        description: `The emoji reaction has been updated and set to ${emoji[0]}`,
-      }),
+      embeds: [
+        embed(message, {
+          type: "success",
+          title: "Emoji set!",
+          description: `The emoji reaction has been updated and set to ${emoji[0]}`,
+        }),
+      ],
     });
   } else {
     // Otherwise, try and match a custom emote ID.
@@ -51,20 +53,24 @@ export function execute({ message, args, gdb }: executeArgs): Promise<Message> {
       gdb.set("emojiID", emojiID[0]);
 
       return message.channel.send({
-        embed: embed(message, {
-          type: "success",
-          title: "Emoji set!",
-          description: `The emoji reaction has been updated and set to ${emoji.toString()}`,
-        }),
+        embeds: [
+          embed(message, {
+            type: "success",
+            title: "Emoji set!",
+            description: `The emoji reaction has been updated and set to ${emoji.toString()}`,
+          }),
+        ],
       });
     } else {
       return message.channel.send({
-        embed: embed(message, {
-          type: "error",
-          title: "Not found...",
-          description:
-            "I couldn't find that emoji in my list. Make sure the ID is correct.",
-        }),
+        embeds: [
+          embed(message, {
+            type: "error",
+            title: "Not found...",
+            description:
+              "I couldn't find that emoji in my list. Make sure the ID is correct.",
+          }),
+        ],
       });
     }
   }

@@ -17,12 +17,14 @@ export function execute({ message, args, gdb }: executeArgs): Promise<Message> {
 
   if (!isNumber(count)) {
     return message.channel.send({
-      embed: embed(message, {
-        type: "error",
-        title: "Invalid number.",
-        description:
-          "Sorry, that's not a valid number. Make sure to use a positive integer!",
-      }),
+      embeds: [
+        embed(message, {
+          type: "error",
+          title: "Invalid number.",
+          description:
+            "Sorry, that's not a valid number. Make sure to use a positive integer!",
+        }),
+      ],
     });
   }
 
@@ -30,10 +32,12 @@ export function execute({ message, args, gdb }: executeArgs): Promise<Message> {
   console.log(`Updated next expected count to ${count}.`);
 
   return message.channel.send({
-    embed: embed(message, {
-      type: "success",
-      title: "Count updated!",
-      description: `The next expected count has been updated to \`${count}\``,
-    }),
+    embeds: [
+      embed(message, {
+        type: "success",
+        title: "Count updated!",
+        description: `The next expected count has been updated to \`${count}\``,
+      }),
+    ],
   });
 }

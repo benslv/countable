@@ -46,7 +46,7 @@ export function execute({ args, message, gdb }: executeArgs): Promise<Message> {
 
     const response = action(message, values[0], values[1], gdb);
 
-    return message.channel.send({ embed: embed(message, { ...response }) });
+    return message.channel.send({ embeds: [embed(message, { ...response })] });
   } catch (e) {
     const error_message = (() => {
       switch (e) {
@@ -84,7 +84,7 @@ export function execute({ args, message, gdb }: executeArgs): Promise<Message> {
     })();
 
     return message.channel.send({
-      embed: embed(message, error_message),
+      embeds: [embed(message, error_message)],
     });
   }
 }

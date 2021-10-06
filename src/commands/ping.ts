@@ -14,10 +14,12 @@ export const metadata: Metadata = {
 
 export function execute({ message }: executeArgs): Promise<Message> {
   return message.channel.send({
-    embed: embed(message, {
-      type: "success",
-      title: "🏓 Pong!",
-      description: "Everything seems to be in order.",
-    }),
+    embeds: [
+      embed(message, {
+        type: "success",
+        title: "🏓 Pong!",
+        description: "Everything seems to be in order.",
+      }),
+    ],
   });
 }
