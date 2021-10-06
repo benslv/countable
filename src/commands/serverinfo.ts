@@ -27,22 +27,9 @@ export async function execute({ message, gdb }: executeArgs): Promise<Message> {
     correctCounts,
   } = gdb;
 
-  if (!gdb) {
-    return message.channel.send({
-      embeds: [
-        embed(message, {
-          type: "error",
-          title: "Server not found.",
-          description:
-            "I couldn't find any information about your server. Perhaps no-one has counted yet?",
-        }),
-      ],
-    });
-  }
+  const prevUser = message.client.users.cache.get(prevUserID) || "no-one!";
 
-  const prevUser = await message.client.users.fetch(prevUserID);
-
-  const emoji = message.client.emojis.cache.get(emojiID);
+  const emoji = message.client.emojis.cache.get(emojiID) || "N/A";
 
   return message.channel.send({
     embeds: [
@@ -56,38 +43,42 @@ export async function execute({ message, gdb }: executeArgs): Promise<Message> {
             url: message.guild.iconURL({ size: 128 }),
           },
           fields: [
-            { name: "Next count", value: nextCount, inline: true },
-            { name: "Highest count", value: highestCount, inline: true },
+            { name: "Next count", value: nextCount.toString(), inline: true },
+            {
+              name: "Highest count",
+              value: highestCount.toString(),
+              inline: true,
+            },
             {
               name: "Total counts",
-              value: correctCounts,
+              value: correctCounts.toString(),
               inline: true,
             },
             {
               name: "# Milestones",
-              value: Object.keys(milestones).length,
+              value: Object.keys(milestones).length.toString(),
               inline: true,
             },
             {
               name: "# Counters",
-              value: Object.keys(users).length,
+              value: Object.keys(users).length.toString(),
               inline: true,
             },
-            { name: "# Saves", value: saves.length, inline: true },
-            { name: "Save price", value: savePrice, inline: true },
+            { name: "# Saves", value: saves.length.toString(), inline: true },
+            { name: "Save price", value: savePrice.toString(), inline: true },
             {
               name: "Reaction emoji",
-              value: emoji,
+              value: emoji.toString(),
               inline: true,
             },
             {
               name: "Prefix",
-              value: prefix,
+              value: prefix.toString(),
               inline: true,
             },
             {
               name: "Most recent counter",
-              value: prevUser,
+              value: prevUser.toString(),
               inline: true,
             },
           ],
