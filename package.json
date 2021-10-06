@@ -7,16 +7,13 @@
     "start": "ts-node src/index.ts",
     "lint": "eslint src/**/*.ts",
     "format": "prettier ./src/**/*.ts --write",
+    "prepare": "husky install",
     "prebuild": "yarn run format && yarn run lint",
-    "build": "tsc"
+    "build": "tsc",
+    "pre-commit": "lint-staged && pretty-quick --staged"
   },
   "lint-staged": {
     "*.ts": "eslint"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && pretty-quick --staged"
-    }
   },
   "license": "MIT",
   "dependencies": {
