@@ -4,7 +4,7 @@
 import config from "../config.json";
 const { CLIENT_TOKEN } = config;
 
-import { Client, Intents, Message } from "discord.js";
+import { Client, Intents } from "discord.js";
 
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
@@ -29,6 +29,16 @@ client.once("ready", () => {
       },
     ],
   });
+});
+
+client.on("interactionCreate", async interaction => {
+  if (!interaction.isCommand()) return;
+
+  const { commandName } = interaction;
+
+  if (commandName === "ping") {
+    await interaction.reply("Pong!");
+  }
 });
 
 client.on("messageCreate", async message => {

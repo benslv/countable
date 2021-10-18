@@ -1,8 +1,10 @@
 {
-    "compilerOptions": {
-        "outDir": "build/",
-        "strictNullChecks": false,
-        "esModuleInterop": true,
-        "resolveJsonModule": true,
-    }
+  "compilerOptions": {
+    "outDir": "build/",
+    "strictNullChecks": false,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "resolveJsonModule": true,
+    "target": "ES2015"
+  }
 }
