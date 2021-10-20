@@ -53,6 +53,17 @@
     ts-mixer "^6.0.0"
     tslib "^2.3.1"
 
+"@discordjs/builders@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@discordjs/builders/-/builders-0.7.0.tgz#c2670d9443ffc3e86d087fd236fc00d3c56f7503"
+  integrity sha512-0dnRH5ABy6DfyPU+gYeIE16P6+fnc9BSK53r0/jCe0aJiBQIVLcPrA7r/5vBV0MaoQOeuhlRQ2vwoawABDkn5w==
+  dependencies:
+    "@sindresorhus/is" "^4.2.0"
+    discord-api-types "^0.24.0"
+    ow "^0.27.0"
+    ts-mixer "^6.0.0"
+    tslib "^2.3.1"
+
 "@discordjs/collection@^0.1.6":
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/@discordjs/collection/-/collection-0.1.6.tgz#9e9a7637f4e4e0688fd8b2b5c63133c91607682c"
@@ -151,7 +162,7 @@
   resolved "https://registry.yarnpkg.com/@sapphire/snowflake/-/snowflake-1.3.6.tgz#166e8c5c08d01c861edd7e2edc80b5739741715f"
   integrity sha512-QnzuLp+p9D7agynVub/zqlDVriDza9y3STArBhNiNBUgIX8+GL5FpQxstRfw1jDr5jkZUjcuKYAHxjIuXKdJAg==
 
-"@sindresorhus/is@^4.0.1":
+"@sindresorhus/is@^4.0.1", "@sindresorhus/is@^4.2.0":
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-4.2.0.tgz#667bfc6186ae7c9e0b45a08960c551437176e1ca"
   integrity sha512-VkE3KLBmJwcCaVARtQpfuKcKv8gcBmUubrfHGF84dXuuW6jgsRYxPtzcIhPyK9WAPpRt2/xY6zkD9MnRaJzSyw==
