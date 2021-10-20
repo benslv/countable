@@ -34,11 +34,12 @@ client.once("ready", () => {
 client.on("interactionCreate", async interaction => {
   if (!interaction.isCommand()) return;
 
-  const { commandName } = interaction;
+  // Retrieve the settings for the current guild.
+  const gdb = database.getGuild(interaction.guildId);
 
-  if (commandName === "ping") {
-    await interaction.reply("Pong!");
-  }
+  if (interaction.channelId === gdb.channel) return;
+
+  commandHandler(interaction, gdb);
 });
 
 client.on("messageCreate", async message => {
@@ -49,11 +50,9 @@ client.on("messageCreate", async message => {
   const gdb = database.getGuild(message.guild.id);
 
   // Behaviour for messages sent in non-counting channels.
-  if (message.channel.id === gdb.channel) {
-    countingHandler(message, gdb);
-  } else if (message.content.startsWith(gdb.prefix)) {
-    commandHandler(message, gdb);
-  }
+  if (message.channel.id !== gdb.channel) return;
+
+  countingHandler(message, gdb);
 });
 
 client.on("messageDelete", async message => {
