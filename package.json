@@ -10,7 +10,8 @@
     "prepare": "husky install",
     "prebuild": "yarn run format && yarn run lint",
     "build": "tsc",
-    "pre-commit": "lint-staged && pretty-quick --staged"
+    "pre-commit": "lint-staged && pretty-quick --staged",
+    "deploy-commands": "ts-node src/deploy-commands.ts"
   },
   "lint-staged": {
     "*.ts": "eslint"

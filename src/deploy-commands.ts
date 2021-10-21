@@ -1,13 +1,10 @@
-import { SlashCommandBuilder } from "@discordjs/builders";
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
+
+import { registry } from "./commands";
 import { CLIENT_ID, CLIENT_TOKEN } from "../config.json";
 
-const commands = [
-  new SlashCommandBuilder()
-    .setName("ping")
-    .setDescription("Replies with pong!"),
-].map(command => command.toJSON());
+const commands = registry.map(command => command.metadata.toJSON());
 
 const rest = new REST({ version: "9" }).setToken(CLIENT_TOKEN);
 
