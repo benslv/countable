@@ -15,7 +15,7 @@ export async function commandHandler(
   if (!command) return;
 
   try {
-    await command.execute(interaction);
+    await command.execute(interaction, gdb);
   } catch (err) {
     console.error(err);
 

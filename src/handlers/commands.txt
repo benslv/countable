@@ -1,0 +1,9 @@
+- import commands (metadata, execute)
+- split message into arguments
+- take first arg as command name
+- search through command list to find matching name (or alias)
+- return/error if none found
+- check if command is guild only
+- check if command is owner only
+- check that correct number/type of args have been supplied
+- run the command's execute function
