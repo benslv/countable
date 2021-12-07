@@ -1,6 +1,8 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageEmbed } from "discord.js";
 
+import { guildDB } from "../@types/guild";
+
 const info = {
   name: "stats",
   aliases: [],
@@ -20,7 +22,7 @@ export const metadata = new SlashCommandBuilder()
       .setDescription("The user you want information about!"),
   );
 
-export async function execute(interaction, gdb) {
+export async function execute(interaction, gdb: guildDB) {
   const user = interaction.options.getUser("user");
 
   if (user) {
@@ -35,9 +37,11 @@ export async function execute(interaction, gdb) {
 }
 
 async function getUserStats(interaction, gdb, id) {
+  const user = await interaction.client.users.fetch(id);
+
   if (!gdb.users[id]) {
     return new MessageEmbed()
-      .setTitle("User not found")
+      .setTitle(`Stats for ${user.tag}`)
       .setDescription(
         "Sorry, I couldn't find that user. Have they done any counting yet?",
       );
@@ -48,8 +52,6 @@ async function getUserStats(interaction, gdb, id) {
   const score = (correct - incorrect).toString();
   const accuracy = `${(100 * (correct / (correct + incorrect))).toFixed(2)}%`;
   const points = gdb.users[id].points;
-
-  const user = await interaction.client.users.fetch(id);
 
   return new MessageEmbed()
     .setTitle(`Stats for ${user.tag}`)

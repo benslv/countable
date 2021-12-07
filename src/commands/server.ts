@@ -1,6 +1,8 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { MessageEmbed } from "discord.js";
 
+import { guildDB } from "../@types/guild";
+
 const info = {
   name: "server",
   aliases: ["info", "server"],
@@ -16,7 +18,7 @@ export const metadata = new SlashCommandBuilder()
   .setName(info.name)
   .setDescription(info.description);
 
-export async function execute(interaction, gdb) {
+export async function execute(interaction, gdb: guildDB) {
   const {
     prefix,
     nextCount,

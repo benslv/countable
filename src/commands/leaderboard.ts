@@ -3,7 +3,7 @@ import { MessageEmbed } from "discord.js";
 
 import { getUserScore } from "../utils";
 
-import { userT } from "../@types/guild";
+import { guildDB, userT } from "../@types/guild";
 
 const info = {
   name: "leaderboard",
@@ -23,7 +23,7 @@ function byScore(a, b): number {
   return getUserScore(b) - getUserScore(a);
 }
 
-export async function execute(interaction, gdb) {
+export async function execute(interaction, gdb: guildDB) {
   const medals = ["🥇", "🥈", "🥉"];
 
   // Get all users stored in gdb

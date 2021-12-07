@@ -1,5 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 
+import { guildDB } from "../@types/guild";
+
 const info = {
   name: "ping",
   aliases: [],
@@ -14,6 +16,6 @@ export const metadata = new SlashCommandBuilder()
   .setName(info.name)
   .setDescription(info.description);
 
-export async function execute(interaction, gdb) {
+export async function execute(interaction, gdb: guildDB) {
   await interaction.reply(":ping_pong: Pong!");
 }
