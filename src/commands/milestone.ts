@@ -95,6 +95,16 @@ function addMilestone(interaction, gdb) {
   const count = interaction.options.getInteger("count");
   const name = interaction.options.getString("name");
 
+  if (count < 0) {
+    return interaction.reply({
+      embeds: [
+        embedError
+          .setTitle("Invalid count.")
+          .setDescription("Counts must be a positive integer."),
+      ],
+    });
+  }
+
   gdb.set(`milestones.${count}`, name);
 
   return interaction.reply({
