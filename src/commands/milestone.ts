@@ -19,12 +19,12 @@ export const metadata = new SlashCommandBuilder()
   .addSubcommand(subcommand =>
     subcommand
       .setName("list")
-      .setDescription("List the milestones in your server."),
+      .setDescription("List the milestones in the server."),
   )
   .addSubcommand(subcommand =>
     subcommand
       .setName("add")
-      .setDescription("Add a milestone to your server.")
+      .setDescription("Add a milestone to the server.")
       .addIntegerOption(option =>
         option
           .setName("count")
@@ -41,7 +41,7 @@ export const metadata = new SlashCommandBuilder()
   .addSubcommand(subcommand =>
     subcommand
       .setName("remove")
-      .setDescription("Remove a milestone from your server.")
+      .setDescription("Remove a milestone from the server.")
       .addIntegerOption(option =>
         option
           .setName("count")
