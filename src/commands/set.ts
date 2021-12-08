@@ -1,13 +1,19 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ChannelType } from "discord-api-types";
 
-import { execute as channelExecute } from "./set/channel";
+import * as channel from "./set/channel";
+import * as count from "./set/count";
+import * as emoji from "./set/emoji";
+import * as highestCount from "./set/highestCount";
+import * as numbersOnly from "./set/numbersOnly";
+import * as savePrice from "./set/savePrice";
 
 const info = {
   name: "set",
   description: "Change the settings for Countable in the server.",
 };
 
+// I haven't worked out how to do it better than this yet...
 export const metadata = new SlashCommandBuilder()
   .setName(info.name)
   .setDescription(info.description)
@@ -118,6 +124,16 @@ export function execute(interaction, gdb) {
 
   switch (subcommand) {
     case "channel":
-      return channelExecute(interaction, gdb);
+      return channel.execute(interaction, gdb);
+    case "count":
+      return count.execute(interaction, gdb);
+    case "emoji":
+      return emoji.execute(interaction, gdb);
+    case "highest-count":
+      return highestCount.execute(interaction, gdb);
+    case "numbers-only":
+      return numbersOnly.execute(interaction, gdb);
+    case "save-price":
+      return savePrice.execute(interaction, gdb);
   }
 }
