@@ -54,7 +54,7 @@ function addSave(interaction, gdb: guildDB) {
     });
   }
 
-  const user = gdb.getUser(interaction.member);
+  const user = gdb.getUser(interaction.user);
 
   if (user.points < gdb.savePrice) {
     return interaction.reply({
@@ -81,7 +81,7 @@ function addSave(interaction, gdb: guildDB) {
   }
 
   gdb.addSave(count);
-  gdb.set(`users.${interaction.member.id}.points`, user.points - gdb.savePrice);
+  gdb.set(`users.${interaction.user.id}.points`, user.points - gdb.savePrice);
 
   return interaction.reply({
     embeds: [

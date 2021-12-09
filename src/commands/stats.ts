@@ -31,7 +31,7 @@ export async function execute(interaction, gdb: guildDB) {
     return interaction.reply({ embeds: [response] });
   }
 
-  const response = await getUserStats(interaction, gdb, interaction.member.id);
+  const response = await getUserStats(interaction, gdb, interaction.user.id);
 
   return interaction.reply({ embeds: [response] });
 }
