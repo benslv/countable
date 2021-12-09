@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageEmbed } from "discord.js";
 
 import { guildDB } from "../@types/guild";
+import { embedInfo } from "../utils";
 
 const info = {
   name: "stats",
@@ -40,7 +40,7 @@ async function getUserStats(interaction, gdb, id) {
   const user = await interaction.client.users.fetch(id);
 
   if (!gdb.users[id]) {
-    return new MessageEmbed()
+    return embedInfo
       .setTitle(`Stats for ${user.tag}`)
       .setDescription(
         "Sorry, I couldn't find that user. Have they done any counting yet?",
@@ -53,7 +53,7 @@ async function getUserStats(interaction, gdb, id) {
   const accuracy = `${(100 * (correct / (correct + incorrect))).toFixed(2)}%`;
   const points = gdb.users[id].points;
 
-  return new MessageEmbed()
+  return embedInfo
     .setTitle(`Stats for ${user.tag}`)
     .setDescription(`Here are the stats for ${user.toString()}!`)
     .setThumbnail(

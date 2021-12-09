@@ -1,7 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageEmbed } from "discord.js";
 
-import { getUserScore } from "../utils";
+import { embedInfo, getUserScore } from "../utils";
 
 import { guildDB, userT } from "../@types/guild";
 
@@ -55,7 +54,7 @@ export async function execute(interaction, gdb: guildDB) {
 
   return interaction.reply({
     embeds: [
-      new MessageEmbed()
+      embedInfo
         .setTitle(`Top counters in ${interaction.guild.name}`)
         .setDescription(scoreStrings.join("\n"))
         .setFooter("Sorted by player score")

@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { MessageEmbed } from "discord.js";
 
 import { guildDB } from "../@types/guild";
+import { embedInfo } from "../utils";
 
 const info = {
   name: "server",
@@ -38,7 +38,7 @@ export async function execute(interaction, gdb: guildDB) {
 
   return interaction.reply({
     embeds: [
-      new MessageEmbed()
+      embedInfo
         .setTitle(`Info about ${interaction.guild.name}`)
         .setDescription("Here's everything I could find!")
         .setThumbnail(interaction.guild.iconURL({ size: 128 }))

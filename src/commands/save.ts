@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { guildDB } from "../@types/guild";
-import { embedError, embedSuccess } from "../utils";
+import { embedError, embedInfo, embedSuccess } from "../utils";
 
 const info = {
   name: "save",
@@ -20,7 +20,10 @@ export const metadata = new SlashCommandBuilder()
       .setName("add")
       .setDescription("Add a save to the server.")
       .addIntegerOption(option =>
-        option.setName("count").setDescription("The count to add the save at."),
+        option
+          .setName("count")
+          .setDescription("The count to add the save at.")
+          .setRequired(true),
       ),
   );
 
@@ -38,7 +41,17 @@ export async function execute(interaction, gdb: guildDB) {
 function listSaves(interaction, gdb) {
   const saves = gdb.get("saves");
 
-  console.log("saves");
+  return interaction.reply({
+    embeds: [
+      embedInfo
+        .setTitle("Server Saves")
+        .setDescription(
+          `Here are the save points currently in the server!\n\n${saves.join(
+            "\n",
+          )}`,
+        ),
+    ],
+  });
 }
 
 function addSave(interaction, gdb: guildDB) {
