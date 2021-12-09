@@ -73,7 +73,7 @@ export async function countingHandler(
           .remove(failRole)
           .catch(err =>
             console.error(
-              `Unable to remove fail frole from ${prevFailUser}. Do I have permission to Manage Roles?\n${err}`,
+              `Unable to remove fail role from ${prevFailUser}. Do I have permission to Manage Roles?\n${err}`,
             ),
           );
       }
@@ -84,7 +84,7 @@ export async function countingHandler(
         .add(failRole)
         .catch(err =>
           console.error(
-            `Unable to add fail frole to ${newFailUser}. Do I have permission to Manage Roles?\n${err}`,
+            `Unable to add fail role to ${newFailUser}. Do I have permission to Manage Roles?\n${err}`,
           ),
         );
 
