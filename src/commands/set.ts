@@ -7,6 +7,8 @@ import * as emoji from "./set/emoji";
 import * as highestCount from "./set/highestCount";
 import * as numbersOnly from "./set/numbersOnly";
 import * as savePrice from "./set/savePrice";
+import * as failRole from "./set/failRole";
+import * as noMessage from "./set/noMessage";
 
 const info = {
   name: "set",
@@ -60,10 +62,7 @@ export const metadata = new SlashCommandBuilder()
         "Sets the role to apply to a user who makes an incorrect count.",
       )
       .addRoleOption(option =>
-        option
-          .setName("role")
-          .setDescription("The role to set.")
-          .setRequired(true),
+        option.setName("role").setDescription("The role to set."),
       ),
   )
   .addSubcommand(subcommand =>
@@ -135,5 +134,9 @@ export function execute(interaction, gdb) {
       return numbersOnly.execute(interaction, gdb);
     case "save-price":
       return savePrice.execute(interaction, gdb);
+    case "fail-role":
+      return failRole.execute(interaction, gdb);
+    case "no-message":
+      return noMessage.execute(interaction, gdb);
   }
 }
