@@ -20,6 +20,7 @@ const guildTemplate = {
   failRoleID: "", // id of the role to assign to a user when they make an incorrect count
   failUserID: "", // id of the user that most recently had the fail role assigned.
   correctCounts: 0,
+  modRoleID: "", // id of the role for bot moderators
 };
 
 const userTemplate: userT = {

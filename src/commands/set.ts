@@ -8,6 +8,7 @@ import * as highestCount from "./set/highestCount";
 import * as numbersOnly from "./set/numbersOnly";
 import * as savePrice from "./set/savePrice";
 import * as failRole from "./set/failRole";
+import * as modRole from "./set/modRole";
 import * as noMessage from "./set/noMessage";
 
 const info = {
@@ -63,6 +64,17 @@ export const metadata = new SlashCommandBuilder()
       )
       .addRoleOption(option =>
         option.setName("role").setDescription("The role to set."),
+      ),
+  )
+  .addSubcommand(subcommand =>
+    subcommand
+      .setName("mod-role")
+      .setDescription("Sets the role which can access additional commands.")
+      .addRoleOption(option =>
+        option
+          .setName("role")
+          .setDescription("The role to set.")
+          .setRequired(true),
       ),
   )
   .addSubcommand(subcommand =>
@@ -136,6 +148,8 @@ export function execute(interaction, gdb) {
       return savePrice.execute(interaction, gdb);
     case "fail-role":
       return failRole.execute(interaction, gdb);
+    case "mod-role":
+      return modRole.execute(interaction, gdb);
     case "no-message":
       return noMessage.execute(interaction, gdb);
   }
