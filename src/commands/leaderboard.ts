@@ -48,12 +48,14 @@ export async function execute({ message, gdb }: executeArgs): Promise<Message> {
   }
 
   return message.channel.send({
-    embeds: [embed(message, {
-      type: "info",
-      title: `Top counters in ${message.guild.name}`,
-      description: scoreStrings.join("\n"),
-      footer: { text: "Sorted by player score" },
-      timestamp: new Date(),
-    })],
+    embeds: [
+      embed(message, {
+        type: "info",
+        title: `Top counters in ${message.guild.name}`,
+        description: scoreStrings.join("\n"),
+        footer: { text: "Sorted by player score" },
+        timestamp: new Date(),
+      }),
+    ],
   });
 }
