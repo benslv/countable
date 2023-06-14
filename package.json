@@ -22,6 +22,7 @@
   "dependencies": {
     "better-sqlite-pool": "^0.3.2",
     "discord.js": "^14.11.0",
+    "dotenv": "^16.1.4",
     "emoji-regex": "^10.2.1",
     "enmap": "^5.9.8"
   },

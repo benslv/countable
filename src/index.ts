@@ -1,8 +1,6 @@
 "use strict";
 
-// Config containing bot token and prefix.
-import config from "../config.json";
-const { CLIENT_TOKEN } = config;
+import "dotenv/config";
 
 import { ActivityType, Client, Events, GatewayIntentBits } from "discord.js";
 const client = new Client({
@@ -83,4 +81,4 @@ Happy Counting!
   guildOwner.send(message);
 });
 
-client.login(CLIENT_TOKEN);
+client.login(process.env.CLIENT_TOKEN);
