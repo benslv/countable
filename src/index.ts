@@ -1,7 +1,6 @@
 "use strict";
 
 import "dotenv/config";
-
 import { ActivityType, Client, Events, GatewayIntentBits } from "discord.js";
 const client = new Client({
   intents: [
@@ -33,6 +32,7 @@ client.on(Events.ClientReady, () => {
 });
 
 client.on(Events.MessageCreate, message => {
+  console.log(message.content);
   // Will not respond to the message if it's from a bot or isn't a guild message.
   if (!message.guild || message.author.bot) return;
 

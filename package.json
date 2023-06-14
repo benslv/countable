@@ -4,11 +4,11 @@
   "description": "A small, robust bot to help support and manage a counting channel in your Discord server!",
   "author": "Ben Silverman <bensilverman10@gmail.com>",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "dev": "ts-node src/index.ts",
     "lint": "eslint src/**/*.ts",
     "format": "prettier ./src/**/*.ts --write",
-    "prebuild": "yarn run format && yarn run lint",
-    "build": "tsc"
+    "build": "tsc",
+    "start": "node build/index.js"
   },
   "lint-staged": {
     "*.ts": "eslint"
