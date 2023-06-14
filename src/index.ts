@@ -4,8 +4,14 @@
 import config from "../config.json";
 const { CLIENT_TOKEN } = config;
 
-import * as Discord from "discord.js";
-const client = new Discord.Client();
+import { ActivityType, Client, Events, GatewayIntentBits } from "discord.js";
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+  ],
+});
 
 import { database } from "./database/guild";
 
@@ -14,43 +20,43 @@ import { countingHandler } from "./handlers/counting";
 
 console.log("Initialised command collection.");
 
-client.on("ready", () => {
+client.on(Events.ClientReady, () => {
   console.log(`Logged in as ${client.user.tag}!`);
 
   client.user.setPresence({
     status: "online",
-    activity: {
-      type: "WATCHING",
-      name: "people count",
-    },
+    activities: [
+      {
+        type: ActivityType.Watching,
+        name: "people count",
+      },
+    ],
   });
 });
 
-client.on("message", async message => {
+client.on(Events.MessageCreate, message => {
   // Will not respond to the message if it's from a bot or isn't a guild message.
   if (!message.guild || message.author.bot) return;
 
-  // Retrieve the settings for the current guild.
   const gdb = database.getGuild(message.guild.id);
 
-  // Behaviour for messages sent in non-counting channels.
-  if (message.channel.id === gdb.channel) {
-    return countingHandler(message, gdb);
+  if (message.channelId === gdb.channel) {
+    countingHandler(message, gdb);
   } else if (message.content.startsWith(gdb.prefix)) {
-    return commandHandler(message, gdb);
+    commandHandler(message, gdb);
   }
 });
 
-client.on("messageDelete", async message => {
+client.on(Events.MessageDelete, async message => {
   // Retrieve the settings for the current guild.
-  const gdb = database.getGuild(message.guild.id);
+  const gdb = database.getGuild(message.guildId);
 
   // Only do anything if the deleted message was in the counting channel.
-  if (message.channel.id !== gdb.channel) return;
+  if (message.channelId !== gdb.channel) return;
 
   if (message.createdTimestamp === gdb.latestMessage) {
     // Grab the number component from the deleted message, and repost it.
-    return message.channel.send(
+    message.channel.send(
       `**${
         (gdb.get("nextCount") as number) - 1
       }**, from ${message.author.toString()}. `,
@@ -58,7 +64,7 @@ client.on("messageDelete", async message => {
   }
 });
 
-client.on("guildCreate", async guild => {
+client.on(Events.GuildCreate, async guild => {
   const message = `
 Hello, I'm Countable! :wave:
 Thanks for inviting me to your server!
@@ -72,7 +78,7 @@ This will set the value of the **next expected** count in your server.
 Happy Counting!
   `;
 
-  const guildOwner = await client.users.fetch(guild.ownerID);
+  const guildOwner = await client.users.fetch(guild.ownerId);
 
   guildOwner.send(message);
 });
