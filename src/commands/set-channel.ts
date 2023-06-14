@@ -18,11 +18,13 @@ export async function execute({ message, gdb }: executeArgs): Promise<Message> {
 
   if (channelMentions.size === 0) {
     return message.channel.send({
-      embed: embed(message, {
-        type: "error",
-        title: "Channel not included.",
-        description: "Make sure to mention the channel you want me to watch.",
-      }),
+      embeds: [
+        embed(message, {
+          type: "error",
+          title: "Channel not included.",
+          description: "Make sure to mention the channel you want me to watch.",
+        }),
+      ],
     });
   }
 
@@ -32,10 +34,12 @@ export async function execute({ message, gdb }: executeArgs): Promise<Message> {
   gdb.set("channel", channelID);
 
   return message.channel.send({
-    embed: embed(message, {
-      type: "success",
-      title: "Channel updated!",
-      description: `The counting channel has been set to <#${channelID}>`,
-    }),
+    embeds: [
+      embed(message, {
+        type: "success",
+        title: "Channel updated!",
+        description: `The counting channel has been set to <#${channelID}>`,
+      }),
+    ],
   });
 }

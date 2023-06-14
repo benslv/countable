@@ -21,12 +21,14 @@ export function execute({ message, gdb }: executeArgs): Promise<Message> {
     gdb.set("failRoleID", "");
 
     return message.channel.send({
-      embed: embed(message, {
-        type: "success",
-        title: "Fail Role Disabled",
-        description:
-          "The fail role has been turned off now.\nTag the role to use if you'd like to turn this feature on!",
-      }),
+      embeds: [
+        embed(message, {
+          type: "success",
+          title: "Fail Role Disabled",
+          description:
+            "The fail role has been turned off now.\nTag the role to use if you'd like to turn this feature on!",
+        }),
+      ],
     });
   }
 
@@ -35,10 +37,12 @@ export function execute({ message, gdb }: executeArgs): Promise<Message> {
   gdb.set("failRoleID", roleID);
 
   return message.channel.send({
-    embed: embed(message, {
-      type: "success",
-      title: "Fail Role Enabled",
-      description: `The fail role has been set to <@&${roleID}>.`,
-    }),
+    embeds: [
+      embed(message, {
+        type: "success",
+        title: "Fail Role Enabled",
+        description: `The fail role has been set to <@&${roleID}>.`,
+      }),
+    ],
   });
 }

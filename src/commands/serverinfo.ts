@@ -32,53 +32,55 @@ export async function execute({ message, gdb }: executeArgs): Promise<Message> {
   const emoji = message.client.emojis.cache.get(emojiID);
 
   return message.channel.send({
-    embed: embed(
-      message,
-      {
-        type: "info",
-        title: `Info about ${message.guild.name}`,
-        description: "Here's everything I could find!",
-        thumbnail: {
-          url: message.guild.iconURL({ size: 128 }),
+    embeds: [
+      embed(
+        message,
+        {
+          type: "info",
+          title: `Info about ${message.guild.name}`,
+          description: "Here's everything I could find!",
+          thumbnail: {
+            url: message.guild.iconURL({ size: 128 }),
+          },
+          fields: [
+            { name: "Next count", value: nextCount, inline: true },
+            { name: "Highest count", value: highestCount, inline: true },
+            {
+              name: "Total counts",
+              value: correctCounts,
+              inline: true,
+            },
+            {
+              name: "# Milestones",
+              value: Object.keys(milestones).length,
+              inline: true,
+            },
+            {
+              name: "# Counters",
+              value: Object.keys(users).length,
+              inline: true,
+            },
+            { name: "# Saves", value: saves.length, inline: true },
+            { name: "Save price", value: savePrice, inline: true },
+            {
+              name: "Reaction emoji",
+              value: emoji,
+              inline: true,
+            },
+            {
+              name: "Prefix",
+              value: prefix,
+              inline: true,
+            },
+            {
+              name: "Most recent counter",
+              value: prevUser,
+              inline: true,
+            },
+          ],
         },
-        fields: [
-          { name: "Next count", value: nextCount, inline: true },
-          { name: "Highest count", value: highestCount, inline: true },
-          {
-            name: "Total counts",
-            value: correctCounts,
-            inline: true,
-          },
-          {
-            name: "# Milestones",
-            value: Object.keys(milestones).length,
-            inline: true,
-          },
-          {
-            name: "# Counters",
-            value: Object.keys(users).length,
-            inline: true,
-          },
-          { name: "# Saves", value: saves.length, inline: true },
-          { name: "Save price", value: savePrice, inline: true },
-          {
-            name: "Reaction emoji",
-            value: emoji,
-            inline: true,
-          },
-          {
-            name: "Prefix",
-            value: prefix,
-            inline: true,
-          },
-          {
-            name: "Most recent counter",
-            value: prevUser,
-            inline: true,
-          },
-        ],
-      },
-      true,
-    ),
+        true,
+      ),
+    ],
   });
 }

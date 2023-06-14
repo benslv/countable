@@ -1,10 +1,3 @@
-import { timeStamp } from "console";
-import {
-  EmbedField,
-  Message,
-  MessageEmbed,
-  MessageEmbedAuthor,
-} from "discord.js";
 import { userT } from "./@types/guild";
 
 /**

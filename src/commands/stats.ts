@@ -31,7 +31,7 @@ export async function execute({ message, gdb }: executeArgs): Promise<Message> {
       message,
       id: message.author.id,
     });
-    return message.channel.send({ embed: embed(message, response) });
+    return message.channel.send({ embeds: [embed(message, response)] });
   }
 
   const userID = userMentions.first().id;
@@ -40,18 +40,20 @@ export async function execute({ message, gdb }: executeArgs): Promise<Message> {
   // User not found in database.
   if (!userInfo) {
     return message.channel.send({
-      embed: embed(message, {
-        type: "error",
-        title: "User not found.",
-        description:
-          "Sorry, I couldn't find that user.\n\nMake sure you mentioned the correct person.\nPerhaps they haven't done any counting yet?",
-      }),
+      embeds: [
+        embed(message, {
+          type: "error",
+          title: "User not found.",
+          description:
+            "Sorry, I couldn't find that user.\n\nMake sure you mentioned the correct person.\nPerhaps they haven't done any counting yet?",
+        }),
+      ],
     });
   }
 
   const response = await getUserStats({ gdb, message, id: userID });
 
-  return message.channel.send({ embed: embed(message, response) });
+  return message.channel.send({ embeds: [embed(message, response)] });
 }
 
 async function getUserStats({
@@ -76,8 +78,7 @@ async function getUserStats({
     title: `Stats for ${user.tag}`,
     description: `Here are the stats for ${user.toString()}!`,
     thumbnail: {
-      url:
-        user.avatarURL({ size: 128, dynamic: true }) || user.defaultAvatarURL,
+      url: user.avatarURL({ size: 128 }) || user.defaultAvatarURL,
     },
     fields: [
       {
