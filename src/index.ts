@@ -43,7 +43,6 @@ client.on(Events.InteractionCreate, async interaction => {
 });
 
 client.on(Events.MessageCreate, message => {
-  console.log(message.content);
   // Will not respond to the message if it's from a bot or isn't a guild message.
   if (!message.guild || message.author.bot) return;
 
