@@ -32,7 +32,7 @@ client.on(Events.ClientReady, () => {
 });
 
 client.on(Events.InteractionCreate, async interaction => {
-  if (!interaction.isCommand()) return;
+  if (!interaction.isChatInputCommand()) return;
 
   // Retrieve the settings for the current guild.
   const gdb = database.getGuild(interaction.guildId);

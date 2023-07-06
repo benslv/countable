@@ -1,4 +1,4 @@
-import { ChannelType, CommandInteraction, Message } from "discord.js";
+import { ChannelType, ChatInputCommandInteraction, Message } from "discord.js";
 import { guildDB } from "../@types/guild";
 import { commands } from "../commands";
 import { commands as slashCommands } from "../slash-commands";
@@ -65,7 +65,7 @@ export async function commandHandler(
 }
 
 export async function slashCommandHandler(
-  interaction: CommandInteraction,
+  interaction: ChatInputCommandInteraction,
   gdb: guildDB,
 ) {
   const commandName = interaction.commandName;
@@ -75,7 +75,7 @@ export async function slashCommandHandler(
   if (!command) return;
 
   try {
-    await command.execute(interaction);
+    await command.execute(interaction, gdb);
   } catch (err) {
     console.error(err);
 
