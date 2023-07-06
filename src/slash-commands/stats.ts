@@ -15,7 +15,8 @@ export const data = new SlashCommandBuilder()
       .setName("user")
       .setDescription("The user to look up")
       .setRequired(true),
-  );
+  )
+  .setDMPermission(false);
 
 export async function execute(
   interaction: ChatInputCommandInteraction,

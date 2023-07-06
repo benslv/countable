@@ -21,7 +21,8 @@ export const data = new SlashCommandBuilder()
           .setDescription("The count to add the save at.")
           .setRequired(true),
       ),
-  );
+  )
+  .setDMPermission(false);
 
 export async function execute(
   interaction: ChatInputCommandInteraction,

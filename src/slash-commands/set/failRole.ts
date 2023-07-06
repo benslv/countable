@@ -1,5 +1,17 @@
-import { ChatInputCommandInteraction } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  SlashCommandSubcommandBuilder,
+} from "discord.js";
 import { embedSuccess } from "../../utils";
+
+export const builder = new SlashCommandSubcommandBuilder()
+  .setName("fail-role")
+  .setDescription(
+    "Sets the role to apply to a user who makes an incorrect count.",
+  )
+  .addRoleOption(option =>
+    option.setName("role").setDescription("The role to set."),
+  );
 
 export function execute(interaction: ChatInputCommandInteraction, gdb) {
   const roleID = interaction.options.getRole("role").id;

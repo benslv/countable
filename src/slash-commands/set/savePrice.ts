@@ -1,8 +1,21 @@
-import { ChatInputCommandInteraction } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  SlashCommandSubcommandBuilder,
+} from "discord.js";
 import { embedError, embedSuccess } from "../../utils";
 
+export const builder = new SlashCommandSubcommandBuilder()
+  .setName("save-price")
+  .setDescription("Sets the price for buying save points.")
+  .addIntegerOption(option =>
+    option
+      .setName("price")
+      .setDescription("The price to set saves as.")
+      .setRequired(true),
+  );
+
 export function execute(interaction: ChatInputCommandInteraction, gdb) {
-  const price = parseInt(interaction.options.getInteger("price"), 10);
+  const price = interaction.options.getInteger("price");
 
   if (price < 0) {
     return interaction.reply({

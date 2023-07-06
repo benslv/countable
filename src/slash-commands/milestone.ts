@@ -38,7 +38,8 @@ export const data = new SlashCommandBuilder()
           .setDescription("The count to remove a milestone from.")
           .setRequired(true),
       ),
-  );
+  )
+  .setDMPermission(false);
 
 export async function execute(
   interaction: ChatInputCommandInteraction,

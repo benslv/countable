@@ -1,6 +1,22 @@
-import { ChatInputCommandInteraction } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  SlashCommandSubcommandBuilder,
+} from "discord.js";
+
 import { guildDB } from "../../@types/guild";
 import { embedError, embedSuccess } from "../../utils";
+
+export const builder = new SlashCommandSubcommandBuilder()
+  .setName("emoji")
+  .setDescription(
+    "Sets the reaction used by the bot when a user sends a count with no message.",
+  )
+  .addStringOption(option =>
+    option
+      .setName("emoji")
+      .setDescription("The emoji to use.")
+      .setRequired(true),
+  );
 
 export function execute(
   interaction: ChatInputCommandInteraction,
