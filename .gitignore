@@ -235,3 +235,7 @@ package-lock.json
 build/
 
 .vscode/
+
+.dockerignore
+Dockerfile
+fly.toml

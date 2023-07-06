@@ -1,7 +1,0 @@
-# fly.toml app configuration file generated for countable on 2023-06-14T12:21:51+01:00
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
-
-app = "countable"
-primary_region = "lhr"
