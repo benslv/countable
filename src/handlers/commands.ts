@@ -1,6 +1,7 @@
-import { ChannelType, Message } from "discord.js";
+import { ChannelType, CommandInteraction, Message } from "discord.js";
 import { guildDB } from "../@types/guild";
 import { commands } from "../commands";
+import { commands as slashCommands } from "../slash-commands";
 
 export async function commandHandler(
   message: Message,
@@ -60,5 +61,29 @@ export async function commandHandler(
     return message.reply(
       "There was an error trying to execute that command. Hmm...",
     );
+  }
+}
+
+export async function slashCommandHandler(
+  interaction: CommandInteraction,
+  gdb: guildDB,
+) {
+  const commandName = interaction.commandName;
+
+  const command = slashCommands.get(commandName);
+
+  if (!command) return;
+
+  try {
+    await command.execute(interaction);
+  } catch (err) {
+    console.error(err);
+
+    await interaction.reply({
+      content:
+        err.message ||
+        "Sorry, there was an error while executing this command!",
+      ephemeral: true,
+    });
   }
 }

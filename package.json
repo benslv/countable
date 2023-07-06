@@ -8,7 +8,8 @@
     "lint": "eslint src/**/*.ts",
     "format": "prettier ./src/**/*.ts --write",
     "build": "tsc",
-    "start": "node build/index.js"
+    "start": "node build/index.js",
+    "deploy-commands": "ts-node src/deploy-commands.ts"
   },
   "lint-staged": {
     "*.ts": "eslint"
