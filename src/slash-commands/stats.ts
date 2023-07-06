@@ -25,6 +25,9 @@ export async function execute(
   const userId = user.id;
   const userInfo = gdb.users[userId];
 
+  console.log(userId);
+  console.log(userInfo);
+
   if (!userInfo) {
     return interaction.reply({
       embeds: [
