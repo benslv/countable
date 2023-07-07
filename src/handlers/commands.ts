@@ -74,18 +74,20 @@ export async function slashCommandHandler(
 
   if (!command) return;
 
-  const member = interaction.member;
-  const memberRoles = member.roles as string[];
+  const guild = await interaction.guild.fetch();
 
-  console.log("This is athing!");
-  console.log(gdb.modRoleId);
+  const modRole = await guild.roles.fetch(gdb.modRoleId);
+  const modUserIds = modRole.members.map(member => member.id);
 
-  if (
-    gdb.modRoleId &&
-    command.metadata.modOnly &&
-    !memberRoles.includes(gdb.modRoleId) &&
-    interaction.guild.ownerId !== member.user.id
-  ) {
+  const isOwner = interaction.member.user.id === interaction.guild.ownerId;
+
+  const canRunModCommands =
+    (gdb.modRoleId && modUserIds.includes(interaction.member.user.id)) ||
+    isOwner;
+
+  const isModOnly = command.metadata.modOnly;
+
+  if (isModOnly && !canRunModCommands) {
     await interaction.reply({
       content:
         ":warning: **Permission denied**. You need to be a moderator to do that.",
