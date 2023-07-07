@@ -7,9 +7,15 @@ import {
 import { guildDB, userT } from "../@types/guild";
 import { embedInfo, getUserScore } from "../utils";
 
+export const metadata = {
+  name: "leaderboard",
+  description: "Displays the leaderboard for the current guild.",
+  modOnly: false,
+};
+
 export const data = new SlashCommandBuilder()
-  .setName("leaderboard")
-  .setDescription("Displays the leaderboard for the current guild.")
+  .setName(metadata.name)
+  .setDescription(metadata.description)
   .setDMPermission(false);
 
 export async function execute(

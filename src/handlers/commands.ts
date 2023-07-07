@@ -74,6 +74,26 @@ export async function slashCommandHandler(
 
   if (!command) return;
 
+  const member = interaction.member;
+  const memberRoles = member.roles as string[];
+
+  console.log("This is athing!");
+  console.log(gdb.modRoleId);
+
+  if (
+    gdb.modRoleId &&
+    command.metadata.modOnly &&
+    !memberRoles.includes(gdb.modRoleId) &&
+    interaction.guild.ownerId !== member.user.id
+  ) {
+    await interaction.reply({
+      content:
+        ":warning: **Permission denied**. You need to be a moderator to do that.",
+    });
+
+    return;
+  }
+
   try {
     await command.execute(interaction, gdb);
   } catch (err) {

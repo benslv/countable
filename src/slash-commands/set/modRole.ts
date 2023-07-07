@@ -14,7 +14,7 @@ export const builder = new SlashCommandSubcommandBuilder()
 export function execute(interaction: ChatInputCommandInteraction, gdb) {
   const roleID = interaction.options.getRole("role").id;
 
-  gdb.set("modRoleID", roleID);
+  gdb.set("modRoleId", roleID);
 
   return interaction.reply({
     embeds: [

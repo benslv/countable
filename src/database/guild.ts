@@ -14,6 +14,7 @@ const guildTemplate = {
   emojiID: "", // ID of the emoji to use when reacting to messages
   numbersOnly: false, // whether to enforce "numbers only" in the counting channel
   milestones: {}, // which channel-renaming milestones have been set up by the guild
+  modRoleId: "", // role ID for mod-related commands
   users: {}, // (future) statistics about each user (id, number of correct counts etc.)
   savePrice: 500,
   saves: [], // array of counts at which there exists a save point. Multiple saves can exist on the same count, and will be used up one at a time.

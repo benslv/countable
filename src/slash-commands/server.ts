@@ -3,8 +3,15 @@ import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import { guildDB } from "../@types/guild";
 import { embedInfo } from "../utils";
 
+export const metadata = {
+  name: "server",
+  description:
+    "Display a bunch of useful, interesting information about the current server.",
+  modOnly: false,
+};
+
 export const data = new SlashCommandBuilder()
-  .setName("serverinfo")
+  .setName("server")
   .setDescription(
     "Display a bunch of useful, interesting information about the current server.",
   )

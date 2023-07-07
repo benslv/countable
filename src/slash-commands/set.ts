@@ -11,9 +11,15 @@ import * as noMessage from "./set/noMessage";
 import * as numbersOnly from "./set/numbersOnly";
 import * as savePrice from "./set/savePrice";
 
+export const metadata = {
+  name: "set",
+  description: "Manage the settings for Countable in the server.",
+  modOnly: true,
+};
+
 export const data = new SlashCommandBuilder()
-  .setName("set")
-  .setDescription("Change the settings for Countable in the server.")
+  .setName(metadata.name)
+  .setDescription(metadata.description)
   .addSubcommand(channel.builder)
   .addSubcommand(count.builder)
   .addSubcommand(emoji.builder)

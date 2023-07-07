@@ -4,7 +4,7 @@ import * as save from "./save";
 import * as leaderboard from "./leaderboard";
 import * as milestone from "./milestone";
 import * as ping from "./ping";
-import * as serverinfo from "./serverinfo";
+import * as server from "./server";
 import * as set from "./set";
 import * as stats from "./stats";
 
@@ -14,7 +14,7 @@ export const registry = [
   ping,
   milestone,
   leaderboard,
-  serverinfo,
+  server,
   stats,
 ];
 

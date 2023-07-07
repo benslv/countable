@@ -3,9 +3,15 @@ import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import { guildDB } from "../@types/guild";
 import { embedError, embedInfo, embedSuccess } from "../utils";
 
+export const metadata = {
+  name: "save",
+  description: "Spend your points to add a save!",
+  modOnly: false,
+};
+
 export const data = new SlashCommandBuilder()
-  .setName("save")
-  .setDescription("Spend your points to add a save point!")
+  .setName(metadata.name)
+  .setDescription(metadata.description)
   .addSubcommand(subcommand =>
     subcommand
       .setName("list")

@@ -7,9 +7,15 @@ import {
 import { guildDB } from "../@types/guild";
 import { embedError, embedInfo } from "../utils";
 
+export const metadata = {
+  name: "user",
+  description: "Look at information for a particular user.",
+  modOnly: false,
+};
+
 export const data = new SlashCommandBuilder()
-  .setName("stats")
-  .setDescription("Look at information for a particular user.")
+  .setName(metadata.name)
+  .setDescription(metadata.description)
   .addUserOption(option =>
     option
       .setName("user")

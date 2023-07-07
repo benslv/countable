@@ -3,9 +3,15 @@ import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import { guildDB, milestoneT } from "../@types/guild";
 import { embedError, embedInfo, embedSuccess } from "../utils";
 
+export const metadata = {
+  name: "milestone",
+  description: "Manage this server's milestones!",
+  modOnly: true,
+};
+
 export const data = new SlashCommandBuilder()
-  .setName("milestone")
-  .setDescription("Manage this server's milestones!")
+  .setName(metadata.name)
+  .setDescription(metadata.description)
   .addSubcommand(subcommand =>
     subcommand
       .setName("list")
