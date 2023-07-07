@@ -1,3 +1,4 @@
+import { EmbedBuilder } from "discord.js";
 import { userT } from "./@types/guild";
 
 /**
@@ -102,3 +103,11 @@ export function removeSave(saves: number[], save: number): number[] {
 
   return copySaves;
 }
+
+export const embedSuccess = new EmbedBuilder()
+  .setColor("#4aeb47")
+  .setTimestamp();
+
+export const embedInfo = new EmbedBuilder().setColor("#ffa630").setTimestamp();
+
+export const embedError = new EmbedBuilder().setColor("#e84855").setTimestamp();

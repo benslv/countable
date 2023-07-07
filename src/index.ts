@@ -1,7 +1,7 @@
 "use strict";
 
-import "dotenv/config";
 import { ActivityType, Client, Events, GatewayIntentBits } from "discord.js";
+import "dotenv/config";
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -12,7 +12,7 @@ const client = new Client({
 
 import { database } from "./database/guild";
 
-import { commandHandler } from "./handlers/commands";
+import { commandHandler, slashCommandHandler } from "./handlers/commands";
 import { countingHandler } from "./handlers/counting";
 
 console.log("Initialised command collection.");
@@ -31,8 +31,18 @@ client.on(Events.ClientReady, () => {
   });
 });
 
+client.on(Events.InteractionCreate, async interaction => {
+  if (!interaction.isChatInputCommand()) return;
+
+  // Retrieve the settings for the current guild.
+  const gdb = database.getGuild(interaction.guildId);
+
+  if (interaction.channelId === gdb.channel) return;
+
+  slashCommandHandler(interaction, gdb);
+});
+
 client.on(Events.MessageCreate, message => {
-  console.log(message.content);
   // Will not respond to the message if it's from a bot or isn't a guild message.
   if (!message.guild || message.author.bot) return;
 

@@ -13,12 +13,16 @@ export const metadata: Metadata = {
   usage: "<emoji or custom emote you want to use>",
 };
 
-export function execute({ message, args, gdb }: executeArgs): Promise<Message> {
+export async function execute({
+  message,
+  args,
+  gdb,
+}: executeArgs): Promise<Message> {
   // Retrieve all of the emojis the bot has access to.
   const guildEmojis = message.client.emojis.cache;
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const emojiRegex = require("emoji-regex/RGI_Emoji");
+  const emojiRegex = require("emoji-regex");
   const regex = emojiRegex();
 
   // An emoji can be passed in three different ways:

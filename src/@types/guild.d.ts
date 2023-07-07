@@ -33,6 +33,7 @@ export interface guildDB {
   emojiID: emojiID;
   numbersOnly: false;
   milestones: milestoneT;
+  modRoleId: string;
   users: { id: userT };
   savePrice: number;
   saves: number[];

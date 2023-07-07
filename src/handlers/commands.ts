@@ -1,6 +1,7 @@
-import { ChannelType, Message } from "discord.js";
+import { ChannelType, ChatInputCommandInteraction, Message } from "discord.js";
 import { guildDB } from "../@types/guild";
 import { commands } from "../commands";
+import { commands as slashCommands } from "../slash-commands";
 
 export async function commandHandler(
   message: Message,
@@ -60,5 +61,51 @@ export async function commandHandler(
     return message.reply(
       "There was an error trying to execute that command. Hmm...",
     );
+  }
+}
+
+export async function slashCommandHandler(
+  interaction: ChatInputCommandInteraction,
+  gdb: guildDB,
+) {
+  const commandName = interaction.commandName;
+
+  const command = slashCommands.get(commandName);
+
+  if (!command) return;
+
+  const guild = await interaction.guild.fetch();
+
+  const modRole = await guild.roles.fetch(gdb.modRoleId);
+  const modUserIds = modRole.members.map(member => member.id);
+
+  const isOwner = interaction.member.user.id === interaction.guild.ownerId;
+
+  const canRunModCommands =
+    (gdb.modRoleId && modUserIds.includes(interaction.member.user.id)) ||
+    isOwner;
+
+  const isModOnly = command.metadata.modOnly;
+
+  if (isModOnly && !canRunModCommands) {
+    await interaction.reply({
+      content:
+        ":warning: **Permission denied**. You need to be a moderator to do that.",
+    });
+
+    return;
+  }
+
+  try {
+    await command.execute(interaction, gdb);
+  } catch (err) {
+    console.error(err);
+
+    await interaction.reply({
+      content:
+        err.message ||
+        "Sorry, there was an error while executing this command!",
+      ephemeral: true,
+    });
   }
 }
