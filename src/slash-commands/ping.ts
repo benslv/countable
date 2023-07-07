@@ -12,11 +12,8 @@ export const data = new SlashCommandBuilder()
   .setDescription(metadata.description);
 
 export async function execute(interaction: ChatInputCommandInteraction) {
-  const interactionTime = interaction.createdTimestamp;
-
   const now = Date.now();
-
-  const diff = interactionTime - now;
+  const diff = interaction.createdTimestamp - now;
 
   await interaction.reply({
     embeds: [
