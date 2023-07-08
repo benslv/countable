@@ -5,6 +5,7 @@
     "strictNullChecks": false,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "module": "CommonJS"
+    "module": "CommonJS",
+    "skipLibCheck": true
   }
 }
