@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
-import { embedSuccess } from "../utils";
+import { embedInfo, embedSuccess } from "../utils";
 
 export const metadata = {
   name: "ping",
@@ -12,10 +12,14 @@ export const data = new SlashCommandBuilder()
   .setDescription(metadata.description);
 
 export async function execute(interaction: ChatInputCommandInteraction) {
-  const now = Date.now();
-  const diff = interaction.createdTimestamp - now;
+  const reply = await interaction.reply({
+    embeds: [embedInfo.setTitle("Pinging...")],
+    fetchReply: true,
+  });
 
-  await interaction.reply({
+  const diff = reply.createdTimestamp - interaction.createdTimestamp;
+
+  reply.edit({
     embeds: [
       embedSuccess
         .setTitle("🏓 Pong!")
