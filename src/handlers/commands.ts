@@ -77,13 +77,12 @@ export async function slashCommandHandler(
   const guild = await interaction.guild.fetch();
 
   const modRole = await guild.roles.fetch(gdb.modRoleId);
-  const modUserIds = modRole.members.map(member => member.id);
+  const modUsers = modRole.members;
 
   const isOwner = interaction.member.user.id === interaction.guild.ownerId;
 
   const canRunModCommands =
-    (gdb.modRoleId && modUserIds.includes(interaction.member.user.id)) ||
-    isOwner;
+    (gdb.modRoleId && modUsers.has(interaction.member.user.id)) || isOwner;
 
   const isModOnly = command.metadata.modOnly;
 
